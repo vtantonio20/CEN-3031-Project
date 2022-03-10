@@ -1,0 +1,18 @@
+{
+	"users" : [
+		{
+			"email": "student@gmail.com",
+			"id": "1",
+			"name": "Mr. Student",
+			"type": "student",
+			"password": "a"
+		},
+		{
+			"email": "teacher@gmail.com",
+			"id": "2",
+			"name": "Ms. Teacher Lady",
+			"type": "teacher",
+			"password": "b"
+		}
+	]
+}

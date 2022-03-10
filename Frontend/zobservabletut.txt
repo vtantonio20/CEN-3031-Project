@@ -1,0 +1,8 @@
+
+
+1. How to create opbservale
+    1.1 RxJS operator of()          (Method 1)
+        -> convert any array into Observable
+    1.2 new Observable              (Method 2)
+
+    note- Always add '$' sign to variables when they are observables

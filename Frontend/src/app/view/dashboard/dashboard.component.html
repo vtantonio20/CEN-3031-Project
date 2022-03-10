@@ -1,0 +1,17 @@
+<div *ngIf="loggedIn()">
+    <app-header>
+    </app-header>
+    <div [ngSwitch]="role()">
+        <div *ngSwitchCase="'Teacher'" class="text-4xl">
+            Teacher stuff
+        </div>
+        <div *ngSwitchCase="'Student'" class="text-4xl">
+            Student stuff
+            <app-course-card [course]="course"> </app-course-card>
+        </div>        
+    </div>
+
+</div>
+<div *ngIf="!loggedIn()">
+    not logged in
+</div>

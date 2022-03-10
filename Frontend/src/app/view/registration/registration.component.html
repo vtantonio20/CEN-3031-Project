@@ -1,0 +1,45 @@
+
+<div class="w-full h-screen bg-orange-700 bg-gradient-to-tr from-indigo-500 ">
+
+    <div class="relative top-24 left-1/4  w-1/2 bg-white rounded-xl py-10 shadow-inner shadow-black ">
+
+        <h1 class="text-4xl font-semibold text-center">Create an Account</h1>
+        <h3 *ngIf="alert" class="text-red-700 text-lg text-center">{{alert}}</h3>
+
+        <form class=" py-5 ">
+            <ul class="relative left-1/4 text-base">
+    
+                <li><label for="fname" class="font-medium">First Name</label></li>
+                <li class="py-2"><input [(ngModel)]="fname" name="fname" id="fname" placeholder="Enter your first name" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
+                
+                <li><label for="lname" class="font-medium">Last Name</label></li>
+                <li class="py-2"><input [(ngModel)]="lname" name="lname" id="lname" placeholder="Enter your last name" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
+                
+                <li><label for="Email" class="font-medium">Email</label></li>
+                <li class="py-2"><input [(ngModel)]="email" name="email" id="Email" type="text" placeholder="Enter your email" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
+                
+                <li><label for="Password" class="font-medium">Password</label></li>
+                <li class="pt-2"><input [(ngModel)]="password" name="password" id="password" type="password" placeholder="Password" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700  leading-tight focus:outline-none focus:shadow-outline" ></li>
+                <li class="py-2"><input [(ngModel)]="cpassword" name="password" id="cpassword" type="password" placeholder="Confirm Password" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700  leading-tight focus:outline-none focus:shadow-outline" ></li>
+                
+                <li><label for="type" class="font-medium">Account Type</label></li>
+                <li class="py-2">
+                    <select [(ngModel)]="role" name="type" id="type" class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700  leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                    </select>
+                </li>
+            </ul>
+        </form>
+
+        <div class="text-center">
+            <button (click)="register()" class=" px-4 py-1 bg-orange-700 text-xl text-white font-semibold rounded-md active:shadow-inner active:shadow-black transition duration-100" >
+                Sign Up!
+            </button><br><br>
+            <span>Already got an account?<br>
+                <a routerLink="/home" class="text-blue-800 font-medium">Sign In Instead</a>
+            </span>
+        </div>
+
+    </div>
+</div>

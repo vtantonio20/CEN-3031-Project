@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "third-project-a76e2": {
+      "hosting": {
+        "Third-Project": [
+          "third-project-a76e2"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "third-project-a76e2"
+  }
+}
