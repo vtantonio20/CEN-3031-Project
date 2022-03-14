@@ -1,10 +1,10 @@
 
 export class User {
-    id:string;
+    id: string;
     email: string;
     fname: string;
     lname: string;
-    role:string;
+    role: string;
 
 
     constructor(id:string, email:string, fname:string, lname:string, role:string){
