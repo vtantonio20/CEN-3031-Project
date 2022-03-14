@@ -13,11 +13,11 @@ export class DashboardComponent implements OnInit {
  // user:User;
   course:CourseCard = new CourseCard;
 
-  constructor(private router: Router, private auth: AuthService) { 
+  constructor(private router: Router, public auth: AuthService) {
     //this.user = this.router.getCurrentNavigation()?.extras?.state?.['user'];
 
     //this.userService = this.router.getCurrentNavigation()?.extras?.state?.['userSvc'];
-    
+
     /*this.userSvc.currentUser.subscribe(user => {
       this.user = user;
       console.log(user.email+ '\n' + user.id + '\n'+ user.name+ '\n' + user.password + '\n' + user.type)
@@ -30,14 +30,14 @@ export class DashboardComponent implements OnInit {
   courses(){
 
   }
-  role(){
-    //let u = this.auth.user;
-    if(this.auth.currentUser){
-      return this.auth.currentUser.role;
-    }else{
-      return '';
-    }
-  }
+  //role(){
+  //  //let u = this.auth.user;
+  //  if(this.auth.currentUser){
+  //    return this.auth.currentUser.role;
+  //  }else{
+  //    return '';
+  //  }
+  //}
   loggedIn(){
     return true;
   }

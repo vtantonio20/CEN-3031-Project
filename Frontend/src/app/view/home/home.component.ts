@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit, OnChanges {
 
   email:string;
   password:string;
-  constructor(private router: Router, private http: HttpClient, private auth: AuthService){ 
+  constructor(private router: Router, private http: HttpClient, private auth: AuthService){
 
   }
 
@@ -23,16 +23,17 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   login(){
-    this.auth.login(this.email, this.password).then(() => {
-      if(this.auth.authenticated === true){
-        this.router.navigate(['/dashboard'])
-      }
-    }).catch((error) =>{
-      console.log(error.message);
-      this.alert='Invalid Email or Password';
-    })
+    this.auth.login(this.email, this.password);
+    //.then(() => {
+    //  if(this.auth.authenticated === true){
+    //    this.router.navigate(['/dashboard'])
+    //  }
+    //}).catch((error) =>{
+    //  console.log(error.message);
+    //  this.alert='Invalid Email or Password';
+    //})
   }
-  
+
 
   search(){
     /*let obs = this.http.get('https://api.github.com/users/' + this.userName);
@@ -44,5 +45,5 @@ export class HomeComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
   }
 
-  
+
 }

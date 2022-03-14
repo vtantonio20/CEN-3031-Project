@@ -4,14 +4,14 @@
             <img src = "assets/InterVidsLogo2.png" class="h-10 px-2">
             <div class="w-0.5 h-12 bg-gray-200" ></div>
             <span class="px-4 font-semibold text-2xl text-gray-200"> Dashboard </span>
-            <div>
+            <div *ngIf="auth.user$ | async as user">
                 <div *ngIf="!onProfile" (mouseenter)="toggleProfileCard()" class="absolute right-3 top-1">
-                    <span class="inline-flex text-xl font-semibold px-3 rounded-xl bg-gray-200 py-1"> {{name()}} <img src = "assets/User.png" class="h-8 pl-3"> </span>
+                    <span class="inline-flex text-xl font-semibold px-3 rounded-xl bg-gray-200 py-1"> {{ user.fname }} <img src = "assets/User.png" class="h-8 pl-3"> </span>
                 </div>
                 <div *ngIf="onProfile" (mouseleave)="toggleProfileCard()" class="px-3 rounded-xl bg-gray-200 py-1 absolute right-3 top-1 ">
-                    <span class="flex text-xl font-semibold"> {{name()}} <img src = "assets/User.png" class="h-8 pl-3"></span>
+                    <span class="flex text-xl font-semibold"> {{ user.fname }} <img src = "assets/User.png" class="h-8 pl-3"></span>
                     <div class="text-md">
-                        <span class="flex "> {{role() | uppercase }}  View</span>
+                        <span class="flex "> {{ user.role | uppercase }} View</span>
                         <a class="flex">Profile</a>
                         <a href="#" (click)="logout()" class="flex"> Logout</a>
                     </div>

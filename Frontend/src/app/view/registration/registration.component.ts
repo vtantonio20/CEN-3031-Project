@@ -32,18 +32,21 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
-    if(this.password === this.cpassword){
-      this.auth.register(this.email, this.fname, this.lname, this.password, this.role).then(() => {
-        this.router.navigate(['/dashboard']);
-      }).catch(() => {
+    if(this.password === this.cpassword) {
+      this.auth.register(this.email, this.fname, this.lname, this.password, this.role)
+      //.then(() => {
+      //  this.router.navigate(['/dashboard']);
+      //})
+      .catch(() => {
         this.alert = "Invalid Entry"
       });
-    }else{
+    }
+    else {
       this.alert='Make sure passwords match!';
     }
-    
+
   }
-  redirect(){
+  redirect() {
     this.router.navigate(['/home']);
   }
 

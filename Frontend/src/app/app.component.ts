@@ -12,17 +12,17 @@ export class AppComponent {
   //Imagine if AppComponent needs TestServiceService
   // Do not need to create instance of service
 
-  
-  constructor( private auth: AuthService){ 
+
+  constructor( private auth: AuthService){
   }
 
   ngOnInit(){
-    this.auth.intialize();
-  }
-  
-  print():void{
-    
+    //this.auth.intialize();
   }
 
-  
+  print():void{
+
+  }
+
+
 }

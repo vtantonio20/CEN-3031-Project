@@ -1,88 +1,121 @@
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+//import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { RegistrationComponent } from './../../view/registration/registration.component';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
 import { set, ref, onValue } from 'firebase/database';
-import { User } from '../user/user';
-import { BehaviorSubject, Observable, of, switchMap, tap } from 'rxjs';
+import { User } from '../models/user';
+import { BehaviorSubject, Observable, of, switchMap, take, tap } from 'rxjs';
 import { user } from 'rxfire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  authenticated:boolean;
-  data:any;
-  currentUser:User;
-  //private currentUserSubject: BehaviorSubject<User>;
-  //public currentUser: Observable<User>;
-  constructor(private auth: AngularFireAuth, private router: Router, private db:AngularFireDatabase) {
-    
-  }
-  
-  intialize(){
-    this.auth.onAuthStateChanged(user => {
-      if(user){
-        this.authenticated= true;
-        onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
-          this.data = snapshot.val();
-          this.currentUser = Object.setPrototypeOf(this.data, User);
-        },{onlyOnce:true})
-      }
-    })
+  //authenticated:boolean;
+  //data:any;
+  //currentUser:User;
+  user$: Observable<User | null | undefined>;
 
+  constructor(
+    private auth: AngularFireAuth,
+    private router: Router,
+    private db: AngularFirestore
+  ) {
+    this.user$ = this.auth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.db.doc<User>(`users/${user.uid}`).valueChanges({idField: 'id'});
+        }
+        else {
+          return of(null);
+        }
+      })
+    );
   }
+
+  //intialize(){
+  //  this.auth.onAuthStateChanged(user => {
+  //    if(user){
+  //      this.authenticated= true;
+  //      onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
+  //        this.data = snapshot.val();
+  //        this.currentUser = Object.setPrototypeOf(this.data, User);
+  //      },{onlyOnce:true})
+  //    }
+  //  })
+  //}
+
   ngOnInit(){
   }
-  login(email:string, password:string){
-    return this.auth.signInWithEmailAndPassword(email, password).then(() => {
-      //snapshot
-      this.auth.currentUser.then((user) => {
-        if(user){
-          this.authenticated= true;
-          onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
-            this.data = snapshot.val();
-          },{onlyOnce:true})
-        }else{
-          this.authenticated=false;
 
-        }
-      }).then(() => {
-        console.log('succesfully logged in')
-      })
+  async login(email:string, password:string){
+    await this.auth.signInWithEmailAndPassword(email, password).then(user => {
+      if (user) {
+        this.router.navigate(['/dashboard']);
+      }
+      //snapshot
+      //this.auth.currentUser.then((user) => {
+      //  if(user){
+      //    this.authenticated = true;
+      //    onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
+      //      this.data = snapshot.val();
+      //    },{onlyOnce:true})
+      //  }else{
+      //    this.authenticated=false;
+
+      //  }
+      //}).then(() => {
+      //  console.log('succesfully logged in')
+      //})
+    })
+    .catch(error => {
+      console.log(error);
+      window.alert('Invalid Email or Password');
     });
   }
 
-  register(email:string, fname:string, lname:string, password:string,role:string){
-    return this.auth.createUserWithEmailAndPassword(email, password).then(()=>{
-      
-      this.auth.currentUser.then((user) => {
-        if(user){
-          let userData = ref(this.db.database, 'users/' + user.uid);
-          set(userData, { email: email, fname: fname, lname: lname, role: role });
-          this.authenticated= true;
-          onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
-            this.data = snapshot.val();
-          },{onlyOnce:true})
-          /*onValue(userData, (snapshot) => {
-            this.currentUser=((snapshot.val()));
-            console.log((snapshot.val()) || 'Anonymous');
-            console.log((snapshot.val().email) || 'Anonymous');
-            console.log((snapshot.val().fname) || 'Anonymous');
-            console.log((snapshot.val().lname) || 'Anonymous');
-            console.log((snapshot.val().role) || 'Anonymous');
-          })*/
-        }else{
-          this.authenticated=false;
-        }
-      }).then(() => {
-        console.log('succesfully written')
+  async register(email:string, fname:string, lname:string, password:string, role:string){
+    return await this.auth.createUserWithEmailAndPassword(email, password)
+    .then(async user => {
+      //const newUser: User | null | undefined = new User(user.user?.uid!, user.user?.email!, fname, lname, role);
+
+      await this.db.collection('users').doc(user.user?.uid).set({email:email, fname:fname, lname:lname, role:role})
+      .then(async resp => {
+        window.alert('Registered successfully');
+        await this.auth.signOut();
+        this.router.navigate(['/home']);
       })
+      //this.auth.currentUser.then((user) => {
+      //  if(user){
+      //    let userData = ref(this.db.database, 'users/' + user.uid);
+      //    set(userData, { email: email, fname: fname, lname: lname, role: role });
+      //    this.authenticated= true;
+      //    onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
+      //      this.data = snapshot.val();
+      //    },{onlyOnce:true})
+      //    /*onValue(userData, (snapshot) => {
+      //      this.currentUser=((snapshot.val()));
+      //      console.log((snapshot.val()) || 'Anonymous');
+      //      console.log((snapshot.val().email) || 'Anonymous');
+      //      console.log((snapshot.val().fname) || 'Anonymous');
+      //      console.log((snapshot.val().lname) || 'Anonymous');
+      //      console.log((snapshot.val().role) || 'Anonymous');
+      //    })*/
+      //  }else{
+      //    this.authenticated=false;
+      //  }
+      //}).then(() => {
+      //  console.log('succesfully written')
+      //})
     })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
-  
+
   /*currentUser(){
     return this.auth.currentUser.then((user) => {
       if(user){
@@ -94,14 +127,23 @@ export class AuthService {
           console.log((snapshot.val().role) || 'Anonymous');
         })
       }
-        
+
     });
   }*/
-  logout(){
-    return this.auth.signOut();
+  async logout(){
+    await this.auth.signOut();
+    this.router.navigate(['/home']);
   }
 
+  isLoggedIn(): Promise<User | null | undefined> {
+    const userPromise = new Promise<User | null | undefined>((resolve, reject) => {
+      this.user$.pipe(take(1)).subscribe(user => {
+        resolve(user);
+      });
+    })
 
+    return userPromise;
+  }
 
 
 }

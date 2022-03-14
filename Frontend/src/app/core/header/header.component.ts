@@ -11,35 +11,36 @@ import { filter, map, of, tap } from 'rxjs';
 export class HeaderComponent implements OnInit {
 
   onProfile:boolean =false;
-  user:User;
-  constructor(private auth: AuthService) {
-     
+  //user:User;
+  constructor(public auth: AuthService) {
+
   }
 
   ngOnInit(): void {
   }
-  name(){
-    //let u = this.auth.user;
-    if(this.auth.currentUser){
-      return this.auth.currentUser.fname;
-    }else{
-      return '';
-    }
-  }
-  role(){
-    //let u = this.auth.user;
-    if(this.auth.currentUser){
-      return this.auth.currentUser.role;
-    }else{
-      return '';
-    }
-  }
+
+  //name(){
+  //  //let u = this.auth.user;
+  //  if(this.auth.currentUser){
+  //    return this.auth.currentUser.fname;
+  //  }else{
+  //    return '';
+  //  }
+  //}
+  //role(){
+  //  //let u = this.auth.user;
+  //  if(this.auth.currentUser){
+  //    return this.auth.currentUser.role;
+  //  }else{
+  //    return '';
+  //  }
+  //}
+
   toggleProfileCard():void{
-    
     this.onProfile = !this.onProfile;
   }
 
-  logout():void{
+  logout() {
     this.auth.logout();
   }
 
