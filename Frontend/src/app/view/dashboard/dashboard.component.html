@@ -2,12 +2,28 @@
     <app-header>
     </app-header>
     <div *ngIf="auth.user$ | async as user" [ngSwitch]="user.role">
+        {{user.id}}
+
         <div *ngSwitchCase="'Teacher'" class="text-4xl">
             Teacher stuff
+            <div *ngIf="courses | async as courses">
+                <div *ngFor="let course of courses">
+                    {{course.title}}
+                    <button (click)="db.addStudent(course.id,'DfVZDBCHMfTc5owmKNlTV93yPyq1')">button</button>
+
+                </div>
+            </div>
+
         </div>
         <div *ngSwitchCase="'Student'" class="text-4xl">
             Student stuff
-            <app-course-card [course]="course"> </app-course-card>
+            <div *ngIf="courses | async as courses">
+                <div *ngFor="let course of courses">
+                    <button (click)="db.removeStudent(course.id, user.id)">Purge Course</button>
+
+                    {{course.title}}
+                </div>
+            </div>
         </div>
     </div>
 

@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
+import { DatabaseService } from './../../shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
-import { User } from './../../shared/user/user';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CourseCard } from 'src/app/core/course-card/course-card-model';
+import { Course } from 'src/app/shared/models/course';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,40 +12,21 @@ import { CourseCard } from 'src/app/core/course-card/course-card-model';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
- // user:User;
-  course:CourseCard = new CourseCard;
 
-  constructor(private router: Router, public auth: AuthService) {
-    //this.user = this.router.getCurrentNavigation()?.extras?.state?.['user'];
-
-    //this.userService = this.router.getCurrentNavigation()?.extras?.state?.['userSvc'];
-
-    /*this.userSvc.currentUser.subscribe(user => {
-      this.user = user;
-      console.log(user.email+ '\n' + user.id + '\n'+ user.name+ '\n' + user.password + '\n' + user.type)
-    })*/
-
-    //this.user=this.userService.user;
-  }
-
-  //here we will return the courses
-  courses(){
-
-  }
-  //role(){
-  //  //let u = this.auth.user;
-  //  if(this.auth.currentUser){
-  //    return this.auth.currentUser.role;
-  //  }else{
-  //    return '';
-  //  }
-  //}
+  courses:Observable<Course[]>;
+  constructor(private router: Router, public auth: AuthService, public db: DatabaseService) {  }
+  
   loggedIn(){
     return true;
   }
-  ngOnInit(): void {
-    this.course.name="Computer Science 1";
-    this.course.teacher="John Proffesor Guy";
+  ngOnInit(){
+    this.auth.isLoggedIn().then((user)=>{
+      if(user?.role=='Teacher'){
+        this.courses = this.db.getTeacherCourses(user?.id)
+      }else if(user?.role=='Student'){
+        this.courses=this.db.getStudentCourses(user?.id);
+      }
+    })
   }
 
 }
