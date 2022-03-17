@@ -1,9 +1,11 @@
 
-<div class=" rounded-xl w-64 h-64 border-2 border-black">
-    
-
-    <div class="relative top-3/4 border-t-2 h-1/4 rounded-b-lg border-black bg-orange-700 text-center text-white font-medium text-xl">
-        <p>{{course.name}}</p>
-        <p>{{course.teacher}}</p>
+<!--Want to have it so that by default the image source is the plus sign photo-->
+<a mat-raised-button href="https://material.angular.io/components/button/overview" target="_blank">
+    <div class=" rounded-xl w-64 h-64 border-2 border-black">
+        <p>{{course.imgSrc}}</p>
+        <div class="relative top-3/4 border-t-2 h-1/4 rounded-b-lg border-black bg-orange-700 text-center text-white font-medium text-xl">
+            <p>{{course.name}}</p>
+            <p>{{course.teacher}}</p>
+        </div>
     </div>
-</div>
+</a>
