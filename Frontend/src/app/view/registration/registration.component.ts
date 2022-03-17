@@ -23,20 +23,13 @@ export class RegistrationComponent implements OnInit {
 
   //Create operation here
   ngOnInit(): void {
-    /*this.auth.register(this.email, this.fname, this.password).then(() => {
-      this.router.navigate(['/dashboard'])
-    }).catch((error) =>{
-      console.log(error.message);
-      this.alert='Invalid Email or Password';
-    })*/
+
   }
 
   register() {
+    
     if(this.password === this.cpassword) {
       this.auth.register(this.email, this.fname, this.lname, this.password, this.role)
-      //.then(() => {
-      //  this.router.navigate(['/dashboard']);
-      //})
       .catch(() => {
         this.alert = "Invalid Entry"
       });
