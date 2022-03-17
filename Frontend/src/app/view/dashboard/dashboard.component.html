@@ -2,25 +2,34 @@
     <app-header>
     </app-header>
     <div *ngIf="auth.user$ | async as user" [ngSwitch]="user.role">
-        {{user.id}}
-
-        <div *ngSwitchCase="'Teacher'" class="text-4xl">
-            Teacher stuff
+         <!-- {{user.id}}-->
+        
+        <div *ngSwitchCase="'Teacher'" class="text-4xl inline-flex">
             <div *ngIf="courses | async as courses">
-                <div *ngFor="let course of courses">
-                    {{course.title}}
-                    <button (click)="db.addStudent(course.id,'DfVZDBCHMfTc5owmKNlTV93yPyq1')">button</button>
 
+                <div class="text-4xl inline-flex" *ngFor="let course of courses">
+                        <app-course-card [course1] = "course"> </app-course-card>
+                  <!--<button (click)="db.addStudent(course.id,'DfVZDBCHMfTc5owmKNlTV93yPyq1')">button</button> -->
+                    
                 </div>
+
             </div>
 
+        <button routerLink = "['/home']">
+          <div  class=" rounded-xl w-64 h-64 border-2 border-black" >
+                <div class="relative top-3/4 border-t-2 h-1/4 rounded-b-lg border-black bg-orange-700 text-center text-white font-medium text-xl">
+                </div>
+            </div>
+        
+        </button>
         </div>
+
+
         <div *ngSwitchCase="'Student'" class="text-4xl">
             Student stuff
             <div *ngIf="courses | async as courses">
                 <div *ngFor="let course of courses">
-                    <button (click)="db.removeStudent(course.id, user.id)">Purge Course</button>
-
+                   <!-- <button (click)="db.removeStudent(course.id, user.id)">Purge Course</button> -->
                     {{course.title}}
                 </div>
             </div>

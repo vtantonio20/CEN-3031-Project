@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CourseCard } from './course-card-model';
+import { Course } from 'src/app/shared/models/course';
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
@@ -7,9 +7,9 @@ import { CourseCard } from './course-card-model';
 })
 export class CourseCardComponent implements OnInit {
 
+  @Input() course1: Course; 
   constructor() { }
 
-  @Input() course:CourseCard;
   ngOnInit(): void {
   }
   
