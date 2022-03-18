@@ -11,7 +11,7 @@
                 <div *ngIf="onProfile" (mouseleave)="toggleProfileCard()" class="px-3 rounded-xl bg-gray-200 py-1 absolute right-3 top-1 ">
                     <span class="flex text-xl font-semibold"> {{ user.fname }} <img src = "assets/User.png" class="h-8 pl-3"></span>
                     <div class="text-md">
-                        <span class="flex "> {{ user.role | uppercase }} View</span>
+                        <span class="flex "> {{ user.role }} View</span>
                         <a class="flex">Profile</a>
                         <a href="#" (click)="logout()" class="flex"> Logout</a>
                     </div>

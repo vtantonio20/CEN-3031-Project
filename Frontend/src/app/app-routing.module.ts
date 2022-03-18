@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: 'dashboard', component:DashboardComponent, canActivate: [AuthGuardGuard]},
   {path: 'registration', component:RegistrationComponent, canActivate: [HomeGuardGuard]},
   //error unspecified path (** matches your url)
+
   {path: '**', component: PageNotFoundComponent}
 
 ];

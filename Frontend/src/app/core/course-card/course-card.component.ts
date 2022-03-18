@@ -7,7 +7,7 @@ import { Course } from 'src/app/shared/models/course';
 })
 export class CourseCardComponent implements OnInit {
 
-  @Input() course1: Course; 
+  @Input() course: Course; 
   constructor() { }
 
   ngOnInit(): void {
