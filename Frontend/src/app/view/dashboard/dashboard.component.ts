@@ -3,7 +3,6 @@ import { DatabaseService } from './../../shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { CourseCard } from 'src/app/core/course-card/course-card-model';
 import { Course } from 'src/app/shared/models/course';
 
 @Component({
@@ -14,6 +13,7 @@ import { Course } from 'src/app/shared/models/course';
 export class DashboardComponent implements OnInit {
 
   courses:Observable<Course[]>;
+  headerTitle:string='Dashboard';
   constructor(private router: Router, public auth: AuthService, public db: DatabaseService) {  }
   
   loggedIn(){
@@ -27,6 +27,9 @@ export class DashboardComponent implements OnInit {
         this.courses=this.db.getStudentCourses(user?.id);
       }
     })
+  }
+  redirect(){
+    
   }
 
 }

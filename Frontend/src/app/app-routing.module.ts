@@ -1,3 +1,4 @@
+import { JoinACourseComponent } from './view/join-a-course/join-a-course.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { HomeComponent } from './view/home/home.component';
 import { NgModule } from '@angular/core';
@@ -14,7 +15,10 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [HomeGuardGuard]},
   {path: 'dashboard', component:DashboardComponent, canActivate: [AuthGuardGuard]},
   {path: 'registration', component:RegistrationComponent, canActivate: [HomeGuardGuard]},
+  {path: 'join-a-course', component:JoinACourseComponent, canActivate: [AuthGuardGuard]},
+
   //error unspecified path (** matches your url)
+
   {path: '**', component: PageNotFoundComponent}
 
 ];

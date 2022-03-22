@@ -9,13 +9,15 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JoinACourseComponent } from './join-a-course/join-a-course.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     PageNotFoundComponent,
     DashboardComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    JoinACourseComponent
   ],
   imports: [
     CommonModule,

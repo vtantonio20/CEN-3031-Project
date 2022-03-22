@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
 
   onProfile:boolean =false;
   //user:User;
+  @Input() title:String;
   constructor(public auth: AuthService) {
 
   }
