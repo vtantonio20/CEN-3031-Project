@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit, OnChanges {
     .catch(()=>{
       this.alert='Invalid Email or Password';
     });
-
   }
 
   ngOnChanges(): void {

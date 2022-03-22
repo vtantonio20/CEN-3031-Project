@@ -51,7 +51,8 @@ export class AuthService {
   }
 
   async login(email:string, password:string){
-    return await this.auth.signInWithEmailAndPassword(email, password).then(user => {
+    return await this.auth.signInWithEmailAndPassword(email, password)
+    .then(user => {
       if (user) {
         this.router.navigate(['/dashboard']);
       }
@@ -66,12 +67,11 @@ export class AuthService {
     return await this.auth.createUserWithEmailAndPassword(email, password)
     .then(async user => {
       //const newUser: User | null | undefined = new User(user.user?.uid!, user.user?.email!, fname, lname, role);
-
       await this.db.collection('users').doc(user.user?.uid).set({email:email, fname:fname, lname:lname, role:role})
       .then(async resp => {
-        window.alert('Registered successfully');
-        await this.auth.signOut();
-        this.router.navigate(['/home']);
+        //window.alert('Registered successfully');
+        //await this.auth.signOut();
+        this.router.navigate(['/dashboard']);
       })
     })
     /*.catch(error => {
