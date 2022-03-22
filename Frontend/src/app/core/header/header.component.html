@@ -13,10 +13,11 @@
                 </div>
                 <div *ngIf="onProfile" (mouseleave)="toggleProfileCard()" class="px-3 rounded-xl bg-gray-200 py-1 absolute right-3 top-3 t">
                     <span class="flex text-xl font-semibold"> {{ user.fname }} <img src = "assets/User.png" class="h-8 pl-3"></span>
-                    <div class="text-md pt-3">
+                    <div class="text-md">
                         <span class="flex "> {{ user.role }} View</span>
-                        <a class="flex">Your Profile</a>
-                        <a href="#" (click)="logout()" class="flex"> Logout</a>
+                        <a class="flex">Profile</a>
+                        <a style = 'cursor:pointer' (click) = 'createCourse()' class="flex">Add Course</a> 
+                        <a href="#" (click)="logout()" class="flex">Logout</a>
                     </div>
                 </div>
             </div>
