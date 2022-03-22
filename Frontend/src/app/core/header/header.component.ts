@@ -29,15 +29,4 @@ export class HeaderComponent implements OnInit {
     this.auth.logout();
   }
 
-  createCourse()
-  {
-    this.auth.user$.subscribe(user => {
-      if(user?.role == 'Teacher')
-      {
-        this.router.navigate(['/add-course']);
-      }
-          
-    })
-  }
-
 }
