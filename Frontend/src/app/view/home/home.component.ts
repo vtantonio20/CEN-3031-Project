@@ -23,25 +23,12 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   login(){
-    this.auth.login(this.email, this.password);
-    //.then(() => {
-    //  if(this.auth.authenticated === true){
-    //    this.router.navigate(['/dashboard'])
-    //  }
-    //}).catch((error) =>{
-    //  console.log(error.message);
-    //  this.alert='Invalid Email or Password';
-    //})
+    this.auth.login(this.email, this.password)
+    .catch(()=>{
+      this.alert='Invalid Email or Password';
+    });
   }
 
-
-  search(){
-    /*let obs = this.http.get('https://api.github.com/users/' + this.userName);
-    obs.subscribe((response) => {
-      this.response=response;
-      console.log(this.response);
-    });*/
-  }
   ngOnChanges(): void {
   }
 
