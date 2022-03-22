@@ -6,16 +6,17 @@
             <h1 class="text-4xl font-bold pt-6 pl-16 pb-8 text-white  ">Your Courses</h1>
             <div *ngIf="auth.user$ | async as user"  class="text-4xl flex pl-10"> 
                 <div *ngIf="courses | async as courses else newCourse">
+                    <ng-container *ngTemplateOutlet="newCourse"></ng-container>
                     <div *ngFor="let course of courses" class="p-6 inline-flex">
                         <div routerLink="{{course.title}}" >
                             <app-course-card [course] = "course" [role]="user.role"> </app-course-card>
                         </div>
                     </div>
-                    <ng-container *ngTemplateOutlet="newCourse"></ng-container>
+                    
                 </div>
                 
                 <ng-template #newCourse>
-                    <div *ngIf="user.role === 'Teacher'" class="p-6 inline-flex" routerLink="/create-a-course">
+                    <div *ngIf="user.role === 'Teacher'" class="p-6 inline-flex" routerLink="/add-course">
                         <app-course-card [role]="user.role"> </app-course-card>
                     </div>           
                     <div *ngIf="user.role === 'Student'" class="p-6 inline-flex" routerLink="/join-a-course">

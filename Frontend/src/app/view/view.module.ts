@@ -9,7 +9,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { JoinACourseComponent } from './join-a-course/join-a-course.component';
+import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { JoinACourseComponent } from './join-a-course/join-a-course.component';
     PageNotFoundComponent,
     DashboardComponent,
     RegistrationComponent,
-    JoinACourseComponent
+    AddCourseFormComponent
   ],
   imports: [
     CommonModule,

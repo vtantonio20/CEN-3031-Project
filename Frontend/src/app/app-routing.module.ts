@@ -1,4 +1,3 @@
-import { JoinACourseComponent } from './view/join-a-course/join-a-course.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { HomeComponent } from './view/home/home.component';
 import { CoursePageComponent } from './view/course-page/course-page.component';
@@ -9,7 +8,7 @@ import { RegistrationComponent } from './view/registration/registration.componen
 import { redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { HomeGuardGuard } from './shared/guards/home-guard.guard';
 import { AuthGuardGuard } from './shared/guards/auth-guard.guard';
-import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
+import { AddCourseFormComponent } from './view/add-course-form/add-course-form.component';
 //array of objects where each object specifies a mapping of a url to a component
 //const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const routes: Routes = [
