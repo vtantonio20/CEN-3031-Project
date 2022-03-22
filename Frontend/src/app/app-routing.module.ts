@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: 'dashboard', component:DashboardComponent, canActivate: [AuthGuardGuard]},
   {path: 'registration', component:RegistrationComponent, canActivate: [HomeGuardGuard]},
   {path: 'course-page', component:CoursePageComponent, canActivate: [AuthGuardGuard]},
-  {path: 'add-course', component:AddCourseFormComponent, canActivate: [AuthGuardGuard]}
+  {path: 'add-course', component:AddCourseFormComponent, canActivate: [AuthGuardGuard]},
   //error unspecified path (** matches your url)
 
   {path: '**', component: PageNotFoundComponent}
