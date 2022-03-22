@@ -36,6 +36,11 @@ export class AddCourseFormComponent implements OnInit {
     })
   }
 
+  openDialog()
+  {
+    
+  }
+
   uploadImage()
   {
     
