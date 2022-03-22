@@ -9,9 +9,9 @@
                     <div class="card" stype="width:25rem">
 
                     </div>
-                    <button (click) = "uploadImg()" class = "px-4 py-1 bg-indigo-400 text-xl text-white font-semibold rounded-md active:shadow-inner active:shadow-black transition duration-100">
-                        Upload
-                    </button>
+                    <label for="imageURL" class="font-semibold">Upload Course Image</label>
+                    <br>
+                    <input type = "file" accept="image/png, image/gif, image/jpeg" (click) = "uploadImg()" class = "px-4 py-1 bg-indigo-400 text-xl text-white font-semibold rounded-md active:shadow-inner active:shadow-black transition duration-100">
                 </li>
             </ul>
         </form>
