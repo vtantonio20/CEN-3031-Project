@@ -80,7 +80,7 @@ app.post('/uploadVideo', cors(), upload.single('video'), async (req, res) => {
 
 
     let file = req.file.buffer;
-    const storageRef = ref(storage, 'video.mp4');
+    const storageRef = ref(storage, 'video');
 
     await uploadBytes(storageRef, file)
     .then(snapshot => {
