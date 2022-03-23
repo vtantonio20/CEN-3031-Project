@@ -17,11 +17,13 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
+import { FileFormComponent } from './file-form/file-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddCourseFormComponent
+    AddCourseFormComponent,
+    FileFormComponent
   ],
   imports: [
     BrowserModule,
