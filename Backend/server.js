@@ -7,6 +7,7 @@ import { createFFmpeg } from '@ffmpeg/ffmpeg';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,7 +23,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const fire = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
 
 
 
@@ -62,7 +64,23 @@ app.post('/uploadVideo', upload.single('video'), async (req, res) => {
     // let outputData = null;
 
     // ffmpeg.FS('writeFile', inputFileName, videoData);
+
+    if (!req['files'] || !req['files'].video) {
+        res.status(400);
+        res.send({});
+    }
     
     let file = req['files'].video;
-    
-})
+    const storageRef = ref(storage, '');
+
+    await uploadBytes(storageRef, file)
+    .then(snapshot => {
+        res.set('url', snapshot.ref.fullPath);
+        res.status(200);
+        res.send({});
+    })
+    .catch(error => {
+        res.status(500);
+        res.send({})
+    }); 
+});
