@@ -17,6 +17,8 @@ export class FileFormComponent implements OnInit {
 
   fileSelected(event: any) {
     this.file = event.target.files[0];
+    console.log('file selected');
+    
   }
 
   uploadData() {
@@ -25,10 +27,16 @@ export class FileFormComponent implements OnInit {
     }
     const formData = new FormData();
     formData.append("video", this.file);
-    let upload$ = this.http.post("https://localhost:3000/uploadVideo", formData);
+    let upload$ = this.http.post("http://localhost:3000/uploadVideo", formData);
     upload$.subscribe(res => {
       console.log(res);
     });
+  }
+
+  hello() {
+    this.http.get("http://localhost:3000/").subscribe(snap => {
+      console.log(snap);
+    })
   }
 
 }

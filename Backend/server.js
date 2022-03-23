@@ -55,7 +55,12 @@ app.listen(port, () => {
     console.log('The express server is running.');
 });
 
-app.post('/uploadVideo', upload.single('video'), async (req, res) => {
+app.get('/', cors(),(req, res) => {
+    console.log('Hello sent');
+    res.send('Hello World!');
+})
+
+app.post('/uploadVideo', cors(), upload.single('video'), async (req, res) => {
     // const videoData = req.file.buffer;
 
     // const ffmpeg = await getFFmpeg();
@@ -64,23 +69,27 @@ app.post('/uploadVideo', upload.single('video'), async (req, res) => {
     // let outputData = null;
 
     // ffmpeg.FS('writeFile', inputFileName, videoData);
+    console.log('Request made');
 
-    if (!req['files'] || !req['files'].video) {
-        res.status(400);
-        res.send({});
-    }
+    // if (!req['files'] || !req['files'].video) {
+    //     res.status(400);
+    //     res.send({});
+    // }
     
-    let file = req['files'].video;
-    const storageRef = ref(storage, '');
+    // console.log(req.file);
+
+
+    let file = req.file.buffer;
+    const storageRef = ref(storage, 'video.mp4');
 
     await uploadBytes(storageRef, file)
     .then(snapshot => {
-        res.set('url', snapshot.ref.fullPath);
         res.status(200);
-        res.send({});
+        res.send({url: snapshot.ref.fullPath});
     })
     .catch(error => {
+        console.log(error);
         res.status(500);
-        res.send({})
+        res.send();
     }); 
 });
