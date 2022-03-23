@@ -8,8 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     HeaderComponent,
-    CourseCardComponent,
-  ],
+    CourseCardComponent
+    ],
   imports: [
     CommonModule,
     SharedModule,
