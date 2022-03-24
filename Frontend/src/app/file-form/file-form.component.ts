@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-file-form',
@@ -8,17 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileFormComponent implements OnInit {
 
+  file: File;
+  upload$: Observable<any>;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }
 
-  file: File;
-
   fileSelected(event: any) {
     this.file = event.target.files[0];
     console.log('file selected');
-    
+
   }
 
   uploadData() {
@@ -27,16 +29,11 @@ export class FileFormComponent implements OnInit {
     }
     const formData = new FormData();
     formData.append("video", this.file);
-    let upload$ = this.http.post("http://localhost:3000/uploadVideo", formData);
-    upload$.subscribe(res => {
-      console.log(res);
-    });
+    this.upload$ = this.http.post("http://localhost:3000/uploadVideo", formData);
   }
 
   hello() {
-    this.http.get("http://localhost:3000/").subscribe(snap => {
-      console.log(snap);
-    })
+    this.http.get("http://localhost:3000/").subscribe();
   }
 
 }

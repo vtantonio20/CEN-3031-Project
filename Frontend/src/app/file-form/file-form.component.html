@@ -1,3 +1,8 @@
 <input type="file" accept=".mp4, .mkv" (change)="fileSelected($event)">
 <button (click)="uploadData()">Upload</button>
 <button (click)="hello()">Hello</button>
+
+<!--<video *ngIf="upload$ | async as video" src="video.url"></video>-->
+<video width="352" height="198" controls *ngIf="upload$ | async as video">
+  <source src="{{ video.url }}" type="application/x-mpegURL">
+</video>

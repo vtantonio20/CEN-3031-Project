@@ -61,31 +61,48 @@ app.get('/', cors(),(req, res) => {
 })
 
 app.post('/uploadVideo', cors(), upload.single('video'), async (req, res) => {
-    // const videoData = req.file.buffer;
+    console.log('Request made');
 
-    // const ffmpeg = await getFFmpeg();
+    const file = req.file.buffer;
+
+    const ffmpeg = await getFFmpeg();
     // const inputFileName = `input-video`;
     // const outputFileName = `output-image.png`;
     // let outputData = null;
 
-    // ffmpeg.FS('writeFile', inputFileName, videoData);
-    console.log('Request made');
+    ffmpeg.FS('writeFile', 'lectureVideo', file);
 
-    // if (!req['files'] || !req['files'].video) {
-    //     res.status(400);
-    //     res.send({});
-    // }
-    
-    // console.log(req.file);
+    await ffmpeg.run(
+        '-y', '-i', 'lectureVideo',
+        '-preset', 'slow', '-g', '48', '-sc_threshold', '0',
+        '-map', '0:0', '-map', '0:1', '-map', '0:0', '-map', '0:1',
+        '-s:v:0', '640x360', '-c:v:0', 'libx264', '-b:v:0', '365k',
+        '-s:v:1', '960x540', '-c:v:1', 'libx264', '-b:v:1', '2000k',
+        '-c:a', 'copy',
+        '-var_stream_map', 'v:0,a:0 v:1,a:1',
+        '-master_pl_name', 'master.m3u8',
+        '-f', 'hls', '-hls_time', '6', '-hls_list_size', '0',
+        '-hls_segment_filename', '"v%v_fileSequence_%d.ts"',
+        'v%v_playlistVariant.m3u8'
+    );
 
+    ffmpeg.FS('unlink', 'lectureVideo');
+    const master = ffmpeg.FS('readFile', 'master.m3u8');
 
-    let file = req.file.buffer;
-    const storageRef = ref(storage, 'video');
+    const storageRef = ref(storage, 'test/master');
 
-    await uploadBytes(storageRef, file)
-    .then(snapshot => {
-        res.status(200);
-        res.send({url: snapshot.ref.fullPath});
+    await uploadBytes(storageRef, master)
+    .then(async snapshot => {
+        await snapshot.ref.getDownloadURL()
+        .then(url => {
+            res.status(200);
+            res.send({url: url});
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500);
+            res.send();
+        })
     })
     .catch(error => {
         console.log(error);
