@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardGuard]},
   {path: 'registration', component: RegistrationComponent, canActivate: [HomeGuardGuard]},
   {path: 'course-page', component: CoursePageComponent, canActivate: [CoursePageGuardGuard, AuthGuardGuard]},
-  {path: 'Lecturevideo', component: LectureVidPageComponent, canActivate: [AuthGuardGuard]},
+  {path: 'lecture', component: LectureVidPageComponent, canActivate: [AuthGuardGuard]},
   {path: 'add-course', component: AddCourseFormComponent, canActivate: [AuthGuardGuard]},
   {path: 'test-upload', component: FileFormComponent},
   //error unspecified path (** matches your url)

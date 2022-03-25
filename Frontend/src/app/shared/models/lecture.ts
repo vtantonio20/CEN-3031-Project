@@ -6,5 +6,6 @@ export interface Lecture {
     uploadDate: Date,
     uploader: string,
     videoUrl: string,
+    id: string
     //avalibility:boolean (public or private)
 }

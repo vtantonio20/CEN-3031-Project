@@ -4,7 +4,9 @@
 <app-header>
 </app-header>
 
-<body class = "h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" >
+<body class = "h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" *ngIf="lecture | async as lecture">
+
+<p>{{ lecture.id }}: {{ lecture.title }}</p>
 
 <!-- Toggle live chat button -->
 <button (click)="hideLiveChat()">
@@ -31,6 +33,9 @@
     
     <!-- media player div -->
     <div class="scroll-pt-10 h-2/5 w-1/2 border-2 p-40 border-orange-700 bg-gradient-to-tr from-black">
+        <video>
+            <source src="" type="video/mp4">
+        </video>
     </div>
     
     <!-- live chat div -->

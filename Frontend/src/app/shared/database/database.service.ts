@@ -32,6 +32,10 @@ export class DatabaseService {
     })
   }
 
+  getLecture(lid:string){
+    return this.db.collection<Lecture>('lectures').doc(lid).valueChanges({idField: 'id'});
+  }
+
 
 
   getTeacherCourses(uid:string | undefined){
@@ -68,7 +72,7 @@ export class DatabaseService {
 
     //returns a single course when given courseID
     getCourse(cid:string){
-      return this.db.collection<Course>('courses').doc(cid).valueChanges();
+      return this.db.collection<Course>('courses').doc(cid).valueChanges({idField: 'id'});
     }
 
 

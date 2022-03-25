@@ -33,7 +33,7 @@ export class AddCourseFormComponent implements OnInit {
         lectures: []
       }
       this.db.createCourse(course).then(() => {
-
+        this.router.navigate(['/dashboard']);
       }).catch(()=> {
         this.alert = 'Invalid form entry'
       })
