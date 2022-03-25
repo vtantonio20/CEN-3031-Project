@@ -11,7 +11,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LectureVidPageComponent } from './lecture-vid-page/lecture-vid-page.component';
 import { MediaPlayerComponent } from './media-player/media-player.component';
-
+import { JoinACourseComponent } from './join-a-course/join-a-course.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,7 @@ import { MediaPlayerComponent } from './media-player/media-player.component';
     RegistrationComponent,
     LectureVidPageComponent,
     MediaPlayerComponent,
+    JoinACourseComponent
   ],
   imports: [
     CommonModule,

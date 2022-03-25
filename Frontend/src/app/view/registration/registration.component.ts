@@ -39,6 +39,7 @@ export class RegistrationComponent implements OnInit {
     }
 
   }
+  
   redirect() {
     this.router.navigate(['/home']);
   }

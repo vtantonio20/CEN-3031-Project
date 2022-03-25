@@ -13,6 +13,7 @@ import { Course } from 'src/app/shared/models/course';
 export class DashboardComponent implements OnInit {
 
   courses:Observable<Course[]>;
+  headerTitle:string='Dashboard';
   constructor(private router: Router, public auth: AuthService, public db: DatabaseService) {  }
   
   loggedIn(){
@@ -26,6 +27,9 @@ export class DashboardComponent implements OnInit {
         this.courses=this.db.getStudentCourses(user?.id);
       }
     })
+  }
+  redirect(){
+    
   }
 
 }

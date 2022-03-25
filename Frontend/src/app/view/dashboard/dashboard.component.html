@@ -1,35 +1,34 @@
-<div *ngIf="loggedIn()">
-    <app-header>
-    </app-header>
 
-    <div class="pl-16"> 
-        <h1 class="text-4xl font-semibold pt-8 pb-4 ">Your Courses</h1>
-        <div *ngIf="auth.user$ | async as user" [ngSwitch]="user.role">        
-            <div *ngSwitchCase="'Teacher'" class="text-4xl flex">
-                <div *ngIf="courses | async as courses">
-                    <div *ngFor="let course of courses" class="inline-block pr-5">
-                        <app-course-card [course] = "course"> </app-course-card>
+<div class="min-h-screen bg-orange-700 bg-gradient-to-tr from-indigo-500 ">
+    <div *ngIf="loggedIn()" class="">
+        <app-header [title]="headerTitle"></app-header>
+        <div class="dotted divide-y-2 divide-gray-200">
+            <h1 class="text-4xl font-bold pt-6 pl-16 pb-8 text-white  ">Your Courses</h1>
+            <div *ngIf="auth.user$ | async as user"  class="text-4xl flex pl-10"> 
+                <div *ngIf="courses | async as courses else newCourse">
+                    <div *ngFor="let course of courses" class="p-6 inline-flex">
+                        <div routerLink="{{course.title}}" >
+                            <app-course-card [course] = "course" [role]="user.role"> </app-course-card>
+                        </div>
                     </div>
-                    <button routerLink="[/home]"><div class="inline-block w-72 h-64 border-2 border-orange-700 bg-gradient-to-tr from-indigo-500">
-                        <div class="relative top-3/4 h-1/4 border-black bg-orange-700 text-center text-white font-medium text-xl">Add a course</div>
-                    </div></button>
+                    <ng-container *ngTemplateOutlet="newCourse"></ng-container>
                 </div>
-            </div>
-
-
-            <div *ngSwitchCase="'Student'" class="text-4xl">
-                <div *ngIf="courses | async as courses">
-                    <div *ngFor="let course of courses" class="inline-block pr-5">
-                        <app-course-card [course] = "course"> </app-course-card>
+                
+                <ng-template #newCourse>
+                    <div *ngIf="user.role === 'Teacher'" class="p-6 inline-flex" routerLink="/create-a-course">
+                        <app-course-card [role]="user.role"> </app-course-card>
+                    </div>           
+                    <div *ngIf="user.role === 'Student'" class="p-6 inline-flex" routerLink="/join-a-course">
+                        <app-course-card [role]="user.role"> </app-course-card>
                     </div>
-                    <button routerLink="[/home]"><div class="inline-block w-72 h-64 border-2 border-orange-700 bg-gradient-to-tr from-indigo-500">
-                        <div class="relative top-3/4 h-1/4 border-black bg-orange-700 text-center text-white font-medium text-xl">Join a new course</div>
-                    </div></button>
-                </div>
+                </ng-template>
             </div>
         </div>
     </div>
 </div>
+
+
+
 <div *ngIf="!loggedIn()">
     not logged in
 </div>
