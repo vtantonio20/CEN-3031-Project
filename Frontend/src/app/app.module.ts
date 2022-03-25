@@ -18,9 +18,9 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
-import { FileFormComponent } from './file-form/file-form.component';
 
+import { AddCourseFormComponent } from './view/add-course-form/add-course-form.component';
+import { FileFormComponent } from './file-form/file-form.component';
 
 
 @NgModule({
@@ -37,7 +37,6 @@ import { FileFormComponent } from './file-form/file-form.component';
     FormsModule,
     SharedModule,
     AngularFireStorageModule,
-    provideDatabase(() => getDatabase()),
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [

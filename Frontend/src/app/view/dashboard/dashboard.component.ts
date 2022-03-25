@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { DatabaseService } from './../../shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/shared/models/course';
 
 @Component({
@@ -12,9 +12,14 @@ import { Course } from 'src/app/shared/models/course';
 })
 export class DashboardComponent implements OnInit {
 
-  courses:Observable<Course[]>;
   headerTitle:string='Dashboard';
-  constructor(private router: Router, public auth: AuthService, public db: DatabaseService) {  }
+
+  courseID:string;
+  showDialog:boolean=false;
+  alert:string;
+  
+  courses:Observable<Course[]>;
+  constructor(private router: Router, public auth: AuthService, public db: DatabaseService) { }
   
   loggedIn(){
     return true;
@@ -28,8 +33,31 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-  redirect(){
-    
+
+  toggleDialog(){
+    this.showDialog = !this.showDialog; 
   }
 
+  async addStudentToCourse(){
+    this.auth.user$.subscribe(user => {
+      if(user?.role === 'Student'){
+        this.db.addStudent(this.courseID, user?.id).then(() => {
+          this.courseID="";
+          this.alert="";
+          this.toggleDialog()
+        }).catch(() => {
+          this.alert="Invalid Course ID"
+        })
+      }
+    })
+  }
+
+  navigateToCourse(course:Course){
+    let navigationExtras:NavigationExtras = {
+      queryParams: {
+        cid:course.id 
+      }
+    }
+    this.router.navigate(['/course-page/'], navigationExtras);
+  }
 }

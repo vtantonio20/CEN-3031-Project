@@ -1,5 +1,4 @@
 import { AuthService } from './../../shared/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
@@ -15,7 +14,7 @@ export class HomeComponent implements OnInit, OnChanges {
 
   email:string;
   password:string;
-  constructor(private router: Router, private http: HttpClient, private auth: AuthService){
+  constructor(private router: Router, private auth: AuthService){
 
   }
 

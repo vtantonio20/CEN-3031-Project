@@ -1,0 +1,40 @@
+<div >
+    <div *ngIf="lecture">
+        <ng-container *ngTemplateOutlet="standardCard"></ng-container>
+    </div>
+    <div *ngIf="!lecture">
+        <ng-container *ngTemplateOutlet="newCard"></ng-container>
+    </div>
+</div>
+
+<ng-template #standardCard>
+    <div class="cursor-pointer w-80 h-80 bg-gradient-to-br from-gray-500 to-white hover:shadow-2xl hover:shadow-gray-200 rounded-xl">
+        <div class="h-3/4 w-full flex justify-center items-center py-10">
+            <img  class="w-72 h-40" src="">
+        </div>
+        <div class="h-1/4 rounded-b-lg bg-orange-700 text-white ">
+
+            <p class="py-3 flex justify-center pl-2 font-medium text-xl">
+                {{lecture.title}}
+            </p>
+            <div class="flex justify-between pl-2 pr-2 font-normal text-md">
+                <p>Uploader: {{owner}}</p>
+                <p>Date: 03/24/22</p>
+            </div>
+
+            <br>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #newCard>
+    <div class="cursor-pointer w-80 h-80 bg-gradient-to-br from-gray-500 to-white hover:shadow-2xl hover:shadow-gray-200 rounded-xl">
+        <div class="h-3/4 w-full flex justify-center items-center py-10">
+            <img class="w-40 h-40 fill-yellow-400" src="assets\ui-icons\upload.png">
+        </div>
+        <div class="h-1/4 bg-orange-700 rounded-b-lg text-white font-medium text-lg flex justify-center items-center">
+            <p>Upload new Video</p>
+        </div>
+    </div>
+</ng-template>

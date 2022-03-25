@@ -2,14 +2,14 @@
 <div class="cursor-pointer w-96 h-80 bg-gradient-to-br from-blue-500 to-white hover:shadow-2xl hover:shadow-gray-200 rounded-xl">
     <div class="h-3/4 w-full flex justify-center items-center">
         <img *ngIf="course" class="w-40 h-40" src="">
-        <img *ngIf="!course" class="w-40 h-40 fill-yellow-400" src="assets\plus.png">
+        <img *ngIf="!course" class="w-40 h-40 fill-yellow-400" src="assets\ui-icons\plus.png">
     </div>
     <div class="h-1/4 bg-orange-700 rounded-b-lg flex justify-center items-center ">
         <div class="text-white font-medium text-2xl pb-2">
             <div *ngIf="course">{{course.title}}</div>
             <div *ngIf="!course">
                 <h4 *ngIf="role === 'Teacher'">Create a new Course</h4>
-                <h4 *ngIf="role === 'Student'">Add a Course</h4>
+                <h4 *ngIf="role === 'Student'">Join a Course</h4>
             </div>
         </div>
 

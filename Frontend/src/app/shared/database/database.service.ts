@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
 import { set, ref, onValue } from 'firebase/database';
 import { BehaviorSubject, Observable, of, switchMap, take, tap } from 'rxjs';
 import { Course } from './../models/course';
-import { arrayRemove, arrayUnion } from 'firebase/firestore';
-
+import { Lecture } from '../models/lecture';
+import { arrayRemove, arrayUnion, doc, documentId } from 'firebase/firestore';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,22 @@ export class DatabaseService {
 
   constructor(private db: AngularFirestore, private auth:AuthService) { }
 
+  //crud for lectures
+  async createLecture(lecture:Lecture){
+    return await this.db.collection('lectures').add(lecture);
+  }
+  getCourseLectures(cid:string | undefined){
+    return this.db.collection<Lecture>('lectures', ref => ref.where('courseID', '==', cid)).valueChanges({idField: 'id'});
+  }
+
+  async removeLecture(lid:string | undefined){
+    return await this.db.collection('lectures').doc(lid).update({
+      students: arrayRemove(lid)
+    })
+  }
+
+
+
   getTeacherCourses(uid:string | undefined){
     return this.db.collection<Course>('courses', ref => ref.where('owner', '==', uid)).valueChanges({idField: 'id'});
   }
@@ -24,6 +41,11 @@ export class DatabaseService {
   getStudentCourses(uid:string | undefined){
     return this.db.collection<Course>('courses', ref => ref.where('students', 'array-contains', uid)).valueChanges({idField: 'id'});
   }
+
+  getUser(uid:string | undefined){
+    return this.db.collection<User>('users').doc(uid).valueChanges();
+  }
+
 
   async createCourse(course:Course ){
     return await this.db.collection('courses').add(course);
@@ -36,6 +58,7 @@ export class DatabaseService {
       students: arrayUnion(sid)
     })
   }
+  
 
   async removeStudent(cid:string, sid:string){
     return await this.db.collection('courses').doc(cid).update({
@@ -43,6 +66,10 @@ export class DatabaseService {
     })
   }
 
-  
+    //returns a single course when given courseID
+    getCourse(cid:string){
+      return this.db.collection<Course>('courses').doc(cid).valueChanges();
+    }
+
 
 }
