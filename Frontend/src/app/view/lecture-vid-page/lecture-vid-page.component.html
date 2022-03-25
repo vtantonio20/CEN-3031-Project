@@ -1,0 +1,59 @@
+
+
+<!--bg-orange-700 bg-gradient-to-tr from-indigo-500 -->
+<app-header>
+</app-header>
+
+<body class = "h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" >
+
+<!-- Toggle live chat button -->
+<button (click)="hideLiveChat()">
+    <div class="relative left-56 top-16 h-15 w-40 bg-orange-700 text-center text-white font-small text-xl">
+        <div *ngIf = "!hideDiv">
+            <p>Hide Live Chat</p>
+        </div>
+    </div>
+
+    <div class="absolute left-1/4 top-28 h-15 w-40 bg-orange-700 text-center text-white font-small text-xl">
+        <div *ngIf = "hideDiv">
+            <p>Show Live Chat</p>
+        </div>
+    </div> 
+</button>
+<!-- End of Toggle live chat button code -->
+
+<div class="absolute left-3/4 top-28 h-15 w-40 bg-orange-700 text-center text-white font-small text-xl">
+        <p *ngIf = "!hideDiv"> Live Chat</p>
+</div> 
+
+
+<div class="pt-16 flex flex-row flex justify-center items-center">
+    
+    <!-- media player div -->
+    <div class="scroll-pt-10 h-2/5 w-1/2 border-2 p-40 border-orange-700 bg-gradient-to-tr from-black">
+    </div>
+    
+    <!-- live chat div -->
+    <div class="  h-72 w-6 border-2 p-40 border-orange-700 bg-gradient-to-tr from-white" *ngIf = "!hideDiv" >
+        
+    </div>
+
+</div>
+
+<!-- Video Description Box -->
+<div class="absolute left-96 top-90 w-96 h-24 border-4 border-orange-700 bg-gradient-to-tr from-indigo-100
+text-white">
+    <p>{{videoTitle}}</p>
+    <p>{{videoDescription}}</p>
+
+</div>
+
+</body>
+
+
+
+
+ 
+
+
+

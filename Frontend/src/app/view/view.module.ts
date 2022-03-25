@@ -9,6 +9,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LectureVidPageComponent } from './lecture-vid-page/lecture-vid-page.component';
+import { MediaPlayerComponent } from './media-player/media-player.component';
 import { JoinACourseComponent } from './join-a-course/join-a-course.component';
 
 @NgModule({
@@ -17,6 +19,8 @@ import { JoinACourseComponent } from './join-a-course/join-a-course.component';
     PageNotFoundComponent,
     DashboardComponent,
     RegistrationComponent,
+    LectureVidPageComponent,
+    MediaPlayerComponent,
     JoinACourseComponent
   ],
   imports: [
@@ -28,7 +32,8 @@ import { JoinACourseComponent } from './join-a-course/join-a-course.component';
   ],
   exports: [
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    LectureVidPageComponent
   ],
   providers: [
     AuthService
