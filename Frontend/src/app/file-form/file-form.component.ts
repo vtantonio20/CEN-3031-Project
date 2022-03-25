@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -10,14 +11,25 @@ import { environment } from 'src/environments/environment';
 })
 export class FileFormComponent implements OnInit {
 
+  @ViewChild('target', {static: true}) target: HTMLMediaElement;
+
   file: File;
   upload$: Observable<any>;
-  src: string = environment.firebase.storageBucket;
-  clicked: boolean = false;
+  src: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
+    this.storage.ref('manual/master.m3u8').getDownloadURL().subscribe(url => {
+      console.log(url);
+
+      this.src = url;
+      //if (Hls.isSupported()) {
+      //  var hls = new Hls();
+      //  hls.loadSource(this.src);
+      //  hls.attachMedia(this.target);
+      //}
+    });
   }
 
   fileSelected(event: any) {
@@ -30,18 +42,17 @@ export class FileFormComponent implements OnInit {
     if (!this.file) {
       return;
     }
-    if (this.clicked) {
-      return
-    } else {
-      this.clicked = true;
-    }
+
+    console.log('Tried to send');
+
+
     const formData = new FormData();
     formData.append("video", this.file);
     this.upload$ = this.http.post("http://localhost:3000/uploadVideo", formData);
     // This subrscibe creates multiple requests so don't use it.
-    //this.upload$.subscribe(url => {
-    //  console.log(url);
-    //});
+    this.upload$.subscribe(url => {
+      console.log(url);
+    });
   }
 
   hello() {

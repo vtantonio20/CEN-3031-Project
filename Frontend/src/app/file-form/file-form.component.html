@@ -2,14 +2,9 @@
 <button (click)="uploadData()">Upload</button>
 <button (click)="hello()">Hello</button>
 
-<!--<video *ngIf="upload$ | async as video" src="video.url"></video>-->
-<div  *ngIf="upload$ | async as video">
-  <h1>{{ video.url }}</h1>
-  <video width="352" height="198" controls>
-    <source src="{{ video.url }}" type="application/x-mpegURL">
-  </video>
-</div>
 
-<video width="1280" height="720" controls>
-  <source src="{{ src }}/test/master.m3u8" type="application/x-mpegURL">
+<video id="vid1" width="600" height="300" class="vjs-default-skin" controls autoplay="true">
+  <source
+     src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+     type="application/x-mpegURL">
 </video>
