@@ -9,13 +9,18 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LectureVidPageComponent } from './lecture-vid-page/lecture-vid-page.component';
+import { MediaPlayerComponent } from './media-player/media-player.component';
+
 
 @NgModule({
   declarations: [
     HomeComponent,
     PageNotFoundComponent,
     DashboardComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LectureVidPageComponent,
+    MediaPlayerComponent,
   ],
   imports: [
     CommonModule,
@@ -26,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   exports: [
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    LectureVidPageComponent
   ],
   providers: [
     AuthService

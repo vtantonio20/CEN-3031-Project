@@ -7,6 +7,7 @@ import { RegistrationComponent } from './view/registration/registration.componen
 import { redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { HomeGuardGuard } from './shared/guards/home-guard.guard';
 import { AuthGuardGuard } from './shared/guards/auth-guard.guard';
+import { LectureVidPageComponent } from './view/lecture-vid-page/lecture-vid-page.component';
 //array of objects where each object specifies a mapping of a url to a component
 //const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [HomeGuardGuard]},
   {path: 'dashboard', component:DashboardComponent, canActivate: [AuthGuardGuard]},
   {path: 'registration', component:RegistrationComponent, canActivate: [HomeGuardGuard]},
+  {path: 'Lecturevideo', component:LectureVidPageComponent, canActivate: [AuthGuardGuard]},
   //error unspecified path (** matches your url)
 
   {path: '**', component: PageNotFoundComponent}
