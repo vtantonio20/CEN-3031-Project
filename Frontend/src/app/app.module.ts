@@ -19,14 +19,14 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 
-import { AddCourseFormComponent } from './view/add-course-form/add-course-form.component';
+//import { AddCourseFormComponent } from './view/add-course-form/add-course-form.component';
 import { FileFormComponent } from './file-form/file-form.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddCourseFormComponent,
+    //AddCourseFormComponent,
     FileFormComponent,
   ],
   imports: [
