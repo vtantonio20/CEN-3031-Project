@@ -1,10 +1,23 @@
 
+<body class = "h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" *ngIf="lecture | async as lecture">
 
 <!--bg-orange-700 bg-gradient-to-tr from-indigo-500 -->
 <app-header>
 </app-header>
 
-<body class = "h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" *ngIf="lecture | async as lecture">
+ <!--Breadcrumbs-->
+ <div class="grid place-items-end pr-3">
+    <div class="px py-1 rounded-lg">
+        <ul class="flex space-x-4">
+            <li routerLink="/home" class="cursor-pointer text-blue-500 ">Home</li>
+            <p class="text-white">>></p>
+            <li routerLink="/dashboard" class="cursor-pointer text-blue-500 ">Dashboard</li>
+            <p class="text-white">>></p>
+            <li class="text-blue-500 ">Course</li>
+        </ul>
+    </div>
+</div>
+
 
 <p>{{ lecture.id }}: {{ lecture.title }}</p>
 
@@ -33,9 +46,10 @@
     
     <!-- media player div -->
     <div class="scroll-pt-10 h-2/5 w-1/2 border-2 p-40 border-orange-700 bg-gradient-to-tr from-black">
-        <video>
-            <source src="" type="video/mp4">
+        <video width="100%" height="100%" *ngIf="src" controls (timeupdate)="time($event)" controlslist="nodownload">
+            <source src="{{ src }}">
         </video>
+        <p>{{ currentTime }}</p>
     </div>
     
     <!-- live chat div -->
