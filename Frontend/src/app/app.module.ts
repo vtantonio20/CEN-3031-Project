@@ -16,15 +16,18 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
+import { FileFormComponent } from './file-form/file-form.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddCourseFormComponent
+    AddCourseFormComponent,
+    FileFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +36,7 @@ import { AddCourseFormComponent } from './add-course-form/add-course-form.compon
     ViewModule,
     FormsModule,
     SharedModule,
+    AngularFireStorageModule,
     provideDatabase(() => getDatabase()),
     AngularFireModule.initializeApp(environment.firebase)
   ],

@@ -12,6 +12,7 @@ import { AuthGuardGuard } from './shared/guards/auth-guard.guard';
 
 import { LectureVidPageComponent } from './view/lecture-vid-page/lecture-vid-page.component';
 import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
+import { FileFormComponent } from './file-form/file-form.component';
 //array of objects where each object specifies a mapping of a url to a component
 //const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'Lecturevideo', component:LectureVidPageComponent, canActivate: [AuthGuardGuard]},
   {path: 'course-page', component:CoursePageComponent, canActivate: [AuthGuardGuard]},
   {path: 'add-course', component:AddCourseFormComponent, canActivate: [AuthGuardGuard]},
+  {path: 'test-upload', component: FileFormComponent},
   //error unspecified path (** matches your url)
 
   {path: '**', component: PageNotFoundComponent}
