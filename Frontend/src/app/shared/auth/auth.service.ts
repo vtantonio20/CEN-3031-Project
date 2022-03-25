@@ -1,13 +1,9 @@
-//import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { RegistrationComponent } from './../../view/registration/registration.component';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
-import { set, ref, onValue } from 'firebase/database';
 import { User } from '../models/user';
-import { BehaviorSubject, Observable, of, switchMap, take, tap } from 'rxjs';
-import { user } from 'rxfire/auth';
+import { Observable, of, switchMap, take} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -89,9 +85,9 @@ export class AuthService {
         resolve(user);
       });
     })
-
     return userPromise;
   }
+
 
 
 }

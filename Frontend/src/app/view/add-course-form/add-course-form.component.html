@@ -1,25 +1,37 @@
-<div *ngIf="auth.user$ | async as user">
-    <div *ngIf="user.role === 'Teacher'">
-        <div class="w-full h-screen bg-orange-700 bg-gradient-to-tr from-indigo-500 ">
+<div class="min-h-screen bg-orange-700 bg-gradient-to-tr from-indigo-500">
+    <div *ngIf="auth.user$ | async as user">
+        <div *ngIf="user.role === 'Teacher'">
+            <app-header [title]="headerTitle" ></app-header>
+            <!--Breadcrumbs-->
+            <div class="grid place-items-end pr-3">
+                <div class="px py-1 rounded-lg">
+                    <ul class="flex space-x-4">
+                        <li routerLink="/home" class="cursor-pointer text-blue-500 ">Home</li>
+                        <p class="text-white">>></p>
+                        <li routerLink="/dashboard" class="cursor-pointer text-blue-500 ">Dashboard</li>
+                        <p class="text-white">>></p>
+                        <li class="text-blue-500 ">Create a Course</li>
+                    </ul>
+                </div>
+            </div>
+            <!--Course form-->
             <div class="relative top-24 left-1/4  w-1/2 bg-white rounded-xl py-10 shadow-inner shadow-black ">
-                <h1 class="text-4xl font-semibold text-center">Create Your Course</h1>
+                <h1 class="text-4xl font-semibold text-center">Create a Course</h1>
+                <p *ngIf="alert" class=" text-center text-xl text-red-600 pt-2">{{alert}}</p>
                 <form class= "py-5">
                     <ul class = "relative left-1/4 text-base">
                         <li><label for="courseName" class="font-medium">Course Name</label></li>
                         <li class="py-2"><input [(ngModel)]="courseName" name="courseName" id="courseName" placeholder="Enter your course name" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
-                        <li>
-                            <div class="card" stype="width:25rem">
-
-                            </div>
-                            <label for="imageURL" class="font-semibold">Upload Course Image</label>
-                            <br>
-                            <input type = "file" accept="image/png, image/gif, image/jpeg" (click) = "uploadImage()" class = "px-4 py-1 bg-indigo-400 text-xl text-white font-semibold rounded-md active:shadow-inner active:shadow-black transition duration-100">
-                        </li>
+                        <li><label for="imageURL" class="font-semibold" >Upload Course Image</label></li>
+                        <li><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
                     </ul>
                 </form>
 
-                <div class = "text-center">
-                    <button (click) = "addCourse()" routerLink = "/dashboard"class = "px-4 py-1 bg-orange-700 text-xl text-white font-semibold rounded-md active:shadow-inner active:shadow-black transition duration-100">
+                <div class = "flex justify-evenly">
+                    <button routerLink="/dashboard" class="cursor-pointer text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" >
+                        Cancel
+                    </button>
+                    <button (click) = "addCourse()" class = "cursor-pointer bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
                         Create Course
                     </button>
                 </div>

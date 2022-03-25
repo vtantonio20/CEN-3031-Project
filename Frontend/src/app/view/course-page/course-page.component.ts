@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from 'src/app/shared/database/database.service';
+import { AuthService } from './../../shared/auth/auth.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/internal/operators/map';
+import { Course } from 'src/app/shared/models/course';
+import { Lecture } from 'src/app/shared/models/lecture';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-course-page',
@@ -6,11 +14,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./course-page.component.css']
 })
 export class CoursePageComponent implements OnInit {
+  course:Observable<Course | undefined> ;
+  lectures:Observable<Lecture[]>;
+  owner:Observable<User | undefined>;
 
-  courseName: string="Computer Program 1"
-  constructor() { }
+  cid:string;
+  courseTitle:string='Lecture Videos';
+  
+  constructor(public router: Router, private activatedRoute:ActivatedRoute, public auth:AuthService, public db:DatabaseService) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.cid=params['cid'];
+    });
+  }
 
   ngOnInit(): void {
+    this.course = this.db.getCourse(this.cid)
+    this.lectures = this.db.getCourseLectures(this.cid);
+    this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner))
+    
   }
+
 
 }

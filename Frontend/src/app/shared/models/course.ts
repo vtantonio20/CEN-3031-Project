@@ -4,5 +4,5 @@ export interface Course {
     owner:string;
     students:string[];
     title:string;
-    //id:string;
+    id:string;
 }

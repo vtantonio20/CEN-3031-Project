@@ -1,3 +1,4 @@
+import { CoursePageGuardGuard } from './shared/guards/course-page-guard.guard';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { HomeComponent } from './view/home/home.component';
 import { CoursePageComponent } from './view/course-page/course-page.component';
@@ -5,7 +6,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './view/page-not-found/page-not-found.component';
 import { RegistrationComponent } from './view/registration/registration.component';
-import { redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { HomeGuardGuard } from './shared/guards/home-guard.guard';
 import { AuthGuardGuard } from './shared/guards/auth-guard.guard';
 import { AddCourseFormComponent } from './view/add-course-form/add-course-form.component';
@@ -16,7 +16,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [HomeGuardGuard]},
   {path: 'dashboard', component:DashboardComponent, canActivate: [AuthGuardGuard]},
   {path: 'registration', component:RegistrationComponent, canActivate: [HomeGuardGuard]},
-  {path: 'course-page', component:CoursePageComponent, canActivate: [AuthGuardGuard]},
+  {path: 'course-page', component:CoursePageComponent, canActivate: [CoursePageGuardGuard]},
   {path: 'add-course', component:AddCourseFormComponent, canActivate: [AuthGuardGuard]},
   //error unspecified path (** matches your url)
 

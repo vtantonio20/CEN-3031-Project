@@ -4,11 +4,13 @@ import { HeaderComponent } from './header/header.component';
 import { CourseCardComponent } from './course-card/course-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LectureCardComponent } from './lecture-card/lecture-card.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    CourseCardComponent
+    CourseCardComponent,
+    LectureCardComponent
     ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   exports: [  
     HeaderComponent,
-    CourseCardComponent
+    CourseCardComponent,
+    LectureCardComponent
   ]
 })
 export class CoreModule { }

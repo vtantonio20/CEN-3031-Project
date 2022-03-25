@@ -1,8 +1,5 @@
 import { AuthService } from './../../shared/auth/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { filter, map, of, tap } from 'rxjs';
-import { NgIf } from '@angular/common';
-import { user } from 'rxfire/auth';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
@@ -15,8 +12,7 @@ export class HeaderComponent implements OnInit {
   onProfile:boolean = false;
   //user:User;
   @Input() title:String;
-  constructor(public auth: AuthService, private router: Router) {
-  }
+  constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }

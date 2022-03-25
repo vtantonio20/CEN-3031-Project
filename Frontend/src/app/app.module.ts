@@ -29,9 +29,9 @@ import { AddCourseFormComponent } from './view/add-course-form/add-course-form.c
     ViewModule,
     FormsModule,
     SharedModule,
-    provideDatabase(() => getDatabase()),
-    AngularFireModule.initializeApp(environment.firebase)
-  ],
+    //provideDatabase(() => getDatabase()),
+    AngularFireModule.initializeApp(environment.firebase),
+    ],
   providers: [
     //services
     ]

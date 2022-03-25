@@ -9,16 +9,11 @@ import { AuthService } from './shared/auth/auth.service';
 
 //Dependency Injection
 export class AppComponent {
-  //Imagine if AppComponent needs TestServiceService
-  // Do not need to create instance of service
 
-
-  constructor( private auth: AuthService){
+  constructor(){
   }
 
-  ngOnInit(){
-    //this.auth.intialize();
-  }
+  ngOnInit(){ }
 
   print():void{
 

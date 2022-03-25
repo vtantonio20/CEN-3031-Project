@@ -1,3 +1,5 @@
+import { DatabaseService } from './../shared/database/database.service';
+import { CoursePageComponent } from './course-page/course-page.component';
 import { AuthService } from './../shared/auth/auth.service';
 import { RouterModule } from '@angular/router';
 import { CoreModule } from './../core/core.module';
@@ -17,7 +19,8 @@ import { AddCourseFormComponent } from './add-course-form/add-course-form.compon
     PageNotFoundComponent,
     DashboardComponent,
     RegistrationComponent,
-    AddCourseFormComponent
+    AddCourseFormComponent,
+    CoursePageComponent
   ],
   imports: [
     CommonModule,
@@ -28,10 +31,12 @@ import { AddCourseFormComponent } from './add-course-form/add-course-form.compon
   ],
   exports: [
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    CoursePageComponent
   ],
   providers: [
-    AuthService
+    AuthService,
+    DatabaseService
   ],
 
 })
