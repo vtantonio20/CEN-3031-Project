@@ -46,7 +46,6 @@ export class DatabaseService {
   getTeacherCourses(uid:string | undefined){
     return this.db.collection<Course>('courses', ref => ref.where('owner', '==', uid)).valueChanges({idField: 'id'});
   }
-
   getStudentCourses(uid:string | undefined){
     return this.db.collection<Course>('courses', ref => ref.where('students', 'array-contains', uid)).valueChanges({idField: 'id'});
   }

@@ -21,7 +21,16 @@
                 <form class= "py-5">
                     <ul class = "relative left-1/4 text-base">
                         <li><label for="courseName" class="font-medium">Course Name</label></li>
-                        <li class="py-2"><input [(ngModel)]="courseName" name="courseName" id="courseName" placeholder="Enter your course name" required class=" rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
+                        
+                        <li class="py-2"><input [(ngModel)]="courseName" 
+                                    name="courseName" id="courseName" placeholder="Enter your course name" 
+                                    class=" w-6/12 p-2
+                                            rounded-md border 
+                                            font-lg text-gray-700 
+                                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none leading-tight focus:shadow-outline"
+                                            required>
+                        </li>
+
                         <li><label for="imageURL" class="font-semibold" >Upload Course Image</label></li>
                         <li><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
                     </ul>

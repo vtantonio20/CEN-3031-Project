@@ -2,7 +2,7 @@
 <body class = "h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" *ngIf="lecture | async as lecture">
 
 <!--bg-orange-700 bg-gradient-to-tr from-indigo-500 -->
-<app-header>
+<app-header [title]="headerTitle"> 
 </app-header>
 
  <!--Breadcrumbs-->
@@ -42,7 +42,7 @@
 </div> 
 
 
-<div class="pt-16 flex flex-row flex justify-center items-center">
+<div class="pt-16 flex-row justify-center items-center">
     
     <!-- media player div -->
     <div class="scroll-pt-10 h-2/5 w-1/2 border-2 p-40 border-orange-700 bg-gradient-to-tr from-black">

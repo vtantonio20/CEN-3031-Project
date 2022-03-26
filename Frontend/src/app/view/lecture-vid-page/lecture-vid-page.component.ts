@@ -19,6 +19,7 @@ import { Time } from '@angular/common';
 export class LectureVidPageComponent implements OnInit {
 
   lecture: Observable<Lecture | undefined>;
+  headerTitle:string = 'Lecture';
   currentTime: Time;
   src: string;
   lid: string;

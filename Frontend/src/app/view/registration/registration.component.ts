@@ -27,7 +27,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
-    
     if(this.password === this.cpassword) {
       this.auth.register(this.email, this.fname, this.lname, this.password, this.role)
       .catch(() => {
@@ -37,7 +36,6 @@ export class RegistrationComponent implements OnInit {
     else {
       this.alert='Make sure passwords match!';
     }
-
   }
   
   redirect() {
