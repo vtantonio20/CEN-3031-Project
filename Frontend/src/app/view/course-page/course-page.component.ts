@@ -54,6 +54,7 @@ export class CoursePageComponent implements OnInit {
   navigateToLecture(lecture: Lecture){
     let navigationExtras:NavigationExtras = {
       queryParams: {
+        cid: lecture.courseID,
         lid: lecture.id
       }
     }
