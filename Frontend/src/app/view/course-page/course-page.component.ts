@@ -17,6 +17,7 @@ export class CoursePageComponent implements OnInit {
   course:Observable<Course | undefined>;
   lectures:Observable<Lecture[] | undefined>;
   owner:Observable<User | undefined>;
+  sortedLectures: Lecture[];
 
   cid:string;
   courseTitle:string='Lecture Videos';
@@ -30,7 +31,10 @@ export class CoursePageComponent implements OnInit {
   ngOnInit(): void {
     this.course = this.db.getCourse(this.cid)
     this.lectures = this.db.getCourseLectures(this.cid);
-    this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner)) 
+    this.lectures.subscribe(lectures => {
+      this.sortedLectures = lectures?.sort((a, b) => b.uploadDate.seconds - a.uploadDate.seconds)!;
+    });
+    this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner));
   }
 
   navigateToLecture(lecture: Lecture){

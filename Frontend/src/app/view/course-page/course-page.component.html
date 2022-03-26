@@ -28,7 +28,7 @@
                     <div *ngIf="auth.user$ | async as user" class="flex"> 
                         <div *ngIf="lectures | async as lectures">  
                             <app-lecture-card *ngIf="user.role === 'Teacher'" class="p-6 inline-flex"></app-lecture-card>   
-                            <div *ngFor="let lecture of lectures" class="p-6 inline-flex">
+                            <div *ngFor="let lecture of sortedLectures" class="p-6 inline-flex">
                                 <div *ngIf="owner | async as owner">
                                     <app-lecture-card [lecture]="lecture" [owner]="owner.fname + ' ' + owner.lname" (click)="navigateToLecture(lecture)"></app-lecture-card>
                                 </div>
