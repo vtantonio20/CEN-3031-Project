@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from 'src/app/shared/auth/auth.service';
+import { environment } from 'src/environments/environment';
 import { RegistrationComponent } from './registration.component';
 
 describe('RegistrationComponent', () => {
@@ -8,8 +12,9 @@ describe('RegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule], 
-      declarations: [ RegistrationComponent ]
+      imports: [ RouterTestingModule ], 
+      declarations: [ RegistrationComponent ],
+      providers: [ AuthService, AngularFireAuth, { provide: FIREBASE_OPTIONS, useValue: environment.firebase } ]
     })
     .compileComponents();
   });

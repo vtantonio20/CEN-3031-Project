@@ -1,7 +1,7 @@
 import { DatabaseService } from 'src/app/shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import { Course } from 'src/app/shared/models/course';
@@ -14,8 +14,8 @@ import { User } from 'src/app/shared/models/user';
   styleUrls: ['./course-page.component.css']
 })
 export class CoursePageComponent implements OnInit {
-  course:Observable<Course | undefined> ;
-  lectures:Observable<Lecture[]>;
+  course:Observable<Course | undefined>;
+  lectures:Observable<Lecture[] | undefined>;
   owner:Observable<User | undefined>;
 
   cid:string;
@@ -30,8 +30,16 @@ export class CoursePageComponent implements OnInit {
   ngOnInit(): void {
     this.course = this.db.getCourse(this.cid)
     this.lectures = this.db.getCourseLectures(this.cid);
-    this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner))
-    
+    this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner)) 
+  }
+
+  navigateToLecture(lecture: Lecture){
+    let navigationExtras:NavigationExtras = {
+      queryParams: {
+        lid: lecture.id
+      }
+    }
+    this.router.navigate(['/lecture/'], navigationExtras);
   }
 
 

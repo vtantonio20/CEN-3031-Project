@@ -36,8 +36,8 @@ import { FileFormComponent } from './file-form/file-form.component';
     ViewModule,
     FormsModule,
     SharedModule,
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [
     //services

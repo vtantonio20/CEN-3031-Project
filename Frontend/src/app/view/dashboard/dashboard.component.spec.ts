@@ -1,4 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from 'src/app/shared/auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -6,9 +12,15 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
+  const fakeActivatedRoute = {
+    snapshot: { data: {  } }
+  } as ActivatedRoute;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      imports: [ RouterTestingModule ],
+      declarations: [ DashboardComponent ],
+      providers: [ AuthService, AngularFireAuth, { provide: FIREBASE_OPTIONS, useValue: environment.firebase }, {provide: ActivatedRoute, useValue: fakeActivatedRoute} ]
     })
     .compileComponents();
   });

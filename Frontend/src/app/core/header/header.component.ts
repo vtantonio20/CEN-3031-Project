@@ -1,6 +1,7 @@
 import { AuthService } from './../../shared/auth/auth.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

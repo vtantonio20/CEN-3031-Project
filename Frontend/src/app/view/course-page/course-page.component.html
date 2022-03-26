@@ -30,7 +30,7 @@
                             <app-lecture-card *ngIf="user.role === 'Teacher'" class="p-6 inline-flex"></app-lecture-card>   
                             <div *ngFor="let lecture of lectures" class="p-6 inline-flex">
                                 <div *ngIf="owner | async as owner">
-                                    <app-lecture-card [lecture]="lecture" [owner]="owner.fname + ' ' + owner.lname" ></app-lecture-card>
+                                    <app-lecture-card [lecture]="lecture" [owner]="owner.fname + ' ' + owner.lname" (click)="navigateToLecture(lecture)"></app-lecture-card>
                                 </div>
                             </div>
 

@@ -3,8 +3,8 @@
 <button (click)="hello()">Hello</button>
 
 
-<video id="vid1" width="600" height="300" class="vjs-default-skin" controls autoplay="true">
+<video id="vid1" width="600" height="300" class="vjs-default-skin" controls autoplay="true" *ngIf="src">
   <source
-     src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
-     type="application/x-mpegURL">
+     src="{{ src }}"
+     type="video/mp4">
 </video>

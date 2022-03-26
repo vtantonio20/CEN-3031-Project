@@ -20,7 +20,7 @@ export class FileFormComponent implements OnInit {
   constructor(private http: HttpClient, private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
-    this.storage.ref('manual/master.m3u8').getDownloadURL().subscribe(url => {
+    this.storage.ref('190828_27_SuperTrees_HD_17.mp4').getDownloadURL().subscribe(url => {
       console.log(url);
 
       this.src = url;
