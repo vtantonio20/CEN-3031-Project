@@ -43,8 +43,7 @@ export class AuthService {
   //  })
   //}
 
-  ngOnInit(){
-  }
+  ngOnInit(){}
 
   async login(email:string, password:string){
     return await this.auth.signInWithEmailAndPassword(email, password)
@@ -53,10 +52,6 @@ export class AuthService {
         this.router.navigate(['/dashboard']);
       }
     })
-    /*.catch(error => {
-      //console.log(error);
-      //window.alert('Invalid Email or Password');
-    });*/
   }
 
   async register(email:string, fname:string, lname:string, password:string, role:string){

@@ -18,10 +18,14 @@ export class LectureVidPageComponent implements OnInit {
 
   lecture: Observable<Lecture | undefined>;
 
+  headerTitle:string = 'Lecture';
+
+
   lid: string;
   hideDiv = false;
   videoDescription = "";
   videoTitle = "";
+  
   
   constructor(private activatedRoute: ActivatedRoute, private db: DatabaseService) {
     this.videoDescription = "This is a sample description of what a teacher might type when they add a lecture video to a course... ";

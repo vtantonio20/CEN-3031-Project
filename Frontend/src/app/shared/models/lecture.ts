@@ -1,11 +1,11 @@
 export interface Lecture {
+    id: string
     courseID: string,
     description: string,
+    ownerID:string,
     thumbnailUrl:string,
     title: string,
     uploadDate: Date,
-    uploader: string,
     videoUrl: string,
-    id: string
     //avalibility:boolean (public or private)
 }
