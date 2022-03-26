@@ -23,7 +23,12 @@ export class DatabaseService {
     return await this.db.collection('lectures').add(lecture);
   }
   getCourseLectures(cid:string | undefined){
-    return this.db.collection<Lecture>('lectures', ref => ref.where('courseID', '==', cid)).valueChanges({idField: 'id'});
+    if (cid) {
+      return this.db.collection<Lecture>('lectures', ref => ref.where('courseID', '==', cid)).valueChanges({idField: 'id'});
+    }
+    else {
+      return of(undefined)
+    }
   }
 
   async removeLecture(lid:string | undefined){
@@ -47,7 +52,12 @@ export class DatabaseService {
   }
 
   getUser(uid:string | undefined){
-    return this.db.collection<User>('users').doc(uid).valueChanges();
+    if (uid) {
+      return this.db.collection<User>('users').doc(uid).valueChanges();
+    }
+    else {
+      return of(undefined)
+    }
   }
 
 
@@ -72,7 +82,12 @@ export class DatabaseService {
 
     //returns a single course when given courseID
     getCourse(cid:string){
-      return this.db.collection<Course>('courses').doc(cid).valueChanges({idField: 'id'});
+      if (cid) {
+        return this.db.collection<Course>('courses').doc(cid).valueChanges({idField: 'id'});
+      }
+      else {
+        return of(undefined)
+      }
     }
 
 

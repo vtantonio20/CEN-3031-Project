@@ -1,4 +1,7 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
 import { FileFormComponent } from './file-form.component';
 
@@ -8,7 +11,8 @@ describe('FileFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileFormComponent ]
+      declarations: [ FileFormComponent ],
+      providers: [HttpClient, HttpHandler, { provide: FIREBASE_OPTIONS, useValue: environment.firebase }]
     })
     .compileComponents();
   });

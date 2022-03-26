@@ -15,7 +15,7 @@ import { User } from 'src/app/shared/models/user';
 })
 export class CoursePageComponent implements OnInit {
   course:Observable<Course | undefined>;
-  lectures:Observable<Lecture[]>;
+  lectures:Observable<Lecture[] | undefined>;
   owner:Observable<User | undefined>;
 
   cid:string;

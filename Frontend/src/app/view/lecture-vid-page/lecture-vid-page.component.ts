@@ -29,20 +29,23 @@ export class LectureVidPageComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private db: DatabaseService, public storage: AngularFireStorage) {
     this.videoDescription = "This is a sample description of what a teacher might type when they add a lecture video to a course... ";
     this.videoTitle = "CAP 3100";
-
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.lid=params['lid'];
-    });
+    if (this.activatedRoute.queryParams) {
+      this.activatedRoute.queryParams.subscribe(params => {
+        this.lid=params['lid'];
+      });
+    }
    }
 
   ngOnInit(): void {
     this.hideDiv = false;
     this.lecture = this.db.getLecture(this.lid);
     this.lecture.subscribe(lecture => {
-      this.storage.ref(lecture?.videoUrl!).getDownloadURL().subscribe(url => {
-        this.src = url;
-      })
-    })
+      if (lecture) {
+        this.storage.ref(lecture?.videoUrl!).getDownloadURL().subscribe(url => {
+          this.src = url;
+        });
+      }
+    });
   }
 
    hideLiveChat(){
