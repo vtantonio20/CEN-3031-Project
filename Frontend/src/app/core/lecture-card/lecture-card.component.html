@@ -10,7 +10,7 @@
 <ng-template #standardCard>
     <div class="cursor-pointer w-80 h-80 bg-gradient-to-br from-gray-500 to-white hover:shadow-2xl hover:shadow-gray-200 rounded-xl">
         <div class="h-3/4 w-full flex justify-center items-center py-10">
-            <img  class="w-72 h-40" src="">
+            <img  class="h-40 rounded-xl" src="assets/default-lecture.png">
         </div>
         <div class="h-1/4 rounded-b-lg bg-orange-700 text-white ">
 
@@ -19,7 +19,7 @@
             </p>
             <div class="flex justify-between pl-2 pr-2 font-normal text-md">
                 <p>Uploader: {{owner}}</p>
-                <p>Date: 03/24/22</p>
+                <p>Date: {{ date }}</p>
             </div>
 
             <br>

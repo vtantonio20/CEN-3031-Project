@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Lecture {
     id: string
     courseID: string,
@@ -5,7 +7,7 @@ export interface Lecture {
     ownerID:string,
     thumbnailUrl:string,
     title: string,
-    uploadDate: Date,
+    uploadDate: Timestamp,
     videoUrl: string,
     //avalibility:boolean (public or private)
 }

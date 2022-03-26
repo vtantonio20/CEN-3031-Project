@@ -1,5 +1,6 @@
 import { Lecture } from './../../shared/models/lecture';
 import { Component, Input, OnInit, Type } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-lecture-card',
@@ -12,11 +13,14 @@ export class LectureCardComponent implements OnInit {
   //@Input() title:string;
   //@Input() uploadDate:string;
 
+  date: string;
+
   @Input() owner:string;
   @Input() lecture:Lecture;
   constructor() { }
 
   ngOnInit(): void {
+    this.date = new Date(this.lecture.uploadDate.seconds * 1000).toLocaleDateString('en-us');
   }
 
 }
