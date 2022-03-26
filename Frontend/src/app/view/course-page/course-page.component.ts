@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Course } from 'src/app/shared/models/course';
 import { Lecture } from 'src/app/shared/models/lecture';
 import { User } from 'src/app/shared/models/user';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-course-page',
@@ -62,6 +63,8 @@ export class CoursePageComponent implements OnInit {
   async uploadLecture(){
     this.auth.user$.subscribe(user => {
       if(user?.role === 'Teacher'){
+        let timestamp = new Timestamp(Date.now()/1000, 0);
+
         let lecture:Lecture = {
           id: '',
           courseID: this.cid,
@@ -69,11 +72,11 @@ export class CoursePageComponent implements OnInit {
           ownerID: user.id,
           thumbnailUrl:'',
           title: this.title,
-          uploadDate: new Date(),
+          uploadDate: timestamp,
           videoUrl: ''
         }      
         this.db.createLecture(lecture).then((l) => {
-          this.router.navigate(['/dashboard/']);
+          this.toggleDialog();
         }).catch(()=> {
           this.alert = 'Invalid form entry'
         })

@@ -1,6 +1,7 @@
 import { Lecture } from './../../shared/models/lecture';
 import { Component, Input, OnInit, Type } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-lecture-card',
@@ -20,7 +21,9 @@ export class LectureCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.date = new Date(this.lecture.uploadDate.seconds * 1000).toLocaleDateString('en-us');
+    if (this.lecture) {
+      this.date = new Date(this.lecture.uploadDate.seconds * 1000).toLocaleDateString('en-us');
+    }
   }
 
 }
