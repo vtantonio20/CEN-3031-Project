@@ -12,10 +12,14 @@ jobs:
             - run:
                 name: Install local dependencies
                 command: npm install
+            # Install angular cli globally
+            - run:
+                name: Install Angular CLI
+                command: npm install -g @angular/cli
             # Test the source code
             - run:
                 name: Testing
-                command: node_modules/@angular/cli/bin/ng test --watch false
+                command: ng test --watch false
 workflows:
     test_workflow:
         jobs: 
