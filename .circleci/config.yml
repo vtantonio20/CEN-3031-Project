@@ -1,23 +1,22 @@
 version: 2.1
-
-    jobs:
-        # The test job
-        test:
-            working_directory: ~/Frontend
-            docker:
-                - image: circleci/node:10-browsers
-            steps:
-                # Checkout the code from the branch into the working_directory
-                - checkout
-                # Install project dependencies
-                - run:
-                    name: Install local dependencies
-                    command: npm install
-                # Test the source code
-                - run:
-                    name: Testing
-                    command: ng test --watch false
+jobs:
+    # The test job
+    test:
+        working_directory: ~/Frontend
+        docker:
+            - image: circleci/node:10-browsers
+        steps:
+            # Checkout the code from the branch into the working_directory
+            - checkout
+            # Install project dependencies
+            - run:
+                name: Install local dependencies
+                command: npm install
+            # Test the source code
+            - run:
+                name: Testing
+                command: ng test --watch false
 workflows:
-test_workflow:
-    jobs: 
-        - test
+    test_workflow:
+        jobs: 
+            - test
