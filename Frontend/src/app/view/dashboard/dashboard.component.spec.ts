@@ -3,6 +3,7 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HeaderComponent } from 'src/app/core/header/header.component';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -19,7 +20,7 @@ describe('DashboardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
-      declarations: [ DashboardComponent ],
+      declarations: [ DashboardComponent, HeaderComponent ],
       providers: [ AuthService, AngularFireAuth, { provide: FIREBASE_OPTIONS, useValue: environment.firebase }, {provide: ActivatedRoute, useValue: fakeActivatedRoute} ]
     })
     .compileComponents();
@@ -34,4 +35,9 @@ describe('DashboardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('User is actually logged in', () =>{
+    expect(component.auth.isLoggedIn).toBeTruthy();
+  })
+
 });

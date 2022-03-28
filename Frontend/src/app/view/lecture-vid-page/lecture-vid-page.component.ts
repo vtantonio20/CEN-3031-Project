@@ -31,14 +31,12 @@ export class LectureVidPageComponent implements OnInit {
   course: Observable<Course | undefined>;
   lecture: Observable<Lecture | undefined>;
 
-
   showChat:boolean = true;
   videoDescription = "";
   videoTitle = "";
+  autoplay:boolean=false;
   
-  constructor(public router: Router, private activatedRoute: ActivatedRoute, private db: DatabaseService, public storage: AngularFireStorage) {
-    this.videoDescription = "This is a sample description of what a teacher might type when they add a lecture video to a course... ";
-    this.videoTitle = "CAP 3100";
+  constructor(public router: Router, private activatedRoute: ActivatedRoute, private db: DatabaseService, public storage: AngularFireStorage, public auth:AuthService) {
     if (this.activatedRoute.queryParams) {
       this.activatedRoute.queryParams.subscribe(params => {
         this.cid=params['cid'];
@@ -59,13 +57,27 @@ export class LectureVidPageComponent implements OnInit {
     });
   }
 
-   hideLiveChat(){
+  hideLiveChat(){
     this.showChat = !this.showChat; 
+    if(this.currentTime != undefined){
+      this.autoplay=true;
+    }
+    //also add code to detect if the video is pause and to not autoplay if so
+
+
     // alert("hide chat triggered... ");
   }
 
+  /*
+  pause(event: any){
+    console.log(event)
+    if(event.type == 'pause'){
+      this.autoplay=false;
+    }
+  }*/
   time(event: any) {
     this.currentTime = event.target.currentTime;
+    
   }
   navigateBackToCourse(){
     let navigationExtras:NavigationExtras = {

@@ -34,4 +34,8 @@ describe('LectureVidPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('User is actually logged in', () =>{
+    expect(component.auth.isLoggedIn).toBeTruthy();
+  })
 });

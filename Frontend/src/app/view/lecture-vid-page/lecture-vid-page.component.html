@@ -17,13 +17,13 @@
                     </ul>
                 </div>
             </div>
+
             <!--BODY NO CHAT-->
             <div *ngIf="!showChat">
                 <div class="w-full  border-gray-700 bg-gradient-to-tr from-black flex justify-between">
                     <span></span>
-                    <video  width="80%" height="80%" *ngIf="src" controls (timeupdate)="time($event)" controlslist="nodownload">
-                        <source src="{{ src }}">
-                    </video>
+
+                    <ng-container *ngTemplateOutlet="video"></ng-container>
                     <div class="h-10 pt-2">
                         <button (click)="hideLiveChat()" class="bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-10 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Expand Chat</button>
                     </div>
@@ -37,17 +37,14 @@
                 <h1 *ngIf="course | async as course" class="text-4xl font-bold pt-6 pl-16 pb-8 text-white  ">{{lecture.title}} - {{course.title}}</h1>
                 <div class="flex divide-x-2 divide-gray-200" >
                     <!--Media player-->
-                    <div class="w-3/4 border-gray-700 bg-gradient-to-tr from-black flex justify-center">
-                        <video width="90%" height="90%" *ngIf="src" controls (timeupdate)="time($event)" controlslist="nodownload">
-                            <source src="{{ src }}">
-                        </video>
-                    </div>
+                    <ng-container *ngTemplateOutlet="video"></ng-container>
+
                     <!--Chat Box-->
                     <div class="flex-col w-1/4  border-gray-500 bg-gradient-to-tr from-gray-700 divide-y-2 divide-gray-200 ">
                         <!--Buttons at top-->
                         <ul class="flex justify-between py-3 px-3">
-                            <li><button (click)="hideLiveChat()" class=" bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-10 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Collapse Chat</button></li>
-                            <li><button class=" bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-10 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Chat Settings</button></li>
+                            <li><button (click)="hideLiveChat()" class=" bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-5 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Collapse Chat</button></li>
+                            <li><button class=" bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-5 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Chat Settings</button></li>
                         </ul>
                         <!--Title + Description-->
                         <div class="w-full p-2 text-white">
@@ -80,11 +77,25 @@
                     </div>
                 </div>
             </div>
-            <div></div>
+        <div>
+    </div>
+<div>
 
-        </div>
-    <div>
 
+<ng-template #video >
+    <div *ngIf="autoplay === false" class="w-3/4 border-gray-700 bg-gradient-to-tr from-black flex justify-center">
+        <!--<video width="90%" height="90%" *ngIf="src" controls (pause)="pause($event)" (timeupdate)="time($event)" controlslist="nodownload" >-->
+        <video width="90%" height="90%" *ngIf="src" controls  (timeupdate)="time($event)" controlslist="nodownload" >
+    
+            <source src="{{ src }}#t={{currentTime}}">
+        </video>
+    </div>
+    <div *ngIf="autoplay === true" class="w-3/4 border-gray-700 bg-gradient-to-tr from-black flex justify-center">
+        <video autoplay="autoplay" width="90%" height="90%" *ngIf="src" controls (timeupdate)="time($event)" controlslist="nodownload" >
+            <source src="{{ src }}#t={{currentTime}}">
+        </video>
+    </div>
+</ng-template>
         <!--
 Toggle live chat button
 <button (click)="hideLiveChat()">
