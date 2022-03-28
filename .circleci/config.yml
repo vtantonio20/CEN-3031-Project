@@ -34,8 +34,4 @@ version: 2.1
     workflows:
         test_workflow:
             jobs:
-                - test:
-                    filters:
-                        branches:
-                            only:
-                                - main
+                - test
