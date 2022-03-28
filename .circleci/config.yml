@@ -4,7 +4,7 @@ jobs:
     test:
         working_directory: ~/InterVids/Frontend
         docker:
-            - image: circleci/node:10-browsers
+            - image: circleci/node:16-browsers
         steps:
             # Checkout the code from the branch into the working_directory
             - checkout:
