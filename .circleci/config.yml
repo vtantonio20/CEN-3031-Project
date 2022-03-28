@@ -15,7 +15,7 @@ jobs:
             # Test the source code
             - run:
                 name: Testing
-                command: ng test --watch false
+                command: node_modules/@angular/cli/bin/ng test --watch false
 workflows:
     test_workflow:
         jobs: 
