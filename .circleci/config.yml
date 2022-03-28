@@ -8,7 +8,7 @@ jobs:
         steps:
             # Checkout the code from the branch into the working_directory
             - checkout
-                # path: ~/InterVids/Frontend
+                path: ~/InterVids
             # Install project dependencies
             #- run:
              #   name: Switch to Frontend
