@@ -11,8 +11,8 @@ jobs:
                 # path: ~/InterVids/Frontend
             # Install project dependencies
             - run:
-                name: List Files
-                command: ls
+                name: Switch to Frontend
+                command: cd ./Frontend
             - run:
                 name: Install local dependencies
                 command: npm install
