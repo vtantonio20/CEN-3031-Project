@@ -29,4 +29,8 @@ describe('CoursePageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Only logged in users can access the course page', () =>{
+    expect(component.auth.isLoggedIn).toBeTruthy();
+  })
 });

@@ -1,7 +1,6 @@
-<div class="min-h-screen bg-orange-700 bg-gradient-to-tr from-indigo-500 ">
-    <div class="">
-        <app-header [title]="courseTitle" ></app-header>
-
+<div class="flex flex-col h-screen overflow-hidden min-h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500 ">
+  <app-header [title]="courseTitle" ></app-header>
+  <div class="flex-1 overflow-y-scroll">
         <div *ngIf="course | async as thisCourse">
             <div  class="divide-y-2 divide-gray-200">
                 <!--Breadcrumbs-->
@@ -20,7 +19,7 @@
                 <div class=" pt-6 pl-16 pb-8 flex justify-between">
                     <h1 class="text-4xl font-bold text-white ">{{thisCourse.title}}</h1>
                     <div *ngIf="owner | async as owner">
-                        <h3 class="text-xl font-medium text-white  pr-3"> {{owner.fname}} {{owner.lname}}</h3>
+                        <h3 class="text-xl font-medium text-white  pr-3"> Course Owner: Ms. {{owner.fname}} {{owner.lname}}</h3>
                     </div>
                 </div>
                 <!--body-->
@@ -106,17 +105,16 @@
                         placeholder="Description"
                       ></textarea>  
                     </li>
-                    <div class="flex justify-center">
-                      <div class="">
-                        <li class="py-2"><label for="imageURL" class="font-medium" >Upload lecture video</label></li>
-                        <li class=""><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
-
-                      </div>
-                      <div class="">
-                        <li class="py-2 "><label for="imageURL" class="font-medium" >Upload thumbnail</label></li>
-                        <li class=""><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
-                      </div>
-                    </div>
+                    <li class="flex justify-center items-center ">
+                        <div class="w-3/4">
+                          <div class="text-center">
+                            <li class="py-2"><label for="imageURL" class="font-medium" >Upload lecture video</label></li>
+                            <li><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
+                            <li class="py-2 "><label for="imageURL" class="font-medium" >Upload thumbnail</label></li>
+                            <li><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
+                          </div>
+                        </div>
+                    </li>
 
 
                 </ul>

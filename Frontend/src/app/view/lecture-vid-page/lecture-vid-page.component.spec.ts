@@ -34,4 +34,8 @@ describe('LectureVidPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Only logged in users can access the lecture vid page', () =>{
+    expect(component.auth.isLoggedIn).toBeTruthy();
+  })
 });
