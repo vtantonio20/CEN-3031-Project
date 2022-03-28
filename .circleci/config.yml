@@ -17,7 +17,7 @@ version: 2.1
                 - run:
                     name: Testing
                     command: ng test --watch false
-    workflows:
-        test_workflow:
-            jobs:
-                - test
+workflows:
+test_workflow:
+    jobs: 
+        - test
