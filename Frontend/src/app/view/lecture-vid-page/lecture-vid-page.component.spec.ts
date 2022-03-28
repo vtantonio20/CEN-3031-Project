@@ -35,7 +35,7 @@ describe('LectureVidPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('User is actually logged in', () =>{
+  it('Only logged in users can access the lecture vid page', () =>{
     expect(component.auth.isLoggedIn).toBeTruthy();
   })
 });

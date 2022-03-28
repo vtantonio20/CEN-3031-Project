@@ -30,7 +30,7 @@ describe('CoursePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('User is actually logged in', () =>{
+  it('Only logged in users can access the course page', () =>{
     expect(component.auth.isLoggedIn).toBeTruthy();
   })
 });

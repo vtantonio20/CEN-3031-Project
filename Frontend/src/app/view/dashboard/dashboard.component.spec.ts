@@ -36,7 +36,7 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('User is actually logged in', () =>{
+  it('Only logged in users can access the dashboard', () =>{
     expect(component.auth.isLoggedIn).toBeTruthy();
   })
 

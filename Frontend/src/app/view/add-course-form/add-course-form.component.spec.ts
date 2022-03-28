@@ -30,16 +30,18 @@ describe('AddCourseFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('User is actually logged in', () =>{
+  it('Only logged in users can access the create a course page', () =>{
     expect(component.auth.isLoggedIn).toBeTruthy();
   })
 
+
+  /*
   
   it('Only Teachers can acess the AddCourseFormComponent'), () =>{
     component.auth.user$.subscribe((teacher) => {
       expect(teacher?.role==='Teacher').toBeTruthy();
     })
   }
-
+*/
   
 });
