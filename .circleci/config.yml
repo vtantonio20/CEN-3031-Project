@@ -12,10 +12,6 @@ jobs:
             - run:
                 name: Install local dependencies
                 command: npm install
-            # Install angular cli globally
-            - run:
-                name: Install Angular CLI
-                command: npm install -g @angular/cli
             # Test the source code
             - run:
                 name: Testing
