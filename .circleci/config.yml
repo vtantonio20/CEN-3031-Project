@@ -19,7 +19,7 @@ jobs:
             # Test the source code
             - run:
                 name: Testing
-                command: ng test --watch false
+                command: npm test
 workflows:
     test_workflow:
         jobs: 
