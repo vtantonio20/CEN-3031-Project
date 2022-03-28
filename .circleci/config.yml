@@ -2,7 +2,7 @@ version: 2.1
 jobs:
     # The test job
     test:
-        # working_directory: ~/InterVids/Frontend
+        working_directory: ~/InterVids/Frontend
         docker:
             - image: circleci/node:10-browsers
         steps:
@@ -10,9 +10,9 @@ jobs:
             - checkout
                 # path: ~/InterVids/Frontend
             # Install project dependencies
-            - run:
-                name: Switch to Frontend
-                command: cd ./Frontend
+            #- run:
+             #   name: Switch to Frontend
+              #  command: cd ./Frontend
             - run:
                 name: List Files
                 command: ls
