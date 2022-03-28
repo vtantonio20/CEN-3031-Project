@@ -2,14 +2,17 @@ version: 2.1
 jobs:
     # The test job
     test:
-        working_directory: ~/InterVids/Frontend
+        # working_directory: ~/InterVids/Frontend
         docker:
             - image: circleci/node:10-browsers
         steps:
             # Checkout the code from the branch into the working_directory
-            - checkout:
-                path: ~/InterVids/Frontend
+            - checkout
+                # path: ~/InterVids/Frontend
             # Install project dependencies
+            - run:
+                name: List Files
+                command: ls
             - run:
                 name: Install local dependencies
                 command: npm install
