@@ -74,7 +74,7 @@ export class CoursePageComponent implements OnInit {
           thumbnailUrl:'',
           title: this.title,
           uploadDate: timestamp,
-          videoUrl: ''
+          videoUrl: 'pLectUUbxnzHReQh1A6p/181015_13_Venice Beach Drone_25.mp4'
         }      
         this.db.createLecture(lecture).then((l) => {
           this.toggleDialog();
