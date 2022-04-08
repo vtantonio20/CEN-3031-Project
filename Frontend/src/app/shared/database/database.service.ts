@@ -133,25 +133,29 @@ export class DatabaseService {
   ///////////// CRUD for Lectures /////////////
   /////////////////////////////////////////////
 
-  async createLecture(lecture:Lecture, cid: string, thumbnail: File, video: File){
-    return await this.db.collection('lectures').add(lecture)
-    .then(lecture => {
-      let thumb;
-      if (!thumbnail) {
-        thumb = 'DEFAULTIMAGE'
-      }
-      else {
-        thumb = cid + '/' + lecture.id + '_thumb';
-        this.storage.upload(thumb, thumbnail);
-      }
+  createLecture(lecture:Lecture, cid: string, thumbnail: File, video: File){
+    return new Promise( async (resolve, reject) => {
+      await this.db.collection('lectures').add(lecture)
+      .then(lecture => {
+        let thumb;
+        if (!thumbnail) {
+          thumb = 'DEFAULTIMAGE'
+        }
+        else {
+          thumb = cid + '/' + lecture.id + '_thumb';
+          this.storage.upload(thumb, thumbnail);
+        }
 
-      let vid = cid + '/' + lecture.id;
-      lecture.update({
-        id: lecture.id, 
-        thumbnailUrl: thumb,
-        videoUrl: vid
-      });
-      this.storage.upload(vid, video);
+        let vid = cid + '/' + lecture.id;
+        lecture.update({
+          id: lecture.id, 
+          thumbnailUrl: thumb,
+          videoUrl: vid
+        });
+        this.storage.upload(vid, video);
+        resolve(true);
+      })
+      .catch(() => {reject()});
     });
   }
 

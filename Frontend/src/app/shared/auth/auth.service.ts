@@ -9,9 +9,6 @@ import { Observable, of, switchMap, take} from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  //authenticated:boolean;
-  //data:any;
-  //currentUser:User;
   user$: Observable<User | null | undefined>;
 
   constructor(
@@ -31,18 +28,6 @@ export class AuthService {
     );
   }
 
-  //intialize(){
-  //  this.auth.onAuthStateChanged(user => {
-  //    if(user){
-  //      this.authenticated= true;
-  //      onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
-  //        this.data = snapshot.val();
-  //        this.currentUser = Object.setPrototypeOf(this.data, User);
-  //      },{onlyOnce:true})
-  //    }
-  //  })
-  //}
-
   ngOnInit(){}
 
   async login(email:string, password:string) {
@@ -60,14 +45,9 @@ export class AuthService {
       //const newUser: User | null | undefined = new User(user.user?.uid!, user.user?.email!, fname, lname, role);
       await this.db.collection('users').doc(user.user?.uid).set({email:email, fname:fname, lname:lname, role:role})
       .then(async resp => {
-        //window.alert('Registered successfully');
-        //await this.auth.signOut();
         this.router.navigate(['/dashboard']);
       })
     })
-    /*.catch(error => {
-      console.log(error);
-    });*/
   }
 
   async deleteAccount() {
@@ -90,7 +70,4 @@ export class AuthService {
     })
     return userPromise;
   }
-
-
-
 }

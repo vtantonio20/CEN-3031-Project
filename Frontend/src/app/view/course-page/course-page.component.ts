@@ -7,6 +7,7 @@ import { Course } from 'src/app/shared/models/course';
 import { Lecture } from 'src/app/shared/models/lecture';
 import { User } from 'src/app/shared/models/user';
 import { Timestamp } from 'firebase/firestore';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-course-page',
@@ -47,7 +48,8 @@ export class CoursePageComponent implements OnInit {
 
 
   toggleDialog(){
-    this.showDialog = !this.showDialog; 
+    this.showDialog = !this.showDialog;
+    this.alert = '';
   }
 
   videoSelected(event: any) {
@@ -75,7 +77,7 @@ export class CoursePageComponent implements OnInit {
       return;
     }
 
-    this.auth.user$.subscribe( async user => {
+    this.auth.user$.pipe(take(1)).subscribe( async user => {
       if(user?.role === 'Teacher') {
         let timestamp = new Timestamp(Date.now()/1000, 0);
         let lecture:Lecture = {
@@ -90,11 +92,14 @@ export class CoursePageComponent implements OnInit {
         }  
 
         await this.db.createLecture(lecture, this.cid, this.thumbnailFile, this.videoFile)
+        .then(() => {
+          this.alert = '';
+          this.toggleDialog();
+        })
         .catch(() => {
           this.alert = 'Invalid form entry';
-          this.toggleDialog();
+          // this.toggleDialog();
         });
-        this.toggleDialog();
       }
     });
   }
