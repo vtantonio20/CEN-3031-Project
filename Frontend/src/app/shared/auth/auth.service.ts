@@ -45,7 +45,7 @@ export class AuthService {
 
   ngOnInit(){}
 
-  async login(email:string, password:string){
+  async login(email:string, password:string) {
     return await this.auth.signInWithEmailAndPassword(email, password)
     .then(user => {
       if (user) {
@@ -54,7 +54,7 @@ export class AuthService {
     })
   }
 
-  async register(email:string, fname:string, lname:string, password:string, role:string){
+  async register(email:string, fname:string, lname:string, password:string, role:string) {
     return await this.auth.createUserWithEmailAndPassword(email, password)
     .then(async user => {
       //const newUser: User | null | undefined = new User(user.user?.uid!, user.user?.email!, fname, lname, role);
@@ -69,7 +69,15 @@ export class AuthService {
       console.log(error);
     });*/
   }
-  async logout(){
+
+  async deleteAccount() {
+    (await this.auth.currentUser)?.delete()
+    .then(() => {
+      this.router.navigate(['/home']);
+    });
+  }
+
+  async logout() {
     await this.auth.signOut();
     this.router.navigate(['/home']);
   }
