@@ -98,7 +98,6 @@ export class CoursePageComponent implements OnInit {
         })
         .catch(() => {
           this.alert = 'Invalid form entry';
-          // this.toggleDialog();
         });
       }
     });
