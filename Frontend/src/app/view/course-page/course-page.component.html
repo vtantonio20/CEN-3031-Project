@@ -109,9 +109,9 @@
                         <div class="w-3/4">
                           <div class="text-center">
                             <li class="py-2"><label for="imageURL" class="font-medium" >Upload lecture video</label></li>
-                            <li><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
-                            <li class="py-2 "><label for="imageURL" class="font-medium" >Upload thumbnail</label></li>
-                            <li><input type = "file" accept="image/png, image/gif, image/jpeg"  ></li>
+                            <li><input type = "file" accept="video/*" (change)="videoSelected($event)"></li>
+                            <li class="py-2 "><label for="imageURL" class="font-medium">Upload thumbnail</label></li>
+                            <li><input type = "file" accept="image/*" (change)="imageSelected($event)"></li>
                           </div>
                         </div>
                     </li>

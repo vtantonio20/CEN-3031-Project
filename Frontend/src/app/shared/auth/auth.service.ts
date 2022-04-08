@@ -9,9 +9,6 @@ import { Observable, of, switchMap, take} from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  //authenticated:boolean;
-  //data:any;
-  //currentUser:User;
   user$: Observable<User | null | undefined>;
 
   constructor(
@@ -31,21 +28,9 @@ export class AuthService {
     );
   }
 
-  //intialize(){
-  //  this.auth.onAuthStateChanged(user => {
-  //    if(user){
-  //      this.authenticated= true;
-  //      onValue(ref(this.db.database, 'users/' + user.uid), (snapshot) => {
-  //        this.data = snapshot.val();
-  //        this.currentUser = Object.setPrototypeOf(this.data, User);
-  //      },{onlyOnce:true})
-  //    }
-  //  })
-  //}
-
   ngOnInit(){}
 
-  async login(email:string, password:string){
+  async login(email:string, password:string) {
     return await this.auth.signInWithEmailAndPassword(email, password)
     .then(user => {
       if (user) {
@@ -54,22 +39,25 @@ export class AuthService {
     })
   }
 
-  async register(email:string, fname:string, lname:string, password:string, role:string){
+  async register(email:string, fname:string, lname:string, password:string, role:string) {
     return await this.auth.createUserWithEmailAndPassword(email, password)
     .then(async user => {
       //const newUser: User | null | undefined = new User(user.user?.uid!, user.user?.email!, fname, lname, role);
       await this.db.collection('users').doc(user.user?.uid).set({email:email, fname:fname, lname:lname, role:role})
       .then(async resp => {
-        //window.alert('Registered successfully');
-        //await this.auth.signOut();
         this.router.navigate(['/dashboard']);
       })
     })
-    /*.catch(error => {
-      console.log(error);
-    });*/
   }
-  async logout(){
+
+  async deleteAccount() {
+    (await this.auth.currentUser)?.delete()
+    .then(() => {
+      this.router.navigate(['/home']);
+    });
+  }
+
+  async logout() {
     await this.auth.signOut();
     this.router.navigate(['/home']);
   }
@@ -82,7 +70,4 @@ export class AuthService {
     })
     return userPromise;
   }
-
-
-
 }

@@ -7,6 +7,7 @@ import { Course } from 'src/app/shared/models/course';
 import { Lecture } from 'src/app/shared/models/lecture';
 import { User } from 'src/app/shared/models/user';
 import { Timestamp } from 'firebase/firestore';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-course-page',
@@ -47,7 +48,16 @@ export class CoursePageComponent implements OnInit {
 
 
   toggleDialog(){
-    this.showDialog = !this.showDialog; 
+    this.showDialog = !this.showDialog;
+    this.alert = '';
+  }
+
+  videoSelected(event: any) {
+    this.videoFile = event.target.files[0];
+  }
+
+  imageSelected(event: any) {
+    this.thumbnailFile = event.target.files[0];
   }
 
   
@@ -61,11 +71,15 @@ export class CoursePageComponent implements OnInit {
     this.router.navigate(['/lecture/'], navigationExtras);
   }
 
-  async uploadLecture(){
-    this.auth.user$.subscribe(user => {
-      if(user?.role === 'Teacher'){
-        let timestamp = new Timestamp(Date.now()/1000, 0);
+  uploadLecture(){
+    if (!this.videoFile) {
+      this.alert = 'Invalid form entry';
+      return;
+    }
 
+    this.auth.user$.pipe(take(1)).subscribe( async user => {
+      if(user?.role === 'Teacher') {
+        let timestamp = new Timestamp(Date.now()/1000, 0);
         let lecture:Lecture = {
           id: '',
           courseID: this.cid,
@@ -74,14 +88,18 @@ export class CoursePageComponent implements OnInit {
           thumbnailUrl:'',
           title: this.title,
           uploadDate: timestamp,
-          videoUrl: 'pLectUUbxnzHReQh1A6p/181015_13_Venice Beach Drone_25.mp4'
-        }      
-        this.db.createLecture(lecture).then((l) => {
+          videoUrl: ''
+        }  
+
+        await this.db.createLecture(lecture, this.cid, this.thumbnailFile, this.videoFile)
+        .then(() => {
+          this.alert = '';
           this.toggleDialog();
-        }).catch(()=> {
-          this.alert = 'Invalid form entry'
         })
+        .catch(() => {
+          this.alert = 'Invalid form entry';
+        });
       }
-    })
+    });
   }
 }

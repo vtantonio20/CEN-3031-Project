@@ -35,7 +35,6 @@ export class FileFormComponent implements OnInit {
   fileSelected(event: any) {
     this.file = event.target.files[0];
     console.log('file selected');
-
   }
 
   uploadData() {
