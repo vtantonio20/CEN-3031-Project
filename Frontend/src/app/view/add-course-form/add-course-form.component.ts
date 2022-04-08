@@ -13,11 +13,17 @@ export class AddCourseFormComponent implements OnInit {
 
   courseName: string;
   imageURL: string;
-  headerTitle:string='Create a course'
+  navElements:string[]= ['Dashboard', 'Create a Course'];
   alert:string;
   constructor(public auth:AuthService, public db:DatabaseService, private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  navigation(linkTo:string){
+    if(linkTo === 'Dashboard') return this.router.navigate(['/dashboard']);
+    if(linkTo === 'Create a Course') return location.reload;
+    return;
   }
 
   addCourse() {

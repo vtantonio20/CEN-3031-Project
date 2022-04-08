@@ -1,50 +1,22 @@
-<div class="flex flex-col h-screen overflow-hidden min-h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500 ">
-  <app-header [title]="courseTitle" ></app-header>
-  <div class="flex-1 overflow-y-scroll">
-        <div *ngIf="course | async as thisCourse">
-            <div  class="divide-y-2 divide-gray-200">
-                <!--Breadcrumbs-->
-                <div class="grid place-items-end pr-3">
-                    <div class="px py-1 rounded-lg">
-                        <ul class="flex space-x-4">
-                            <li routerLink="/home" class="cursor-pointer text-blue-500 ">Home</li>
-                            <p class="text-white">>></p>
-                            <li routerLink="/dashboard" class="cursor-pointer text-blue-500 ">Dashboard</li>
-                            <p class="text-white">>></p>
-                            <li class="text-blue-500 ">Course</li>
-                        </ul>
-                    </div>
-                </div>
-                <!--header-->
-                <div class=" pt-6 pl-16 pb-8 flex justify-between">
-                    <h1 class="text-4xl font-bold text-white ">{{thisCourse.title}}</h1>
-                    <div *ngIf="owner | async as owner">
-                        <h3 class="text-xl font-medium text-white  pr-3"> Course Owner: Ms. {{owner.fname}} {{owner.lname}}</h3>
-                    </div>
-                </div>
-                <!--body-->
-                <div class="flex pl-10">
-                    <div *ngIf="auth.user$ | async as user" class="flex"> 
-                        <div *ngIf="lectures | async as lectures">  
-                            <app-lecture-card *ngIf="user.role === 'Teacher'" class="p-6 inline-flex" (click)="toggleDialog()"></app-lecture-card>   
-                            <div *ngFor="let lecture of sortedLectures" class="p-6 inline-flex">
-                                <div *ngIf="owner | async as owner">
-                                    <app-lecture-card [lecture]="lecture" [owner]="owner.fname + ' ' + owner.lname" (click)="navigateToLecture(lecture)"></app-lecture-card>
-                                </div>
-                            </div>
-
-                            <div *ngIf="lectures.length === 0">
-                                <h1 *ngIf="user.role === 'Student'" class="text-white text-lg pt-2">
-                                    The owner of this course has not yet published any videos.<br>
-                                </h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="viewBackground">
+  <app-header class="sticky top-0 z-50" (clickEvent)="navigation($event)" [navigation]="navElements" ></app-header>
+  <div class="sticky top-0 z-40" *ngIf="auth.user$ | async as user">
+      <div class="divide-y-2 divide-gray-200" >
+          <!--header-->
+          <div class="viewHeading" *ngIf="course | async as course">
+              <h1>{{course.title}}</h1>
+              <h1 class="text-xl md:flex hidden" *ngIf="owner | async as owner">Course Owner: Ms. {{owner.fname}} {{owner.lname}}</h1>
+          </div>
+          <!--body-->
+          <div *ngIf="owner | async as owner"  > 
+            <div *ngIf="lectures | async as lectures" class="px-10">
+              <app-lecture-card class="p-6 md:inline-flex flex justify-center" *ngIf="user.role === 'Teacher'" (click)="toggleDialog()"></app-lecture-card>   
+              <app-lecture-card class="p-6 md:inline-flex flex justify-center" *ngFor="let lecture of sortedLectures" [lecture]="lecture" [owner]="owner.fname + ' ' + owner.lname" (click)="navigateToLecture(lecture)"></app-lecture-card>
+              <div class="text-white text-lg p-5" *ngIf="lectures.length === 0 and user.role === 'Student'">The owner of this course has not yet published any videos.<br></div>  
             </div>
-        </div>
-        <ng-container *ngTemplateOutlet="uploadVideoDialogBox"></ng-container>
-
+          </div>
+      </div>
+      <ng-container *ngTemplateOutlet="uploadVideoDialogBox"></ng-container>
     </div>
 </div>
 
@@ -126,7 +98,7 @@
             <button (click)="toggleDialog()" class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" >
               Close
             </button>
-            <button (click)="uploadLecture()" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+            <button (click)="uploadLecture()" class="button" type="button">
               Upload
             </button>
           </div>

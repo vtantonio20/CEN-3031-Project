@@ -1,5 +1,5 @@
 import { AuthService } from './../../shared/auth/auth.service';
-import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,11 +12,12 @@ export class HeaderComponent implements OnInit {
 
   onProfile:boolean = false;
   //user:User;
-  @Input() title:String;
+  @Input() navigation:string[];
+  @Output() clickEvent = new EventEmitter<string>();
+
   constructor(public auth: AuthService, private router: Router) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   toggleProfileCard():void{
     this.onProfile = !this.onProfile;
@@ -26,4 +27,12 @@ export class HeaderComponent implements OnInit {
     this.auth.logout();
   }
 
+  clickedNav(value: string) {
+    this.clickEvent.emit(value);
+  }
+  mobileBack(){
+    if(this.navigation[this.navigation.length-1] === 'Lecture') return this.clickEvent.emit('Course Page')
+    if(this.navigation[this.navigation.length-1] === 'Course Page') return this.clickEvent.emit('Dashboard')
+    return this.clickEvent.emit('Dashboard')
+  }
 }

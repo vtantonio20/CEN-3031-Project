@@ -1,145 +1,64 @@
 
-<div class = "flex flex-col h-screen overflow-hidden min-h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500" *ngIf="lecture | async as lecture">
-    <app-header [title]="headerTitle" > </app-header>
-    <div class=" flex-1 overflow-y-scroll">
-        <div class="divide-y-2 divide-gray-200">
-            <!--Breadcrumbs-->
-            <div class="grid place-items-end pr-3">
-                <div class="px py-1 rounded-lg">
-                    <ul class="flex space-x-4">
-                        <li routerLink="/home" class="cursor-pointer text-blue-500 ">Home</li>
-                        <p class="text-white">>></p>
-                        <li routerLink="/dashboard" class="cursor-pointer text-blue-500 ">Dashboard</li>
-                        <p class="text-white">>></p>
-                        <li (click)="navigateBackToCourse()" class="cursor-pointer text-blue-500 ">Course</li>
-                        <p class="text-white">>></p>
-                        <li class="text-blue-500 ">Lecture</li>
-                    </ul>
+<div class = "viewBackground " *ngIf="lecture | async as lecture">
+    <app-header class="sticky top-0 z-50" (clickEvent)="navigation($event)" [navigation]="navElements" ></app-header>
+    <div class="sticky top-0 z-40">
+        <div class="h-[94vh] flex flex-col divide-y-2 divide-gray-300 ">
+            <!--header-->
+            <div class="viewHeading" *ngIf="course | async as course">
+                <h1>{{lecture.title}} - {{course.title}}</h1>
+                <h1 class="text-xl md:flex hidden" *ngIf="owner | async as owner">Course Owner: Ms. {{owner.fname}} {{owner.lname}}</h1>
+            </div>
+
+            <style>
+                .video-and-chat-container{
+                    overflow: hidden;
+                    display: flex;
+                }
+                .video-container {
+                    overflow: hidden;
+                    display: flex;
+                    justify-content: space-evenly;
+                }
+                .video {
+                    height: 100%;
+                    width: 177.77777778vh; /* 100 * 16 / 9 */
+                    min-width: 100%;
+                    min-height: 56.25vw; /* 100 * 9 / 16 */
+                }
+            </style>
+            <div class="video-and-chat-container divide-x-2 divide-gray-300">
+                <div class="video-container w-full ">
+                    <video *ngIf="src" (timeupdate)="time($event)" controls controlslist="nodownload">
+                        <source src="{{ src }}">
+                    </video>
+                </div>
+                <!--Chat within video container-->
+                <div *ngIf="showChat" class="hidden md:flex flex-col w-1/2 bg-gradient-to-tr from-gray-700 divide-y-2 divide-gray-300">
+                    <p class="py-2 w-full flex justify-center text-2xl text-white italic">Chat Box</p>
+                    <textarea class=" w-full min-h-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding transition ease-in-out" name="description" id="description" type="text"  placeholder="Type to Chat"></textarea> 
                 </div>
             </div>
 
-            <!--BODY NO CHAT-->
-            <div *ngIf="!showChat">
-                <div class="w-full  border-gray-700 bg-gradient-to-tr from-black flex justify-between">
-                    <span></span>
-
-                    <ng-container *ngTemplateOutlet="video"></ng-container>
-                    <div class="h-10 pt-2">
-                        <button (click)="hideLiveChat()" class="bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-10 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Expand Chat</button>
-                    </div>
-                    <span></span>
-
-                </div>
-            </div>
-            <!--BODY W/ CHAT-->
-            <div *ngIf="showChat" class="divide-y-2 divide-gray-200">
-                <!--Header-->
-                <h1 *ngIf="course | async as course" class="text-4xl font-bold pt-6 pl-16 pb-8 text-white  ">{{lecture.title}} - {{course.title}}</h1>
-                <div class="flex divide-x-2 divide-gray-200" >
-                    <!--Media player-->
-                    <ng-container *ngTemplateOutlet="video"></ng-container>
-
-                    <!--Chat Box-->
-                    <div class="flex-col w-1/4  border-gray-500 bg-gradient-to-tr from-gray-700 divide-y-2 divide-gray-200 ">
-                        <!--Buttons at top-->
-                        <ul class="flex justify-between py-3 px-3">
-                            <li><button (click)="hideLiveChat()" class=" bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-5 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Collapse Chat</button></li>
-                            <li><button class=" bg-orange-700 text-white active:bg-orange-600 font-bold text-lg px-5 py-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">Chat Settings</button></li>
-                        </ul>
-                        <!--Title + Description-->
-                        <div class="w-full p-2 text-white">
-                            <h1 class="text-3xl font-semibold ">Description</h1>
-                            <p class="text-sm font-normal py-2">{{lecture.description}}</p>
+            <!--Description outside of video container-->
+            <div  class="hidden xs:flex justify-between items-center w-full pb-2">
+                <div class="w-full sm:mx-16 mx-8 ">
+                    <div class="divide-y-[1px] divide-gray-300">
+                        <div class="flex items-center justify-between">
+                            <h1 class="text-xl text-white font-semibold">Description</h1> 
+                            <button *ngIf="showChat" (click)="toggleChat()" class="chatButton" type="button">Hide Chat</button>
+                            <button *ngIf="!showChat" (click)="toggleChat()" class="chatButton" type="button">Expand Chat</button>
                         </div>
-
-                        <!--Individual Chats-->
-                        <div class="flex items-center p-2">
-                            <ul class="text-white text-lg">
-                                <!--*ngFor for all chats-->
-                                <li>Test chat 1</li>
-                                <li>Test chat 2</li>
-                                <li>Test chat 3</li>
+                        <div class="text-white font-normal">
+                            <p class="text-lg">{{lecture.description}}</p>
+                            
+                            <ul class="flex justify-between italic text-sm">
+                                <p *ngIf="owner | async as owner">Uploaded by: {{owner.fname}} {{owner.lname}}</p>
+                                <p>Uploaded on: {{date}}</p>
                             </ul>
                         </div>
-
-                        <!--Type to Chat-->
-                        <div class="flex items-end">
-                            <textarea 
-                            class=" w-full min-h-full px-3 py-1.5
-                                    text-base font-normal
-                                    text-gray-700 bg-white bg-clip-padding
-                                    transition ease-in-out"
-                            name="description" id="description" type="text" 
-                            placeholder="Type to Chat"
-                        ></textarea> 
-                        </div>
-                        
                     </div>
                 </div>
             </div>
-        <div>
-    </div>
+        </div>
+    <div>
 <div>
-
-
-<ng-template #video >
-    <div *ngIf="autoplay === false" class="w-3/4 border-gray-700 bg-gradient-to-tr from-black flex justify-center">
-        <!--<video width="90%" height="90%" *ngIf="src" controls (pause)="pause($event)" (timeupdate)="time($event)" controlslist="nodownload" >-->
-        <video width="90%" height="90%" *ngIf="src" controls  (timeupdate)="time($event)" controlslist="nodownload" >
-    
-            <source src="{{ src }}#t={{currentTime}}">
-        </video>
-    </div>
-    <div *ngIf="autoplay === true" class="w-3/4 border-gray-700 bg-gradient-to-tr from-black flex justify-center">
-        <video autoplay="autoplay" width="90%" height="90%" *ngIf="src" controls (timeupdate)="time($event)" controlslist="nodownload" >
-            <source src="{{ src }}#t={{currentTime}}">
-        </video>
-    </div>
-</ng-template>
-        <!--
-Toggle live chat button
-<button (click)="hideLiveChat()">
-    <div class="relative left-56 top-16 h-15 w-40 ">
-        <div *ngIf = "!hideDiv">
-            <p>Hide Live Chat</p>
-        </div>
-    </div>
-
-    <div class="absolute left-1/4 top-28 h-15 w-40 bg-orange-700 text-center text-white font-small text-xl">
-        <div *ngIf = "hideDiv">
-            <p>Show Live Chat</p>
-        </div>
-    </div> 
-</button>
-End of Toggle live chat button code
-<div class="absolute left-3/4 top-28 h-15 w-40 bg-orange-700 text-center text-white font-small text-xl">
-        <p *ngIf = "!hideDiv"> Live Chat</p>
-</div> 
-
-
-<div class="pt-16 flex-row justify-center items-center">
-     media player div 
-    <div class="scroll-pt-10 h-2/5 w-1/2 border-2 p-40 border-orange-700 bg-gradient-to-tr from-black">
-        <video width="100%" height="100%" *ngIf="src" controls (timeupdate)="time($event)" controlslist="nodownload">
-            <source src="{{ src }}">
-        </video>
-        <p>{{ currentTime }}</p>
-    </div>
-     live chat div 
-    <div class="  h-72 w-6 border-2 p-40 border-orange-700 bg-gradient-to-tr from-white" *ngIf = "!hideDiv" >
-        
-    </div>
-
-</div>
-
-Video Description Box
-<div class="absolute left-96 top-90 w-96 h-24 border-4 border-orange-700 bg-gradient-to-tr from-indigo-100
-text-white">
-    <p>{{videoTitle}}</p>
-    <p>{{videoDescription}}</p>
-
-</div>
-
-</div>
-
--->
