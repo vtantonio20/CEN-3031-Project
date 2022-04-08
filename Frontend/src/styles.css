@@ -1,5 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Oswald:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oswald:wght@200;300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+
+
+
+    .viewBackground{
+        @apply flex flex-col min-h-screen bg-orange-800 bg-gradient-to-tr from-indigo-500 
+    }
+    
+
+    .viewHeading{
+        @apply text-4xl font-semibold text-white my-8  md:mx-16 mx-0 flex md:justify-between items-center justify-center
+    }
+
+    .animateUp{
+        @apply -translate-y-1 shadow-2xl transition-all
+    }
+
+    .button{
+        @apply bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150
+    }
+    .chatButton{
+        @apply text-xl text-white italic font-semibold h-12 hover:animateUp hover:shadow-none px-2
+    }
+
+    .header{
+        @apply  px-3 h-[6vh] flex justify-between items-center;
+    }
+    .headerElement{
+        @apply  cursor-pointer h-[6vh]
+                inline-flex items-center
+                hover:shadow-lg hover:bg-orange-800 active:shadow-lg active:bg-orange-800   transition-all  
+                text-white text-xl font-medium
+    }
+    .headerDivider{
+        @apply  inline-flex justify-start items-center px-2 pb-1 h-6   
+    }
+
+    .headerDropdownCardDesktop{
+        @apply absolute top-[6vh] right-3 z-10 shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none rounded-b-xl
+    }
+
+    .headerDropdownCardMobile{
+        @apply  absolute top-[6vh] left-[5%] w-[90vw] z-10 bg-white rounded-b-xl divide-y-2
+    }
+
+    .headerDropdownText{
+        @apply text-black block px-4 py-2 text-sm hover:bg-gray-100 rounded-b-xl
+    }
+}

@@ -13,6 +13,7 @@ import { Course } from 'src/app/shared/models/course';
 export class DashboardComponent implements OnInit {
 
   headerTitle:string='Dashboard';
+  navElements:string[]= ['Dashboard']
 
   courseID:string;
   showDialog:boolean=false;
@@ -38,6 +39,12 @@ export class DashboardComponent implements OnInit {
     this.showDialog = !this.showDialog; 
   }
 
+  navigation(linkTo:string){
+    console.log(linkTo)
+    if(linkTo === 'Dashboard') return location.reload();
+    return;
+  }
+
   async addStudentToCourse(){
     this.auth.user$.subscribe(user => {
       if(user?.role === 'Student'){
@@ -60,4 +67,5 @@ export class DashboardComponent implements OnInit {
     }
     this.router.navigate(['/course-page/'], navigationExtras);
   }
+  
 }

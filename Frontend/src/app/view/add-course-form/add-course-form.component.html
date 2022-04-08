@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-orange-700 bg-gradient-to-tr from-indigo-500">
+<div class="min-h-screen bg-orange-800 bg-gradient-to-tr from-indigo-500">
     <div *ngIf="auth.user$ | async as user">
         <div *ngIf="user.role === 'Teacher'">
-            <app-header [title]="headerTitle" ></app-header>
+            <app-header (clickEvent)="navigation($event)" [navigation]="navElements" ></app-header>
             <!--Breadcrumbs-->
-            <div class="grid place-items-end pr-3">
+            <!--<div class="grid place-items-end pr-3">
                 <div class="px py-1 rounded-lg">
                     <ul class="flex space-x-4">
                         <li routerLink="/home" class="cursor-pointer text-blue-500 ">Home</li>
@@ -13,7 +13,7 @@
                         <li class="text-blue-500 ">Create a Course</li>
                     </ul>
                 </div>
-            </div>
+            </div>-->
             <!--Course form-->
             <div class="relative top-24 left-1/4  w-1/2 bg-white rounded-xl py-10 shadow-inner shadow-black ">
                 <h1 class="text-4xl font-semibold text-center">Create a Course</h1>

@@ -21,6 +21,7 @@ export class CoursePageComponent implements OnInit {
 
   cid:string;
   courseTitle:string='Lecture Videos';
+  navElements:string[]= ['Dashboard', 'Course Page']
 
   //For the upload video dialog box
   showDialog:boolean=false;
@@ -50,6 +51,11 @@ export class CoursePageComponent implements OnInit {
     this.showDialog = !this.showDialog; 
   }
 
+  navigation(linkTo:string){
+    if(linkTo === 'Dashboard') return this.router.navigate(['/dashboard/']);
+    if(linkTo === 'Course Page') return location.reload();
+    return;
+  }
   
   navigateToLecture(lecture: Lecture){
     let navigationExtras:NavigationExtras = {

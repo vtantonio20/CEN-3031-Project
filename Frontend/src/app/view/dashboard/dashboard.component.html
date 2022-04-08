@@ -1,43 +1,22 @@
 
-<div class="flex flex-col h-screen overflow-hidden min-h-screen bg-transparent bg-orange-800 bg-gradient-to-tr from-indigo-500 ">
-  <app-header [title]="headerTitle" ></app-header>
-
-    <div *ngIf="loggedIn()" class="flex-1 overflow-y-scroll">
-        <div class="divide-y-2 divide-gray-200">
-          <!--breadcrumbs-->
-          <div class="grid place-items-end pr-3">
-            <div class="px py-1 rounded-lg">
-                <ul class="flex space-x-4">
-                    <li routerLink="/home" class="text-blue-500">Home</li>
-                    <p class="text-white">>></p>
-                    <li routerLink="/dashboard" class=" text-blue-500 ">Dashboard</li>
-                </ul>
-            </div>
-          </div>
-          <!--Header-->
-          <h1 class="text-4xl font-bold pt-6 pl-16 pb-8 text-white  ">Your Courses</h1>
-          <!--Body-->
-          <div class="flex pl-10">
-            <div *ngIf="auth.user$ | async as user"  class="flex">
-                <div *ngIf="courses | async as courses">
-                  <!--Add the new course card-->
-                  <app-course-card [role]="user.role" *ngIf="user.role === 'Teacher'"  routerLink="/add-course" class="p-6 inline-flex"> </app-course-card>
-                  <app-course-card [role]="user.role" *ngIf="user.role === 'Student'" (click)="toggleDialog()" class="p-6 inline-flex"> </app-course-card>
-                  <!--Display the courses observable array-->
-                  <div *ngFor="let course of courses" class="p-6 inline-flex">
-                    <app-course-card [course] = "course" [role]="user.role" (click)="navigateToCourse(course)" routerLink="/course-page" > </app-course-card>
-                  </div>
-                </div>
-            </div>
-          </div>
+<div class="viewBackground">
+  <app-header class="sticky top-0 z-50" (clickEvent)="navigation($event)" [navigation]="navElements" ></app-header>
+  <div class="sticky top-0" *ngIf="auth.user$ | async as user">
+      <div class="divide-y-2 divide-gray-200">
+        <h1 class="viewHeading">Your Courses</h1>
+        <div *ngIf="courses | async as courses" class="px-10" >
+            <app-course-card class="p-6 md:inline-flex flex justify-center" [role]="user.role" *ngIf="user.role === 'Teacher'"  routerLink="/add-course" > </app-course-card>
+            <app-course-card class="p-6 md:inline-flex flex justify-center" [role]="user.role" *ngIf="user.role === 'Student'" (click)="toggleDialog()" > </app-course-card>
+            <app-course-card class="p-6 md:inline-flex flex justify-center" *ngFor="let course of courses" [course] = "course" [role]="user.role" (click)="navigateToCourse(course)" routerLink="/course-page" > </app-course-card>
         </div>
-        <ng-container *ngTemplateOutlet="courseIDDialogBox"></ng-container>
-    </div>
+      </div>
+      <ng-container *ngTemplateOutlet="courseIDDialogBox"></ng-container>
+  </div>
 </div>
 
 
 <ng-template #courseIDDialogBox>
-  <div  *ngIf="showDialog" class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 justify-center items-center flex">
+  <div  *ngIf="showDialog" class="fade overflow-x-hidden overflow-y-auto fixed inset-0 z-50 justify-center items-center flex">
      <div class="relative my-6 mx-auto w-1/3 min-w-fit">
       <div class="rounded-xl shadow-2xl relative bg-white">
         <!--Heading-->
@@ -70,8 +49,3 @@
   </div>
   <div *ngIf="showDialog" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
 </ng-template>
-
-
-<div *ngIf="!loggedIn()">
-    not logged in
-</div>
