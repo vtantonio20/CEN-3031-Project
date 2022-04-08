@@ -50,6 +50,14 @@ export class CoursePageComponent implements OnInit {
     this.showDialog = !this.showDialog; 
   }
 
+  videoSelected(event: any) {
+    this.videoFile = event.target.files[0];
+  }
+
+  imageSelected(event: any) {
+    this.thumbnailFile = event.target.files[0];
+  }
+
   
   navigateToLecture(lecture: Lecture){
     let navigationExtras:NavigationExtras = {
@@ -61,11 +69,15 @@ export class CoursePageComponent implements OnInit {
     this.router.navigate(['/lecture/'], navigationExtras);
   }
 
-  async uploadLecture(){
-    this.auth.user$.subscribe(user => {
-      if(user?.role === 'Teacher'){
-        let timestamp = new Timestamp(Date.now()/1000, 0);
+  uploadLecture(){
+    if (!this.videoFile) {
+      this.alert = 'Invalid form entry';
+      return;
+    }
 
+    this.auth.user$.subscribe( async user => {
+      if(user?.role === 'Teacher') {
+        let timestamp = new Timestamp(Date.now()/1000, 0);
         let lecture:Lecture = {
           id: '',
           courseID: this.cid,
@@ -74,14 +86,16 @@ export class CoursePageComponent implements OnInit {
           thumbnailUrl:'',
           title: this.title,
           uploadDate: timestamp,
-          videoUrl: 'pLectUUbxnzHReQh1A6p/181015_13_Venice Beach Drone_25.mp4'
-        }      
-        this.db.createLecture(lecture).then((l) => {
+          videoUrl: ''
+        }  
+
+        await this.db.createLecture(lecture, this.cid, this.thumbnailFile, this.videoFile)
+        .catch(() => {
+          this.alert = 'Invalid form entry';
           this.toggleDialog();
-        }).catch(()=> {
-          this.alert = 'Invalid form entry'
-        })
+        });
+        this.toggleDialog();
       }
-    })
+    });
   }
 }

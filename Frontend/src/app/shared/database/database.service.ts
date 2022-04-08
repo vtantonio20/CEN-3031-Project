@@ -1,6 +1,7 @@
 import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { RegistrationComponent } from './../../view/registration/registration.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
@@ -16,12 +17,51 @@ import { User } from '../models/user';
 })
 export class DatabaseService {
 
-  constructor(private db: AngularFirestore, private auth:AuthService) { }
+  constructor(private db: AngularFirestore, private auth: AuthService, private storage: AngularFireStorage) { }
 
   //crud for lectures
-  async createLecture(lecture:Lecture){
-    return await this.db.collection('lectures').add(lecture);
+  async createLecture(lecture:Lecture, cid: string, thumbnail: File, video: File){
+    return await this.db.collection('lectures').add(lecture)
+    .then(lecture => {
+      let thumb;
+      if (!thumbnail) {
+        thumb = 'DEFAULTIMAGE'
+      } else {
+        thumb = cid + '/' + lecture.id + '_thumb';
+        this.storage.upload(thumb, thumbnail);
+      }
+      let vid = cid + '/' + lecture.id;
+      lecture.update({
+        id: lecture.id, 
+        thumbnailUrl: thumb,
+        videoUrl: vid
+      });
+      this.storage.upload(vid, video);
+    });
   }
+
+  // add deleting comments after
+  async deleteLecture(lid: string, cid: string) {
+    let lecture = this.db.collection('lectures').doc(lid);
+    this.storage.ref(cid + '/' + lid).delete();
+    this.storage.ref(cid + '/' + lid + '_thumb').delete();
+    return await lecture.delete();
+  }
+
+  async editLecture(lid: string, cid: string, title: string, description: string, thumbnail: File) {
+    if (title) {
+      await this.db.collection('lectures').doc(lid).update({title: title});
+    }
+
+    if (description) {
+      await this.db.collection('lectures').doc(lid).update({description: description});
+    }
+
+    if (thumbnail) {
+      this.storage.upload(cid + '/' + lid + '_thumb', thumbnail);
+    }
+  }
+
   getCourseLectures(cid:string | undefined){
     if (cid) {
       return this.db.collection<Lecture>('lectures', ref => ref.where('courseID', '==', cid)).valueChanges({idField: 'id'});
@@ -41,8 +81,6 @@ export class DatabaseService {
     return this.db.collection<Lecture>('lectures').doc(lid).valueChanges({idField: 'id'});
   }
 
-
-
   getTeacherCourses(uid:string | undefined){
     return this.db.collection<Course>('courses', ref => ref.where('owner', '==', uid)).valueChanges({idField: 'id'});
   }
@@ -59,10 +97,10 @@ export class DatabaseService {
     }
   }
 
-
   async createCourse(course:Course ){
     return await this.db.collection('courses').add(course);
   }
+
   /**
    * Function allowings teachers to add students to a course
    */
@@ -71,7 +109,6 @@ export class DatabaseService {
       students: arrayUnion(sid)
     })
   }
-  
 
   async removeStudent(cid:string, sid:string){
     return await this.db.collection('courses').doc(cid).update({
@@ -79,15 +116,13 @@ export class DatabaseService {
     })
   }
 
-    //returns a single course when given courseID
-    getCourse(cid:string){
-      if (cid) {
-        return this.db.collection<Course>('courses').doc(cid).valueChanges({idField: 'id'});
-      }
-      else {
-        return of(undefined)
-      }
+  //returns a single course when given courseID
+  getCourse(cid:string){
+    if (cid) {
+      return this.db.collection<Course>('courses').doc(cid).valueChanges({idField: 'id'});
     }
-
-
+    else {
+      return of(undefined)
+    }
+  }
 }
