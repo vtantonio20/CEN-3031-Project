@@ -9,7 +9,6 @@ import { Lecture } from 'src/app/shared/models/lecture';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Time } from '@angular/common';
 import { User } from 'src/app/shared/models/user';
-import { Thread } from 'src/app/shared/models/thread';
 
 @Component({
   selector: 'app-lecture-vid-page',
@@ -41,7 +40,6 @@ export class LectureVidPageComponent implements OnInit {
   showChat:boolean = true;
   videoDescription = "";
   videoTitle = "";
-  threads: Observable<Thread[] | undefined>;
   
   constructor(public router: Router, private activatedRoute: ActivatedRoute, private db: DatabaseService, public storage: AngularFireStorage, public auth:AuthService) {
     if (this.activatedRoute.queryParams) {
@@ -93,14 +91,6 @@ export class LectureVidPageComponent implements OnInit {
   }
 
 
-  getThreads(){
-    this.threads = this.db.getLectureThreads(this?.lid); 
-    this.threads.subscribe(thread => {
-      if (thread){
-        console.log( thread[0].message);
-      }
-    })
-  }
 
 }
 

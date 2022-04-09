@@ -1,0 +1,27 @@
+<div class="w-full h-full flex flex-col bg-white divide-y-2">
+    <h1 class="text-center text-3xl text-black font-semibold p-2"> Chat Box</h1>
+    <!--Chats-->
+    <div class="h-[70%] " *ngIf="threads | async as threads"> 
+        <div *ngFor="let thread of threads">
+            <div class="w-full border-b-2">
+                <p class="p-2">{{threadOwners.get(thread.id)?.lname}} - {{thread.message}}</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Reply Box-->
+    <form class="flex-col grow w-full  rounded-t-xl border-gray-300 ">
+        <h1 class="text-center font-semibold bg-gray-100 rounded-t-lg p-1">Add your comment</h1>
+
+        <textarea name="message" [(ngModel)]="message" class=" h-1/2 resize-none w-full px-3 py-1.5 text-base font-normal text-gray-700 outline-0" placeholder="Type to Chat"></textarea>
+
+        <div class="flex justify-between px-3">
+            <span>@</span>
+            <span (click)="sendChat()" class="py-1 cursor-pointer text-black font-medium  hover:animateUp">Send</span>
+        </div>
+
+            
+    </form>
+</div>
+

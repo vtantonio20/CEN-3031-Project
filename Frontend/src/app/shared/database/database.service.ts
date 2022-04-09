@@ -220,7 +220,4 @@ export class DatabaseService {
       return of(undefined)
     }
   }
-
-  
-
 }

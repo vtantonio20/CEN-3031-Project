@@ -5,22 +5,27 @@ import { CourseCardComponent } from './course-card/course-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LectureCardComponent } from './lecture-card/lecture-card.component';
+import { ChatComponent } from './chat/chat.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     CourseCardComponent,
-    LectureCardComponent
+    LectureCardComponent,
+    ChatComponent
     ],
   imports: [
     CommonModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   exports: [  
     HeaderComponent,
     CourseCardComponent,
-    LectureCardComponent
+    LectureCardComponent,
+    ChatComponent
   ]
 })
 export class CoreModule { }
