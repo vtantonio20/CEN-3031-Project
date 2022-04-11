@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs';
+import { AuthService } from 'src/app/shared/auth/auth.service';
+import { DatabaseService } from 'src/app/shared/database/database.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  fname: string;
+  lname: string;
+  img: File;
+
+  fEdit: boolean = false;
+  lEdit: boolean = false;
+
+  constructor(public auth: AuthService, private db: DatabaseService) { }
 
   ngOnInit(): void {
   }

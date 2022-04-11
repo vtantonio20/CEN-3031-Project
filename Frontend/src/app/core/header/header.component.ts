@@ -23,6 +23,10 @@ export class HeaderComponent implements OnInit {
     this.onProfile = !this.onProfile;
   }
 
+  navProfile() {
+    this.router.navigate(['/profile']);
+  }
+
   logout() {
     this.auth.logout();
   }
@@ -30,6 +34,7 @@ export class HeaderComponent implements OnInit {
   clickedNav(value: string) {
     this.clickEvent.emit(value);
   }
+
   mobileBack(){
     if(this.navigation[this.navigation.length-1] === 'Lecture') return this.clickEvent.emit('Course Page')
     if(this.navigation[this.navigation.length-1] === 'Course Page') return this.clickEvent.emit('Dashboard')
