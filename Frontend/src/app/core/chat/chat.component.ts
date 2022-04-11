@@ -1,6 +1,3 @@
-import { set } from 'firebase/database';
-import { user } from 'rxfire/auth';
-import { AuthService } from 'src/app/shared/auth/auth.service';
 import { Thread } from './../../shared/models/thread';
 import { DatabaseService } from 'src/app/shared/database/database.service';
 import { Component, Input, OnInit, Output } from '@angular/core';
@@ -25,7 +22,7 @@ export class ChatComponent implements OnInit {
   
   message:string;
   newThread:Thread;
-  constructor(private db: DatabaseService, private auth: AuthService) { }
+  constructor(private db: DatabaseService) { }
 
   ngOnInit(): void {
     let map = new Map<string, User>();
