@@ -5,7 +5,7 @@ export interface Thread {
     threadOwnerID: string,
     message: string,
     replies: string[],
-    timePosted : string, 
+    timePosted : number, 
     id: string,
     lectureID: string,
 }

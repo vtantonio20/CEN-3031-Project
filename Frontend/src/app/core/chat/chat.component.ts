@@ -4,6 +4,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from 'src/app/shared/models/user';
+import { time } from 'console';
 
 @Component({
   selector: 'app-chat',
@@ -53,7 +54,7 @@ export class ChatComponent implements OnInit {
       threadOwnerID: this.uid,
       message: this.message,
       replies: [],
-      timePosted : '', 
+      timePosted : 10, 
       id: '',
       lectureID: this.lid,
     }  
@@ -63,8 +64,7 @@ export class ChatComponent implements OnInit {
 
 
 
-  getThreadOwnerInfo(tid:string){
-    //info threadOwnerMap takes in a threadOwnerID as the key and User model as the value
-    return '';
+  getDate(date:Timestamp){
+    return new Date(date.seconds * 1000).toLocaleDateString('en-us');
   }
 }
