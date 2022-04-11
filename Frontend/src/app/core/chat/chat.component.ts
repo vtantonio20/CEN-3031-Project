@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit {
   @Input() lid:string;
   @Input() uid:string;
 
+  // map with threadID and threadOwner as value
   threadOwners: Map<string, User>;
   threads: Observable<Thread[] | undefined>;
 
@@ -62,6 +63,8 @@ export class ChatComponent implements OnInit {
     this.db.createThread(thread)
     this.message='';
   }
+
+
 
   getThreadOwnerInfo(tid:string){
     //info threadOwnerMap takes in a threadOwnerID as the key and User model as the value

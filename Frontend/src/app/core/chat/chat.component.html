@@ -1,12 +1,21 @@
-<div class="w-full h-full flex flex-col bg-white divide-y-2">
-    <h1 class="text-center text-3xl text-black font-semibold p-2"> Chat Box</h1>
+<div class="w-full h-full max-h-full flex flex-col bg-white border-l-2 border-t-2 border-b-2  rounded-l-2xl">
+    <h1 class="text-center text-3xl text-black font-semibold p-2 border-b-2">Lecture Chat</h1>
     <!--Chats-->
-    <div class="h-[70%] " *ngIf="threads | async as threads"> 
-        <div *ngFor="let thread of threads">
-            <div class="w-full border-b-2">
-                <p class="p-2">{{threadOwners.get(thread.id)?.lname}} - {{thread.message}}</p>
+    <div class="h-[70%] overflow-y-auto " *ngIf="threads | async as threads"> 
+        <div *ngFor="let thread of threads" class="px-3 py-1 border-b-2">
+            <span class="w-full flex justify-center">{{thread.datePosted}}</span>
+            <span class="w-full flex items-center">
+                <img src = "assets/User.png" class="h-10 pr-3"> 
+                <ul>
+                    <li class="text-sm font-semibold">{{threadOwners.get(thread.id)?.fname}} {{threadOwners.get(thread.id)?.lname}}</li> 
+                    <li class="text-sm font-normal" > {{thread.message}} </li>
+                </ul>
+            </span>
 
-            </div>
+
+            <ul class="w-full flex justify-end text-sm">
+                <li class="cursor-pointer text-black font-medium text hover:animateUp" >Reply</li>
+            </ul>
         </div>
     </div>
 

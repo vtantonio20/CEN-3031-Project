@@ -1,8 +1,8 @@
 
 <div class = "viewBackground " *ngIf="lecture | async as lecture">
     <app-header class="sticky top-0 z-50" (clickEvent)="navigation($event)" [navigation]="navElements" ></app-header>
-    <div class="sticky top-0 z-40">
-        <div class="h-[94vh] flex flex-col divide-y-2 divide-gray-300 ">
+    <div class="sticky top-0 z-40" >
+        <div class="h-[94vh] max-h-full flex flex-col divide-y-2 divide-gray-300 ">
             <!--header-->
             <div class="viewHeading" *ngIf="course | async as course">
                 <h1>{{lecture.title}} - {{course.title}}</h1>
@@ -26,13 +26,13 @@
                     min-height: 56.25vw; /* 100 * 9 / 16 */
                 }
             </style>
-            <div class="video-and-chat-container divide-x-2 divide-gray-300"  *ngIf="auth.user$ | async as user">
+            <div class="video-and-chat-container py-2"  *ngIf="auth.user$ | async as user">
                 <div class="video-container w-full ">
                     <video *ngIf="src" (timeupdate)="time($event)" controls controlslist="nodownload">
                         <source src="{{ src }}">
                     </video>
                 </div>
-                <app-chat *ngIf="showChat" [lid]="lid" [uid]="user.id" class="w-1/2"></app-chat>
+                <app-chat *ngIf="showChat" [lid]="lid" [uid]="user.id" class="w-1/2 md:flex hidden"></app-chat>
                 <!--Chat within video container
                 <div *ngIf="showChat" class="hidden md:flex flex-col w-1/2 bg-gradient-to-tr from-gray-700 divide-y-2 divide-gray-300">
                     <p (click)="getThreads()" class="py-2 w-full flex justify-center text-2xl text-white italic">Chat Box</p>
@@ -42,7 +42,7 @@
 
 
             <!--Description outside of video container-->
-            <div  class="hidden xs:flex justify-between items-center w-full pb-2">
+            <div class="hidden xs:flex justify-between items-center w-full pb-2">
                 <div class="w-full sm:mx-16 mx-8 ">
                     <div class="divide-y-[1px] divide-gray-300">
                         <div class="flex items-center justify-between">
