@@ -13,6 +13,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
 import { LectureVidPageComponent } from './lecture-vid-page/lecture-vid-page.component';
+import { ProfileComponent } from './profile/profile.component';
 //import { MediaPlayerComponent } from './media-player/media-player.component';
 //import { JoinACourseComponent } from './join-a-course/join-a-course.component';
 
@@ -25,6 +26,7 @@ import { LectureVidPageComponent } from './lecture-vid-page/lecture-vid-page.com
     AddCourseFormComponent,
     CoursePageComponent,
     LectureVidPageComponent,
+    ProfileComponent,
    //MediaPlayerComponent,
    // JoinACourseComponent
   ],

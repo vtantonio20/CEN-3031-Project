@@ -18,7 +18,7 @@
                 
                 <div *ngIf="onProfile" class="headerDropdownCardDesktop w-44">
                     <div class="py-1">
-                        <div href="#" class="headerDropdownText">Account settings</div>
+                        <div (click)="navProfile()" class="headerDropdownText">Account settings</div>
                         <a href="#" (click)="logout()" class="headerDropdownText">Logout</a>
                     </div>
                 </div>
