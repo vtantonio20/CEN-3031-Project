@@ -2,19 +2,23 @@
 
     <img src="assets/User.png" class="h-10 pl-3">
     <p *ngIf="!fEdit">{{ user.fname }}</p>
-    <button>Edit First Name</button>
-    <input *ngIf="fEdit" type="text" placeholder="{{ user.fname }}">
+    <button *ngIf="!fEdit" (click)="fEdit = !fEdit">Edit First Name</button>
+    <input [(ngModel)]="fname" *ngIf="fEdit" type="text" placeholder="{{ user.fname }}">
     <div *ngIf="fEdit">
-        <button>Cancel</button> <button>Save Changes</button>
+        <button (click)="fEdit = !fEdit; fname=user.fname">Cancel</button>
+        <button (click)="fEdit = !fEdit; edit(user.id, fname, '')">Save Changes</button>
     </div>
 
     <p *ngIf="!lEdit">{{ user.lname }}</p>
-    <button>Edit Last Name</button>
-    <input *ngIf="lEdit" type="text" placeholder="{{ user.lname }}">
+    <button *ngIf="!lEdit" (click)="lEdit = !lEdit">Edit Last Name</button>
+    <input [(ngModel)]="lname" *ngIf="lEdit" type="text" placeholder="{{ user.lname }}">
     <div *ngIf="lEdit">
-        <button>Cancel</button> <button>Save Changes</button>
+        <button (click)="lEdit = !lEdit; lname=user.lname">Cancel</button>
+        <button (click)="lEdit = !lEdit; edit(user.id, '', lname)">Save Changes</button>
     </div>
 
     <br>
-    <p>Change Profile Picture</p>
+    <label for="imageURL" class="font-semibold">Change Profile Image</label>
+    <input type = "file" accept="image/png, image/gif, image/jpeg" (change)="fileSelected($event)">
+    <button *ngIf="img" (click)="edit(user.id, '', '')">Upload Image</button>
 </div>

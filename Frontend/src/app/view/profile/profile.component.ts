@@ -22,4 +22,12 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  fileSelected(event: any) {
+    this.img = event.target.files[0];
+  }
+
+  edit(uid: string, fname: string, lname: string) {
+    this.db.editUser(uid, fname, lname, this.img);
+  }
+
 }

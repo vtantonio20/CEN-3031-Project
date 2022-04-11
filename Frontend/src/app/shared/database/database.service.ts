@@ -32,9 +32,12 @@ export class DatabaseService {
     }
   }
 
-  async editUser(uid: string, fname: string, lname: string, img: File) {
+  async editUser(uid: string, fname: string, lname: string, img?: File) {
     if (fname) {
-      await this.db.collection('users').doc(uid).update({fname: fname});
+      await this.db.collection('users').doc(uid).update({fname: fname})
+      .catch(error => {
+        console.log(error);
+      });
     }
 
     if (lname) {
