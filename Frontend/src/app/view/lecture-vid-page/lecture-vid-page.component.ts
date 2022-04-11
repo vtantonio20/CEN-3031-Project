@@ -90,6 +90,8 @@ export class LectureVidPageComponent implements OnInit {
     this.router.navigate(['/course-page/'], navigationExtras);
   }
 
+
+
 }
 
 

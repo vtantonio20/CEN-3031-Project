@@ -11,6 +11,7 @@ import { Course } from './../models/course';
 import { Lecture } from '../models/lecture';
 import { arrayRemove, arrayUnion, doc, documentId } from 'firebase/firestore';
 import { User } from '../models/user';
+import { Thread } from '../models/thread';
 
 @Injectable({
   providedIn: 'root'
@@ -198,5 +199,25 @@ export class DatabaseService {
 
   getLecture(lid:string){
     return this.db.collection<Lecture>('lectures').doc(lid).valueChanges({idField: 'id'});
+  }
+
+
+ //////////////////////////////////////////
+  ///////////// CRUD for Threads /////////////
+  //////////////////////////////////////////
+
+ 
+  async createThread(thread: Thread) {
+    return await this.db.collection('threads').add(thread);
+  }
+
+
+  getLectureThreads(lid:string | undefined){
+    if (lid) {
+      return this.db.collection<Thread>('threads', ref => ref.where('lectureID', '==', lid)).valueChanges({idField: 'id'});
+    }
+    else {
+      return of(undefined)
+    }
   }
 }

@@ -94,7 +94,7 @@ export class CoursePageComponent implements OnInit {
           thumbnailUrl:'',
           title: this.title,
           uploadDate: timestamp,
-          videoUrl: ''
+          videoUrl: '',
         }  
 
         await this.db.createLecture(lecture, this.cid, this.thumbnailFile, this.videoFile)
