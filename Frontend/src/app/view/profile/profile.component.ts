@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { DatabaseService } from 'src/app/shared/database/database.service';
@@ -17,9 +18,13 @@ export class ProfileComponent implements OnInit {
   fEdit: boolean = false;
   lEdit: boolean = false;
 
-  constructor(public auth: AuthService, private db: DatabaseService) { }
+  constructor(public auth: AuthService, private db: DatabaseService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  navDash() {
+    this.router.navigate(['/dashboard']);
   }
 
   fileSelected(event: any) {
