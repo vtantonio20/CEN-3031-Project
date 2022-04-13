@@ -50,6 +50,28 @@ export class AuthService {
     })
   }
 
+  updateEmail() {
+
+  }
+
+  async updatePassword(email: string, oldP: string, newP: string) {
+    return new Promise(async (resolve, reject) => {
+      await this.auth.signInWithEmailAndPassword(email, oldP)
+      .then(async cred => {
+        await cred.user?.updatePassword(newP)
+        .then(success => {
+          resolve(success);
+        })
+        .catch(error => {
+          reject('new');
+        });
+      })
+      .catch(error => {
+        reject('old');
+      });
+    })
+  }
+
   async deleteAccount() {
     (await this.auth.currentUser)?.delete()
     .then(() => {
