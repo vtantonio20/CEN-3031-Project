@@ -18,9 +18,35 @@ export class ProfileComponent implements OnInit {
   fEdit: boolean = false;
   lEdit: boolean = false;
 
+  eDialog: boolean = false;
+  pDialog: boolean = false;
+  dDialog: boolean = false;
+
+  alert: string;
+  password: string;
+  newEmail: string;
+  newPassword: string;
+
   constructor(public auth: AuthService, private db: DatabaseService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  toggleEmail() {
+    this.eDialog = !this.eDialog;
+    this.alert = '';
+    this.password = '';
+  }
+
+  async updateEmail(email: string) {
+    await this.auth.updateEmail(email, this.password, this.newEmail)
+    .then(message => {
+      this.alert = message;
+    })
+    .catch(message => {
+      console.log(message, 'catch');
+      this.toggleEmail();
+    });
   }
 
   navDash() {

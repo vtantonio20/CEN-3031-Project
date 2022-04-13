@@ -50,18 +50,22 @@ export class AuthService {
     })
   }
 
-  async updateEmail(email: string, password: string, newE: string) {
-    return new Promise(async (reject, resolve) => {
+  async updateEmail(email: string, password: string, newE: string): Promise<any> {
+    let prom = new Promise(async (reject, resolve) => {
       await this.auth.signInWithEmailAndPassword(email, password)
       .then(async cred => {
 
         await cred.user?.updateEmail(newE)
-        .then(success => { resolve('success'); })
-        .catch(error => { reject('email'); });
+        .then(success => {
+          this.db.collection('users').doc(cred.user?.uid).update({email: newE});
+          resolve('success'); 
+        })
+        .catch(error => { reject('Invalid Email'); });
 
       })
-      .catch(error => { reject('password'); });
+      .catch(error => { reject('Invalid Password'); });
     });
+    return prom;
   }
 
   async updatePassword(email: string, oldP: string, newP: string) {
