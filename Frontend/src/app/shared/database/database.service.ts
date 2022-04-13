@@ -140,7 +140,11 @@ export class DatabaseService {
   createLecture(lecture:Lecture, cid: string, thumbnail: File, video: File){
     return new Promise( async (resolve, reject) => {
       await this.db.collection('lectures').add(lecture)
-      .then(lecture => {
+      .then(async lecture => {
+        // Add lecture to its course's lectures array
+        await this.db.collection('courses').doc(cid).update({ lectures: arrayUnion(lecture.id) });
+
+        // Lecture thumbnail and url logic
         let thumb;
         if (!thumbnail) {
           thumb = 'DEFAULTIMAGE'
@@ -150,12 +154,15 @@ export class DatabaseService {
           this.storage.upload(thumb, thumbnail);
         }
 
+        // Updating lecture with id and urls
         let vid = cid + '/' + lecture.id;
         lecture.update({
           id: lecture.id, 
           thumbnailUrl: thumb,
           videoUrl: vid
         });
+
+        // Uploading video
         this.storage.upload(vid, video);
         resolve(true);
       })
