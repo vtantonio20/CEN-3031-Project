@@ -50,26 +50,32 @@ export class AuthService {
     })
   }
 
-  updateEmail() {
+  async updateEmail(email: string, password: string, newE: string) {
+    return new Promise(async (reject, resolve) => {
+      await this.auth.signInWithEmailAndPassword(email, password)
+      .then(async cred => {
 
+        await cred.user?.updateEmail(newE)
+        .then(success => { resolve('success'); })
+        .catch(error => { reject('email'); });
+
+      })
+      .catch(error => { reject('password'); });
+    });
   }
 
   async updatePassword(email: string, oldP: string, newP: string) {
     return new Promise(async (resolve, reject) => {
       await this.auth.signInWithEmailAndPassword(email, oldP)
       .then(async cred => {
+
         await cred.user?.updatePassword(newP)
-        .then(success => {
-          resolve(success);
-        })
-        .catch(error => {
-          reject('new');
-        });
+        .then(success => { resolve(success); })
+        .catch(error => { reject('new'); });
+
       })
-      .catch(error => {
-        reject('old');
-      });
-    })
+      .catch(error => { reject('old'); });
+    });
   }
 
   async deleteAccount() {
