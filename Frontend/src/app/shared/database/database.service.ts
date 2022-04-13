@@ -94,7 +94,7 @@ export class DatabaseService {
   deleteCourse(cid: string) {
     let courseRef = this.db.collection('courses').doc(cid);
     this.storage.ref(cid + 'thumb').delete();
-    this.getCourse(cid).subscribe(course => {
+    this.getCourse(cid).pipe(take(1)).subscribe(course => {
       course?.lectures.forEach(lecture => {
         this.deleteLecture(lecture, cid);
       });
@@ -189,6 +189,9 @@ export class DatabaseService {
     let lecture = this.db.collection('lectures').doc(lid);
     this.storage.ref(cid + '/' + lid).delete();
     this.storage.ref(cid + '/' + lid + '_thumb').delete();
+    this.getLecture(lid).pipe(take(1)).subscribe(lecture => {
+      // Loop through comment array and delete each one
+    })
     return await lecture.delete();
   }
 
