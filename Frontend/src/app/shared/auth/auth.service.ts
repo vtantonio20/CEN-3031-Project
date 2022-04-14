@@ -75,10 +75,10 @@ export class AuthService {
 
         await cred.user?.updatePassword(newP)
         .then(success => { resolve(success); })
-        .catch(error => { reject('new'); });
+        .catch(error => { reject('Invalid New Password'); });
 
       })
-      .catch(error => { reject('old'); });
+      .catch(error => { reject('Incorrect Password'); });
     });
   }
 
