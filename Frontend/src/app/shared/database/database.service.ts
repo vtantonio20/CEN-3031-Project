@@ -50,26 +50,33 @@ export class DatabaseService {
     }
   }
 
-  deleteUser(uid: string) {
+  deleteUser(uid: string, email: string, password: string) {
     this.getUser(uid).pipe(take(1)).subscribe(user => {
       if (user?.role == 'Teacher') {
         this.getTeacherCourses(uid).pipe(take(1)).subscribe(courses => {
-          courses.forEach(course => {
-            this.deleteCourse(course.id);
+          courses.forEach(async course => {
+            await this.deleteCourse(course.id);
           });
+          try {
+            this.storage.ref('users/' + uid + '_thumb').delete();
+          } catch (error) {
+            console.log(error);
+          }
+          this.db.collection('users').doc(uid).delete();
+          this.auth.deleteAccount(email, password);
         });
       }
       else {
         this.getStudentCourses(uid).pipe(take(1)).subscribe(courses => {
-          courses.forEach(course => {
-            this.removeStudent(course.id, uid);
-          })
+          courses.forEach(async course => {
+            await this.removeStudent(course.id, uid);
+          });
+          this.storage.ref('users/' + uid + '_thumb').delete();
+          this.db.collection('users').doc(uid).delete();
+          this.auth.deleteAccount(email, password);
         })
       }
     });
-    this.storage.ref('users/' + uid + '_thumb').delete();
-    this.db.collection('users').doc(uid).delete();
-    this.auth.deleteAccount();
   }
 
 
@@ -93,13 +100,21 @@ export class DatabaseService {
 
   deleteCourse(cid: string) {
     let courseRef = this.db.collection('courses').doc(cid);
-    this.storage.ref(cid + 'thumb').delete();
-    this.getCourse(cid).subscribe(course => {
+    try {
+      this.storage.ref(cid + 'thumb').delete();
+    } catch (error) {
+      console.log(error);
+    }
+    this.getCourse(cid).pipe(take(1)).subscribe(course => {
       course?.lectures.forEach(lecture => {
         this.deleteLecture(lecture, cid);
       });
       courseRef.delete();
-      this.storage.ref(cid).delete();
+      try {
+        this.storage.ref(cid).delete();
+      } catch (error) {
+        console.log(error);
+      }
     });
   }
 
@@ -140,7 +155,11 @@ export class DatabaseService {
   createLecture(lecture:Lecture, cid: string, thumbnail: File, video: File){
     return new Promise( async (resolve:any, reject) => {
       await this.db.collection('lectures').add(lecture)
-      .then(lecture => {
+      .then(async lecture => {
+        // Add lecture to its course's lectures array
+        await this.db.collection('courses').doc(cid).update({ lectures: arrayUnion(lecture.id) });
+
+        // Lecture thumbnail and url logic
         let thumb;
         if (!thumbnail) {
           thumb = 'DEFAULTIMAGE'
@@ -150,6 +169,7 @@ export class DatabaseService {
           this.storage.upload(thumb, thumbnail);
         }
 
+        // Updating lecture with id and urls
         let vid = cid + '/' + lecture.id;
         lecture.update({
           id: lecture.id, 
@@ -157,6 +177,9 @@ export class DatabaseService {
           videoUrl: vid
         });
         //trying to do a progress bar
+
+        // Uploading video
+        this.storage.upload(vid, video);
         resolve(true);
       })
       .catch(() => {reject()});
@@ -180,8 +203,20 @@ export class DatabaseService {
   // add deleting comments after
   async deleteLecture(lid: string, cid: string) {
     let lecture = this.db.collection('lectures').doc(lid);
-    this.storage.ref(cid + '/' + lid).delete();
-    this.storage.ref(cid + '/' + lid + '_thumb').delete();
+    this.db.collection('courses').doc(cid).update({ lectures: arrayRemove(lid) });
+    try {
+      this.storage.ref(cid + '/' + lid).delete();
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      this.storage.ref(cid + '/' + lid + '_thumb').delete();
+    } catch (error) {
+      console.log(error);
+    }
+    this.getLecture(lid).pipe(take(1)).subscribe(lecture => {
+      // Loop through comment array and delete each one
+    })
     return await lecture.delete();
   }
 

@@ -1,5 +1,5 @@
 import { link } from 'fs';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DatabaseService } from './../../shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
@@ -40,6 +40,15 @@ export class LectureVidPageComponent implements OnInit {
   showChat:boolean = true;
   videoDescription = "";
   videoTitle = "";
+
+  //Settings Dialog
+  @ViewChild('titleInput') titleInput: ElementRef;
+  @ViewChild('thumbInput') thumbInput: ElementRef;
+  @ViewChild('descInput') descInput: ElementRef;
+  lectureDialog: boolean = false;
+  newThumb: File;
+  thumbSelected: boolean = false;
+  alert: string;
   
   constructor(public router: Router, private activatedRoute: ActivatedRoute, private db: DatabaseService, public storage: AngularFireStorage, public auth:AuthService) {
     if (this.activatedRoute.queryParams) {
@@ -48,10 +57,9 @@ export class LectureVidPageComponent implements OnInit {
         this.lid=params['lid'];
       });
     }
-   }
+  }
 
    
-
   ngOnInit(): void {
     this.lecture = this.db.getLecture(this.lid);
     this.lecture.subscribe(lecture => {
@@ -65,12 +73,55 @@ export class LectureVidPageComponent implements OnInit {
       }
     });
   }
+
+  toggleSettings() {
+    this.lectureDialog = !this.lectureDialog;
+    this.alert = '';
+    this.thumbSelected = false;
+  }
+
+  async changeTitle(cid: string, lid: string) {
+    await this.db.editLecture(lid, cid, this.titleInput.nativeElement.value, '')
+    .catch(() => {
+      this.alert = 'Could not change title';
+    })
+  }
+
+  async changeDesc(cid: string, lid: string) {
+    await this.db.editLecture(lid, cid, '', this.descInput.nativeElement.value)
+    .catch(() => {
+      this.alert = 'Could not change description';
+    })
+  }
+
+  async changeThumbnail(cid: string, lid: string) {
+    await this.db.editLecture(lid, cid, '', '', this.newThumb)
+    .then(() => {
+      this.thumbSelected = false;
+      this.thumbInput.nativeElement.value = '';
+    })
+    .catch(() => {
+      this.alert = 'Could not upload thumbnail';
+    });
+  }
+
+  deleteLecture(cid: string, lid: string) {
+    this.db.deleteLecture(lid, cid);
+    this.navigateBackToCourse();
+  }
+
+  thumbnailSelected(event: any) {
+    this.newThumb = event.target.files[0];
+    this.thumbSelected = true;
+  }
+
   navigation(linkTo:string){
     if(linkTo === 'Dashboard') return this.router.navigate(['/dashboard/']);
     if(linkTo === 'Course Page') return this.navigateBackToCourse();
     if(linkTo === 'Lecture') return location.reload();
     return;
   }
+
   toggleChat(){
     this.showChat = !this.showChat; 
   }
@@ -79,7 +130,6 @@ export class LectureVidPageComponent implements OnInit {
     this.currentTime = event.target.currentTime;
   }
 
-  
   navigateBackToCourse(){
     let navigationExtras:NavigationExtras = {
       queryParams: {
@@ -88,9 +138,6 @@ export class LectureVidPageComponent implements OnInit {
     }
     this.router.navigate(['/course-page/'], navigationExtras);
   }
-
-
-  
 }
 
 

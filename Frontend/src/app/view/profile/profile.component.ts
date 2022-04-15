@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { DatabaseService } from 'src/app/shared/database/database.service';
@@ -17,9 +18,66 @@ export class ProfileComponent implements OnInit {
   fEdit: boolean = false;
   lEdit: boolean = false;
 
-  constructor(public auth: AuthService, private db: DatabaseService) { }
+  eDialog: boolean = false;
+  pDialog: boolean = false;
+  dDialog: boolean = false;
+
+  alert: string;
+  password: string;
+  newEmail: string;
+  newPassword: string;
+
+  constructor(public auth: AuthService, private db: DatabaseService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  toggleEmail() {
+    this.eDialog = !this.eDialog;
+    this.alert = '';
+    this.password = '';
+  }
+
+  togglePassword() {
+    this.pDialog = !this.pDialog;
+    this.alert = '';
+    this.password = '';
+  }
+
+  toggleDelete() {
+    this.dDialog = !this.dDialog;
+    this.alert = '';
+    this.password = '';
+  }
+
+  async updateEmail(email: string) {
+    await this.auth.updateEmail(email, this.password, this.newEmail)
+    .then(message => {
+      console.log(message, 'catch');
+      this.toggleEmail();
+    })
+    .catch(message => {
+      this.alert = message;
+    });
+  }
+
+  async updatePassword(email: string) {
+    await this.auth.updatePassword(email, this.password, this.newPassword)
+    .then(message => {
+      console.log(message, 'catch');
+      this.togglePassword();
+    })
+    .catch(message => {
+      this.alert = message;
+    });
+  }
+
+  async deleteAccount(email: string, uid: string) {
+    this.db.deleteUser(uid, email, this.password);
+  }
+
+  navDash() {
+    this.router.navigate(['/dashboard']);
   }
 
   fileSelected(event: any) {
