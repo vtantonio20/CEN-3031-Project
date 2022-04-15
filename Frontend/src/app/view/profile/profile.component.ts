@@ -73,11 +73,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async deleteAccount(email: string, uid: string) {
-    this.db.deleteUser(uid, email, this.password)
-    .then()
-    .catch(message => {
-      this.alert = message;
-    });
+    this.db.deleteUser(uid, email, this.password);
   }
 
   navDash() {

@@ -35,7 +35,6 @@ export class CoursePageComponent implements OnInit {
   @ViewChild('titleInput') titleInput: ElementRef;
   @ViewChild('thumbInput') thumbInput: ElementRef;
   courseDialog: boolean = false;
-  newTitle: string;
   newThumb: File;
   thumbSelected: boolean = false;
   

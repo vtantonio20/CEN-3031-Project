@@ -9,7 +9,7 @@
               <span *ngIf="user.role == 'Teacher'"><h1 class="text-xl md:flex hidden" (click)="toggleSettings()">Course Settings</h1></span>
           </div>
           <!--body-->
-          <div *ngIf="owner | async as owner"  > 
+          <div *ngIf="owner | async as owner"> 
             <div *ngIf="lectures | async as lectures" class="px-10">
               <app-lecture-card class="p-6 md:inline-flex flex justify-center" *ngIf="user.role === 'Teacher'" (click)="toggleDialog()"></app-lecture-card>   
               <app-lecture-card class="p-6 md:inline-flex flex justify-center" *ngFor="let lecture of sortedLectures" [lecture]="lecture" [owner]="owner.fname + ' ' + owner.lname" (click)="navigateToLecture(lecture)"></app-lecture-card>
@@ -120,6 +120,7 @@
         </div>
         <!--Body-->
         <div class="relative p-6 flex-auto">
+          <p *ngIf="alert" class=" text-center text-xl text-red-600">{{alert}}</p>
           <div class="my-4 text-blueGray-500 text-lg leading-relaxed" *ngIf="course | async as course">
             <form>
               <ul class="text-center text-base">

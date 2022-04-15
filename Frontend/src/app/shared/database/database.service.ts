@@ -54,22 +54,29 @@ export class DatabaseService {
     this.getUser(uid).pipe(take(1)).subscribe(user => {
       if (user?.role == 'Teacher') {
         this.getTeacherCourses(uid).pipe(take(1)).subscribe(courses => {
-          courses.forEach(course => {
-            this.deleteCourse(course.id);
+          courses.forEach(async course => {
+            await this.deleteCourse(course.id);
           });
+          try {
+            this.storage.ref('users/' + uid + '_thumb').delete();
+          } catch (error) {
+            console.log(error);
+          }
+          this.db.collection('users').doc(uid).delete();
+          this.auth.deleteAccount(email, password);
         });
       }
       else {
         this.getStudentCourses(uid).pipe(take(1)).subscribe(courses => {
-          courses.forEach(course => {
-            this.removeStudent(course.id, uid);
-          })
+          courses.forEach(async course => {
+            await this.removeStudent(course.id, uid);
+          });
+          this.storage.ref('users/' + uid + '_thumb').delete();
+          this.db.collection('users').doc(uid).delete();
+          this.auth.deleteAccount(email, password);
         })
       }
     });
-    this.storage.ref('users/' + uid + '_thumb').delete();
-    this.db.collection('users').doc(uid).delete();
-    return this.auth.deleteAccount(email, password);
   }
 
 
@@ -93,13 +100,21 @@ export class DatabaseService {
 
   deleteCourse(cid: string) {
     let courseRef = this.db.collection('courses').doc(cid);
-    this.storage.ref(cid + 'thumb').delete();
+    try {
+      this.storage.ref(cid + 'thumb').delete();
+    } catch (error) {
+      console.log(error);
+    }
     this.getCourse(cid).pipe(take(1)).subscribe(course => {
       course?.lectures.forEach(lecture => {
         this.deleteLecture(lecture, cid);
       });
       courseRef.delete();
-      this.storage.ref(cid).delete();
+      try {
+        this.storage.ref(cid).delete();
+      } catch (error) {
+        console.log(error);
+      }
     });
   }
 
@@ -187,8 +202,17 @@ export class DatabaseService {
   // add deleting comments after
   async deleteLecture(lid: string, cid: string) {
     let lecture = this.db.collection('lectures').doc(lid);
-    this.storage.ref(cid + '/' + lid).delete();
-    this.storage.ref(cid + '/' + lid + '_thumb').delete();
+    this.db.collection('courses').doc(cid).update({ lectures: arrayRemove(lid) });
+    try {
+      this.storage.ref(cid + '/' + lid).delete();
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      this.storage.ref(cid + '/' + lid + '_thumb').delete();
+    } catch (error) {
+      console.log(error);
+    }
     this.getLecture(lid).pipe(take(1)).subscribe(lecture => {
       // Loop through comment array and delete each one
     })
