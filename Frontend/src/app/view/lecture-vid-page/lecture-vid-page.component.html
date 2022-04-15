@@ -33,7 +33,7 @@
                         <source src="{{ src }}">
                     </video>
                 </div>
-                <app-chat *ngIf="showChat" [lid]="lid" [uid]="user.id" class="w-1/2 md:flex hidden"></app-chat>
+                <app-chat *ngIf="showChat" [lid]="lid" [uid]="user.id" [currentTime]="currentTime" class="w-1/2 md:flex hidden"></app-chat>
                 <!--Chat within video container
                 <div *ngIf="showChat" class="hidden md:flex flex-col w-1/2 bg-gradient-to-tr from-gray-700 divide-y-2 divide-gray-300">
                     <p (click)="getThreads()" class="py-2 w-full flex justify-center text-2xl text-white italic">Chat Box</p>

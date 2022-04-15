@@ -1,3 +1,4 @@
+import { AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { DatabaseService } from 'src/app/shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
@@ -7,7 +8,7 @@ import { Course } from 'src/app/shared/models/course';
 import { Lecture } from 'src/app/shared/models/lecture';
 import { User } from 'src/app/shared/models/user';
 import { Timestamp } from 'firebase/firestore';
-import { take } from 'rxjs';
+import { finalize, Subject, take } from 'rxjs';
 
 @Component({
   selector: 'app-course-page',
@@ -131,15 +132,18 @@ export class CoursePageComponent implements OnInit {
           description: this.description,
           ownerID: user.id,
           thumbnailUrl:'',
+          threads:[],
           title: this.title,
           uploadDate: timestamp,
           videoUrl: '',
         }  
 
         await this.db.createLecture(lecture, this.cid, this.thumbnailFile, this.videoFile)
-        .then(() => {
+        .then((t) => {
           this.alert = '';
           this.toggleDialog();
+          const task = t as AngularFireUploadTask;
+          console.log(t)
         })
         .catch(() => {
           this.alert = 'Invalid form entry';

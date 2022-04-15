@@ -1,3 +1,4 @@
+import { Thread } from './thread';
 import { Timestamp } from "firebase/firestore";
 
 export interface Lecture {
@@ -7,6 +8,7 @@ export interface Lecture {
     ownerID:string,
     thumbnailUrl:string,
     title: string,
+    threads:Thread[],
     uploadDate: Timestamp,
     videoUrl: string,
     //avalibility:boolean (public or private)

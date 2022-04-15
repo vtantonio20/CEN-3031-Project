@@ -1,6 +1,6 @@
 import { link } from 'fs';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DatabaseService } from './../../shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';

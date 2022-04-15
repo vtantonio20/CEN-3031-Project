@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   password:string;
   cpassword:string;
   role:string;
-
+  img: File;
   alert:string;
 
   constructor(private router:Router, private auth : AuthService) { }

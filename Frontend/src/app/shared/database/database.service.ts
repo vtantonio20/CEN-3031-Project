@@ -1,12 +1,12 @@
 import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from "@angular/fire/compat/storage";
+import { AngularFireStorage, AngularFireUploadTask } from "@angular/fire/compat/storage";
 import { RegistrationComponent } from './../../view/registration/registration.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
 import { set, ref, onValue } from 'firebase/database';
-import { BehaviorSubject, Observable, of, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { Course } from './../models/course';
 import { Lecture } from '../models/lecture';
 import { arrayRemove, arrayUnion, doc, documentId } from 'firebase/firestore';
@@ -153,7 +153,7 @@ export class DatabaseService {
   /////////////////////////////////////////////
 
   createLecture(lecture:Lecture, cid: string, thumbnail: File, video: File){
-    return new Promise( async (resolve, reject) => {
+    return new Promise( async (resolve:any, reject) => {
       await this.db.collection('lectures').add(lecture)
       .then(async lecture => {
         // Add lecture to its course's lectures array
@@ -176,6 +176,7 @@ export class DatabaseService {
           thumbnailUrl: thumb,
           videoUrl: vid
         });
+        //trying to do a progress bar
 
         // Uploading video
         this.storage.upload(vid, video);
@@ -244,14 +245,18 @@ export class DatabaseService {
   //////////////////////////////////////////
 
  
+  //have to add threads to lectures still
   async createThread(thread: Thread) {
-    return await this.db.collection('threads').add(thread);
+    return await this.db.collection('threads').add(thread).then(t => {t.update({id:t.id})});
   }
 
+  addThreadToLecture(lid:string | undefined){
+
+  }
 
   getLectureThreads(lid:string | undefined){
     if (lid) {
-      return this.db.collection<Thread>('threads', ref => ref.where('lectureID', '==', lid)).valueChanges({idField: 'id'});
+      return this.db.collection<Thread>('threads', ref => ref.where('lectureID', '==', lid)).valueChanges({idField: 'id'})
     }
     else {
       return of(undefined)
