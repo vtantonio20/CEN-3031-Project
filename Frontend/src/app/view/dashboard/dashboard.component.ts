@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   alert:string;
   
   courses:Observable<Course[]>;
+  courseName: string;
   constructor(private router: Router, public auth: AuthService, public db: DatabaseService) { }
   
   loggedIn(){
@@ -36,7 +37,8 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleDialog(){
-    this.showDialog = !this.showDialog; 
+    this.showDialog = !this.showDialog;
+    this.courseName = ""; 
   }
 
   navigation(linkTo:string){
@@ -59,6 +61,27 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  async createNewCourse(){
+    this.auth.user$.subscribe(user => {
+      if(user?.role === 'Teacher'){
+        let course: Course = {
+          id:'',  
+          imgUrl: '',
+          title: this.courseName,
+          owner: user?.id!,
+          students: [],
+          lectures: []
+        }
+        this.db.createCourse(course).then(() => {
+          this.router.navigate(['/dashboard']);
+        }).catch(()=> {
+          this.alert = 'Invalid form entry'
+        
+      })
+      }
+    })
+  }
+  
   navigateToCourse(course:Course){
     let navigationExtras:NavigationExtras = {
       queryParams: {
