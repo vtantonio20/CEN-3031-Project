@@ -1,6 +1,6 @@
 import { DatabaseService } from 'src/app/shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { Course } from 'src/app/shared/models/course';
@@ -15,22 +15,29 @@ import { take } from 'rxjs';
   styleUrls: ['./course-page.component.css']
 })
 export class CoursePageComponent implements OnInit {
-  course:Observable<Course | undefined>;
-  lectures:Observable<Lecture[] | undefined>;
-  owner:Observable<User | undefined>;
+  course: Observable<Course | undefined>;
+  lectures: Observable<Lecture[] | undefined>;
+  owner: Observable<User | undefined>;
   sortedLectures: Lecture[];
 
-  cid:string;
-  courseTitle:string='Lecture Videos';
-  navElements:string[]= ['Dashboard', 'Course Page']
+  cid: string;
+  courseTitle: string= 'Lecture Videos';
+  navElements: string[] = ['Dashboard', 'Course Page'];
 
   //For the upload video dialog box
-  showDialog:boolean=false;
-  alert:string;
-  title:string;
-  description:string;
-  thumbnailFile:File;
-  videoFile:File;
+  showDialog: boolean = false;
+  alert: string;
+  title: string;
+  description: string;
+  thumbnailFile: File;
+  videoFile: File;
+
+  @ViewChild('titleInput') titleInput: ElementRef;
+  @ViewChild('thumbInput') thumbInput: ElementRef;
+  courseDialog: boolean = false;
+  newTitle: string;
+  newThumb: File;
+  thumbSelected: boolean = false;
   
   constructor(public router: Router, private activatedRoute:ActivatedRoute, public auth:AuthService, public db:DatabaseService) {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -47,6 +54,39 @@ export class CoursePageComponent implements OnInit {
     this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner));
   }
 
+  toggleSettings() {
+    this.courseDialog = !this.courseDialog;
+    this.alert = '';
+    this.thumbSelected = false;
+  }
+
+  async changeTitle(cid: string) {
+    await this.db.editCourse(cid, this.titleInput.nativeElement.value)
+    .catch(() => {
+      this.alert = 'Could not change title';
+    })
+  }
+
+  async changeThumbnail(cid: string) {
+    await this.db.editCourse(cid, '', this.newThumb)
+    .then(() => {
+      this.thumbSelected = false;
+      this.thumbInput.nativeElement.value = '';
+    })
+    .catch(() => {
+      this.alert = 'Could not upload thumbnail';
+    });
+  }
+
+  deleteCourse(cid: string) {
+    this.db.deleteCourse(cid);
+    this.router.navigate(['/dashboard']);
+  }
+
+  thumbnailSelected(event: any) {
+    this.newThumb = event.target.files[0];
+    this.thumbSelected = true;
+  }
 
   toggleDialog(){
     this.showDialog = !this.showDialog;

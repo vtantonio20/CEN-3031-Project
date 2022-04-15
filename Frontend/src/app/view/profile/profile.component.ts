@@ -38,14 +38,45 @@ export class ProfileComponent implements OnInit {
     this.password = '';
   }
 
+  togglePassword() {
+    this.pDialog = !this.pDialog;
+    this.alert = '';
+    this.password = '';
+  }
+
+  toggleDelete() {
+    this.dDialog = !this.dDialog;
+    this.alert = '';
+    this.password = '';
+  }
+
   async updateEmail(email: string) {
     await this.auth.updateEmail(email, this.password, this.newEmail)
     .then(message => {
-      this.alert = message;
-    })
-    .catch(message => {
       console.log(message, 'catch');
       this.toggleEmail();
+    })
+    .catch(message => {
+      this.alert = message;
+    });
+  }
+
+  async updatePassword(email: string) {
+    await this.auth.updatePassword(email, this.password, this.newPassword)
+    .then(message => {
+      console.log(message, 'catch');
+      this.togglePassword();
+    })
+    .catch(message => {
+      this.alert = message;
+    });
+  }
+
+  async deleteAccount(email: string, uid: string) {
+    this.db.deleteUser(uid, email, this.password)
+    .then()
+    .catch(message => {
+      this.alert = message;
     });
   }
 

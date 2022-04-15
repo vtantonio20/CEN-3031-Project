@@ -50,7 +50,7 @@ export class DatabaseService {
     }
   }
 
-  deleteUser(uid: string) {
+  deleteUser(uid: string, email: string, password: string) {
     this.getUser(uid).pipe(take(1)).subscribe(user => {
       if (user?.role == 'Teacher') {
         this.getTeacherCourses(uid).pipe(take(1)).subscribe(courses => {
@@ -69,7 +69,7 @@ export class DatabaseService {
     });
     this.storage.ref('users/' + uid + '_thumb').delete();
     this.db.collection('users').doc(uid).delete();
-    this.auth.deleteAccount();
+    return this.auth.deleteAccount(email, password);
   }
 
 

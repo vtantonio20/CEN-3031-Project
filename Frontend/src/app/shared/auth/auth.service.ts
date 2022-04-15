@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   async updateEmail(email: string, password: string, newE: string): Promise<any> {
-    let prom = new Promise(async (reject, resolve) => {
+    let prom = new Promise(async (resolve, reject) => {
       await this.auth.signInWithEmailAndPassword(email, password)
       .then(async cred => {
 
@@ -68,13 +68,13 @@ export class AuthService {
     return prom;
   }
 
-  async updatePassword(email: string, oldP: string, newP: string) {
+  async updatePassword(email: string, oldP: string, newP: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       await this.auth.signInWithEmailAndPassword(email, oldP)
       .then(async cred => {
 
         await cred.user?.updatePassword(newP)
-        .then(success => { resolve(success); })
+        .then(success => { resolve('success'); })
         .catch(error => { reject('Invalid New Password'); });
 
       })
@@ -82,11 +82,16 @@ export class AuthService {
     });
   }
 
-  async deleteAccount() {
-    (await this.auth.currentUser)?.delete()
-    .then(() => {
-      this.router.navigate(['/home']);
+  async deleteAccount(email: string, password: string): Promise<any> {
+    let prom = new Promise(async (resolve, reject) => {
+      await this.auth.signInWithEmailAndPassword(email, password)
+      .then(cred => {
+        cred.user?.delete().then(() => { this.router.navigate(['/home']); resolve('success'); })
+        .catch(error => { reject('Could not delete account') });
+      })
+      .catch(error => { reject('Invalid Password') });
     });
+    return prom;
   }
 
   async logout() {
