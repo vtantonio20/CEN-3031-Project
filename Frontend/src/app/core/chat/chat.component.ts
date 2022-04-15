@@ -5,6 +5,9 @@ import { Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from 'src/app/shared/models/user';
 import { time } from 'console';
+import { Time } from '@angular/common';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-chat',
@@ -15,9 +18,10 @@ export class ChatComponent implements OnInit {
 
   @Input() lid:string;
   @Input() uid:string;
+  @Input() currentTime:Time;
 
   // map with threadID and threadOwner as value
-  threadOwners: Map<string, User>;
+  threadOwners: Map<string,User>;
   threads: Observable<Thread[] | undefined>;
 
   
@@ -26,9 +30,13 @@ export class ChatComponent implements OnInit {
   constructor(private db: DatabaseService) { }
 
   ngOnInit(): void {
-    let map = new Map<string, User>();
-    this.threads = this.db.getLectureThreads(this?.lid); 
+    let map = new Map<string,User>();
+    this.threads = this.db.getLectureThreads(this?.lid);
+
     this.threads.subscribe(threads=> {
+      //sort by time
+      this.threads=of(threads?.sort((a, b) => Number(a.timePosted) - Number(b.timePosted)));
+
       threads?.forEach(thread => {
         this.db.getUser(thread.threadOwnerID).subscribe(user => {
           if(user){
@@ -49,12 +57,13 @@ export class ChatComponent implements OnInit {
 
   sendChat(){
     let timestamp = new Timestamp(Date.now()/1000, 0);
+
     let thread:Thread = {
       datePosted: timestamp,
       threadOwnerID: this.uid,
       message: this.message,
       replies: [],
-      timePosted : 10, 
+      timePosted : (this.currentTime ? JSON.stringify(this.currentTime) : '0'), 
       id: '',
       lectureID: this.lid,
     }  
@@ -62,7 +71,17 @@ export class ChatComponent implements OnInit {
     this.message='';
   }
 
+  openReplyWindow(thread:Thread){
+//    this.replyThread =thread;
+  }
 
+
+  convertTime(t:string){
+    let timeNum=Number(t)/100
+    if(timeNum ===0) return '0:00';
+    let time = timeNum.toString().replace('.',':');
+    return time.slice(0,time.indexOf(':')+3)    
+  }
 
   getDate(date:Timestamp){
     return new Date(date.seconds * 1000).toLocaleDateString('en-us');

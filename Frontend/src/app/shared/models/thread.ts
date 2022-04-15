@@ -1,3 +1,4 @@
+import { Time } from "@angular/common";
 import { Timestamp } from "firebase/firestore"
 
 export interface Thread {
@@ -5,7 +6,7 @@ export interface Thread {
     threadOwnerID: string,
     message: string,
     replies: string[],
-    timePosted : number, 
+    timePosted : string, 
     id: string,
     lectureID: string,
 }

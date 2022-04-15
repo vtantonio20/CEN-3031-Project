@@ -30,6 +30,8 @@ module.exports = {
       },
       colors:{
         darker: '#181818',
+        grayer: '#36393F',
+
       }
     },
   },

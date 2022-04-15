@@ -1,6 +1,6 @@
 import { link } from 'fs';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DatabaseService } from './../../shared/database/database.service';
 import { AuthService } from './../../shared/auth/auth.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
@@ -77,7 +77,6 @@ export class LectureVidPageComponent implements OnInit {
   
   time(event: any) {
     this.currentTime = event.target.currentTime;
-    
   }
 
   
@@ -91,7 +90,7 @@ export class LectureVidPageComponent implements OnInit {
   }
 
 
-
+  
 }
 
 

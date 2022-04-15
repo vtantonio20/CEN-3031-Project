@@ -3,18 +3,16 @@
     <!--Chats-->
     <div class="h-[70%] overflow-y-auto " *ngIf="threads | async as threads"> 
         <div *ngFor="let thread of threads" class="px-3 py-1 border-b-2">
-            <span class="w-full flex justify-center">{{getDate(thread.datePosted)}}</span>
+            <span class="w-full flex justify-center font-semibold">@{{convertTime(thread.timePosted)}}</span>
             <span class="w-full flex items-center">
                 <img src = "assets/User.png" class="h-10 pr-3"> 
                 <ul>
-                    <li class="text-sm font-semibold">{{threadOwners.get(thread.id)?.fname}} {{threadOwners.get(thread.id)?.lname}}</li> 
+                    <li class="text-sm font-semibold">{{threadOwners.get(thread.id)?.fname}} {{threadOwners.get(thread.id)?.lname}} <span class="font-normal">◦ {{getDate(thread.datePosted)}}</span></li> 
                     <li class="text-sm font-normal" > {{thread.message}} </li>
                 </ul>
             </span>
-
-
             <ul class="w-full flex justify-end text-sm">
-                <li class="cursor-pointer text-black font-medium text hover:animateUp" >Reply</li>
+                <li (click)="openReplyWindow(thread)" class="cursor-pointer text-black font-medium text hover:animateUp">Reply</li>
             </ul>
         </div>
     </div>
@@ -24,13 +22,9 @@
         <h1 class="text-center font-semibold bg-gray-100 rounded-t-lg p-1">Add your comment</h1>
 
         <textarea name="message" [(ngModel)]="message" class=" h-1/2 resize-none w-full px-3 py-1.5 text-base font-normal text-gray-700 outline-0" placeholder="Type to Chat"></textarea>
-
-        <div class="flex justify-between px-3">
-            <span>@</span>
+        <div class="flex justify-end px-3">
             <span (click)="sendChat()" class="py-1 cursor-pointer text-black font-medium  hover:animateUp">Send</span>
         </div>
-
-            
     </form>
 </div>
 
