@@ -12,8 +12,7 @@ export class CourseCardComponent implements OnInit {
   
   @Input() role: string;
   @Input() course: Course; 
-  imgSrc:string;
-  constructor(private storage: AngularFireStorage) { 
+  constructor() { 
 
   }
 
