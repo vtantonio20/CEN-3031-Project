@@ -4,10 +4,10 @@
     <div class="sticky top-0 z-40" >
         <div *ngIf="auth.user$ | async as user" class="h-[94vh] max-h-full flex flex-col divide-y-2 divide-gray-300">
             <!--header-->
-            <div class="viewHeading" *ngIf="course | async as course">
+            <div class="viewHeading my-5" *ngIf="course | async as course">
                 <h1>{{lecture.title}} - {{course.title}}</h1>
                 <span *ngIf="user.role == 'Student'"><h1 class="text-xl md:flex hidden" *ngIf="owner | async as owner">Course Owner: Ms. {{owner.fname}} {{owner.lname}}</h1></span>
-              <span *ngIf="user.role == 'Teacher'"><h1 class="text-xl md:flex hidden" (click)="toggleSettings()">Lecture Settings</h1></span>
+              <span *ngIf="user.role == 'Teacher'"><h1 class="cursor-pointer hover:underline text-xl md:flex hidden" (click)="toggleSettings()">Lecture Settings</h1></span>
             </div>
 
             <style>
@@ -67,55 +67,92 @@
     <div>
 <div>
 
-<ng-template #lectureSettings>
-    <div *ngIf="lectureDialog" class="fade overflow-x-hidden overflow-y-auto fixed inset-0 z-50 justify-center items-center flex">
-        <div class="relative my-6 mx-auto w-1/3 min-w-fit">
-        <div class="rounded-xl shadow-2xl relative bg-white">
-            <!--Heading-->
-            <div class="py-5 border-b border-solid border-gray-200 rounded-t">
-            <h1 class="text-4xl font-semibold text-center">Make Changes to the Lecture</h1>
-            </div>
-            <!--Body-->
-            <div class="relative p-6 flex-auto">
-                <p *ngIf="alert" class=" text-center text-xl text-red-600">{{ alert }}</p>
-                <div class="my-4 text-blueGray-500 text-lg leading-relaxed" *ngIf="course | async as course">
-                    <form>
-                    <ul class="text-center text-base">
-        
-                        <li><label class="font-medium">Lecture Title</label></li>
-                        <li class="py-2"><input #titleInput name="title" id="title" type="text" value="{{ lecture.title }}" class="rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
-                        <button (click)="changeTitle(course.id, lecture.id)" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                            Save Change
-                        </button>
 
-                        <li><label class="font-medium">Lecture Description</label></li>
-                        <li class="py-2"><textarea #descInput name="title" id="title" class="rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ lecture.description }}</textarea></li>
-                        <button (click)="changeDesc(course.id, lecture.id)" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                            Save Change
-                        </button>
-        
-                        <li><label class="font-medium">Course Thumbnail</label></li>
-                        <li class="py-2"><input #thumbInput (change)="thumbnailSelected($event)" accept="image/*" name="thumb" id="thumb" type="file" class="rounded-md bg-orange-100 shadow appearance-none border font-lg w-6/12 p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></li>
-                        <button *ngIf="thumbSelected" (click)="changeThumbnail(course.id, lecture.id)" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                            Upload Thumbnail
-                        </button>
-        
-                        <br>
-                        <button (click)="deleteLecture(course.id, lecture.id)" class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" >
-                            Delete Lecture
-                        </button>
-                        </ul>
-                    </form>  
-                </div>
-            </div>
-            <!--Footer-->
-            <div class="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-            <button (click)="toggleSettings()" class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" >
-                Close
-            </button>
-            </div>
+<style>
+    .modal{
+      aspect-ratio: 20/10;
+      height: 26rem;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .modal2{
+      aspect-ratio: 15/10;
+      height: 32rem;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .header{
+      flex: 0;
+      width: 100%;
+      border-bottom-width: 1px;
+      --tw-border-opacity: 1;
+      border-color: rgb(229 231 235 / var(--tw-border-opacity));
+    }
+    .body{
+      flex: 1;
+      width: 100%;
+      border-bottom-width: 1px;
+      --tw-border-opacity: 1;
+      border-color: rgb(229 231 235 / var(--tw-border-opacity));
+    }
+    .footer{
+      flex: 0;
+      width: 100%;
+    }
+    .element{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.5rem/* 8px */;
+      padding-bottom: 0.5rem/* 8px */;
+    }
+  </style>
+<ng-template #lectureSettings>
+    <div *ngIf="lectureDialog" class="fade overflow-x-hidden overflow-y-auto fixed inset-0 z-50 flex justify-center items-center ">
+      <form class="modal2 bg-white rounded-xl border-[1px] border-gray-300"  *ngIf="course | async as course">
+        <!--Header-->
+        <h1 class="header text-4xl font-semibold flex justify-center items-center py-10 ">Lecture Settings</h1>
+        <!--Body-->
+        <div class="body">
+          
+          <div class="mx-5 text-lg font-medium">
+            <ul>
+                <li><p *ngIf="alert" class=" flex justify-center text-red-600 py-2">{{alert}}</p></li>
+                <li class="element">
+                    <span>Edit Lecture Title:</span> 
+                    <input #titleInput class="inputField w-2/3 p-2" name="title" id="title" type="text" placeholder="{{lecture.title}}" >
+                </li>
+                <li class="flex justify-between py-2">
+                    <span>Edit Lecture Description:</span> 
+                    <textarea [(ngModel)]="description"
+                            class="w-2/3 form-control  px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid shadow-lg border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            name="description" id="description" type="text" rows="5" placeholder="{{lecture.description}}">
+                    </textarea>  
+                </li>
+
+                <li class="element">
+                    <span>Edit Thumbnail:</span>
+                    <input #thumbInput (change)="thumbnailSelected($event)" accept="image/*" name="thumb" id="thumb" type="file" class=" inputField text-sm w-2/3" type="file">
+                </li>
+
+               <li class="element">
+                <span>Delete Lecture:</span>
+                <span class="w-2/3 flex justify-between">
+                  <input #confirmDelete name="confirmDelete" id="confirmDelete" type="password" placeholder="Type 'Delete'" class="inputField p-2 focus:border-red-500 w-3/4">
+                  <button (click)="deleteLecture(course.id, lecture.id)"  class="text-red-500 modalButton pr-3" type="button" >Confirm</button>
+                </span>
+              </li>            
+            </ul>
+          </div>
+  
         </div>
+        <!--Footer-->
+        <div class="footer flex justify-between items-center py-5 px-6">
+          <button (click)="toggleSettings()" class="text-red-500 modalButton" type="button" >Close</button>
+          <button  (click)="submitSettingsChange()" class="modalButtonFilled" type="button" >Save Changes</button>
         </div>
+      </form> 
     </div>
-    <div *ngIf="lectureDialog" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
-</ng-template>
+  </ng-template>
