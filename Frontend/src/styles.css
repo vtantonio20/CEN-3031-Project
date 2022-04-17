@@ -54,4 +54,25 @@
     .headerDropdownText{
         @apply text-black block px-4 py-2 text-sm hover:bg-gray-100 rounded-b-xl
     }
+
+
+    .inputField{
+        @apply font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded-md
+        shadow appearance-none
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none leading-tight 
+    }
+
+    .modalButton{
+        @apply font-bold uppercase py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150
+    }
+    .modalButtonFilled{
+        @apply bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150
+    }
 }

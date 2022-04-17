@@ -1,12 +1,21 @@
+<style>
+    .image{
+        aspect-ratio: 1/1;
+        border-radius: 9999px;
+    }
+</style>
 <div class="w-full h-full max-h-full flex flex-col bg-white border-l-2 border-t-2 border-b-2  rounded-l-2xl">
     <h1 class="text-center text-3xl text-black font-semibold p-2 border-b-2">Lecture Chat</h1>
     <!--Chats-->
     <div class="h-[70%] overflow-y-auto " *ngIf="threads | async as threads"> 
-        <div *ngFor="let thread of threads" class="px-3 py-1 border-b-2">
-            <span class="w-full flex justify-center font-semibold">@{{convertTime(thread.timePosted)}}</span>
+        <div *ngFor="let thread of threads" class="px-3 py-1 border-b-2 hover:bg-gray-50">
+            <span class="w-full flex justify-center font-semibold text-blue-700"> @ {{convertTime(thread.timePosted)}}</span>
             <span class="w-full flex items-center">
-                <img src = "assets/User.png" class="h-10 pr-3"> 
-                <ul>
+
+                <img src = "{{threadOwners.get(thread.id)?.imgSrc}}" class="image h-10"> 
+
+                <!--<img src = "{{getThreadOwnerImg(thread.threadOwnerID)}}" class="h-10 pr-3"> -->
+                <ul class="pl-3">
                     <li class="text-sm font-semibold">{{threadOwners.get(thread.id)?.fname}} {{threadOwners.get(thread.id)?.lname}} <span class="font-normal">◦ {{getDate(thread.datePosted)}}</span></li> 
                     <li class="text-sm font-normal" > {{thread.message}} </li>
                 </ul>

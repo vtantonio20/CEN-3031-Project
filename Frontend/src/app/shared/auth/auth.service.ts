@@ -1,3 +1,4 @@
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
@@ -14,7 +15,8 @@ export class AuthService {
   constructor(
     private auth: AngularFireAuth,
     private router: Router,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private storage: AngularFireStorage
   ) {
     this.user$ = this.auth.authState.pipe(
       switchMap(user => {
@@ -39,12 +41,20 @@ export class AuthService {
     })
   }
 
-  async register(email:string, fname:string, lname:string, password:string, role:string) {
+  async register(email:string, fname:string, lname:string, password:string, role:string, img:File) {
     return await this.auth.createUserWithEmailAndPassword(email, password)
     .then(async user => {
       //const newUser: User | null | undefined = new User(user.user?.uid!, user.user?.email!, fname, lname, role);
-      await this.db.collection('users').doc(user.user?.uid).set({email:email, fname:fname, lname:lname, role:role})
-      .then(async resp => {
+      if(img){
+        this.storage.upload('users/' + user.user?.uid + '_thumb', img);
+      }
+      await this.db.collection('users').doc(user.user?.uid).set({
+        email:email, 
+        fname:fname, 
+        lname:lname, 
+        role:role, 
+        imgSrc:img ? 'users/' + user.user?.uid + '_thumb': 'default'  //ternary operator
+      }).then(() => {
         this.router.navigate(['/dashboard']);
       })
     })

@@ -47,6 +47,8 @@ export class DatabaseService {
 
     if (img) {
       this.storage.upload('users/' + uid + '_thumb', img);
+      this.db.collection('users').doc(uid).update({imgSrc: 'users/' + uid + '_thumb'});
+      //need to delete previous image
     }
   }
 

@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     if(this.password === this.cpassword) {
-      this.auth.register(this.email, this.fname, this.lname, this.password, this.role)
+      this.auth.register(this.email, this.fname, this.lname, this.password, this.role, this.img)
       .catch(() => {
         this.alert = "Invalid Entry"
       });
@@ -41,5 +41,7 @@ export class RegistrationComponent implements OnInit {
   redirect() {
     this.router.navigate(['/home']);
   }
-
+  fileSelected(event: any) {
+    this.img = event.target.files[0];
+  }
 }

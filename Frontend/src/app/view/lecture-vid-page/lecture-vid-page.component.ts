@@ -45,6 +45,9 @@ export class LectureVidPageComponent implements OnInit {
   @ViewChild('titleInput') titleInput: ElementRef;
   @ViewChild('thumbInput') thumbInput: ElementRef;
   @ViewChild('descInput') descInput: ElementRef;
+  @ViewChild('confirmDelete') confirmDelete: ElementRef;
+  description:string;
+
   lectureDialog: boolean = false;
   newThumb: File;
   thumbSelected: boolean = false;
@@ -80,12 +83,6 @@ export class LectureVidPageComponent implements OnInit {
     this.thumbSelected = false;
   }
 
-  async changeTitle(cid: string, lid: string) {
-    await this.db.editLecture(lid, cid, this.titleInput.nativeElement.value, '')
-    .catch(() => {
-      this.alert = 'Could not change title';
-    })
-  }
 
   async changeDesc(cid: string, lid: string) {
     await this.db.editLecture(lid, cid, '', this.descInput.nativeElement.value)
@@ -106,8 +103,12 @@ export class LectureVidPageComponent implements OnInit {
   }
 
   deleteLecture(cid: string, lid: string) {
-    this.db.deleteLecture(lid, cid);
-    this.navigateBackToCourse();
+    if(this.confirmDelete.nativeElement.value === 'Delete'){
+      this.db.deleteLecture(lid, cid);
+      this.navigateBackToCourse();
+    }else{
+      this.alert="Type 'Delete' to confirm"
+    }
   }
 
   thumbnailSelected(event: any) {
@@ -137,6 +138,44 @@ export class LectureVidPageComponent implements OnInit {
       }
     }
     this.router.navigate(['/course-page/'], navigationExtras);
+  }
+  async submitSettingsChange(){
+    let toggleOffDialogBox = false;
+    if(this.titleInput){
+      await this.db.editLecture(this.lid, this.cid, this.titleInput.nativeElement.value, '')
+      .then(()=> toggleOffDialogBox = true)
+      .catch(() => {
+        this.alert = 'Could not change title';
+      })      
+    }
+
+    if(this.description){
+      await this.db.editLecture(this.lid, this.cid, '', this.description)
+      .then(() => {
+        toggleOffDialogBox = true
+        this.description=''
+      })
+      .catch(() => {
+        this.alert = 'Could not upload thumbnail';
+      });
+    }
+
+    if(this.thumbInput){
+      await this.db.editLecture(this.lid, this.cid, '', '', this.newThumb)
+      .then(() => {
+        this.thumbSelected = false;
+        this.thumbInput.nativeElement.value = '';
+      })
+      .catch(() => {
+        this.alert = 'Could not upload thumbnail';
+      });
+    }
+    if(this.alert ===''){
+      this.toggleSettings()
+    }
+    //dialog toggle is buggy
+    //if(toggleOffDialogBox) return this.toggleSettings()
+    //this.alert ='No changes made'
   }
 }
 

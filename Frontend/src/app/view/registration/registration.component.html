@@ -30,7 +30,7 @@
                     </select>
                 </li>
                 <li><label for="file" class="font-medium ">Upload Profile Picture</label></li>
-                <li><input class="py-2" type ="file" accept="image/png, image/gif, image/jpeg"></li>
+                <li><input type="file" accept="image/png, image/gif, image/jpeg" (change)="fileSelected($event)"></li>
             </ul>
         </form>
 

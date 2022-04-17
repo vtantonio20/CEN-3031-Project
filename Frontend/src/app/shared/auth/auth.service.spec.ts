@@ -25,7 +25,7 @@ describe('AuthService', () => {
   });
 
   it('Whenever valid credientials are passed in. User should be logged in', () => {
-    service.login('test@gmail.com', 'password');
+    service.login('email@gmail.com', 'password');
     expect(service.isLoggedIn()).toBeTruthy();
   })
 });

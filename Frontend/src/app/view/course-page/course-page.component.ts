@@ -22,12 +22,12 @@ export class CoursePageComponent implements OnInit {
   sortedLectures: Lecture[];
 
   cid: string;
-  courseTitle: string= 'Lecture Videos';
   navElements: string[] = ['Dashboard', 'Course Page'];
+  alert: string;
 
   //For the upload video dialog box
+  showUploadLecture:boolean = false;
   showDialog: boolean = false;
-  alert: string;
   title: string;
   description: string;
   thumbnailFile: File;
@@ -35,6 +35,8 @@ export class CoursePageComponent implements OnInit {
 
   @ViewChild('titleInput') titleInput: ElementRef;
   @ViewChild('thumbInput') thumbInput: ElementRef;
+  @ViewChild('confirmDelete') confirmDelete: ElementRef;
+
   courseDialog: boolean = false;
   newThumb: File;
   thumbSelected: boolean = false;
@@ -54,21 +56,17 @@ export class CoursePageComponent implements OnInit {
     this.course.subscribe((course)=> this.owner = this.db.getUser(course?.owner));
   }
 
-  toggleSettings() {
-    this.courseDialog = !this.courseDialog;
-    this.alert = '';
-    this.thumbSelected = false;
-  }
 
-  async changeTitle(cid: string) {
-    await this.db.editCourse(cid, this.titleInput.nativeElement.value)
+/*
+  async changeTitle(cid: string, newTitle:string) {
+    return await this.db.editCourse(cid, newTitle)
     .catch(() => {
       this.alert = 'Could not change title';
     })
   }
 
-  async changeThumbnail(cid: string) {
-    await this.db.editCourse(cid, '', this.newThumb)
+  async changeThumbnail(cid: string, thumb:any) {
+    await this.db.editCourse(cid, '', thumb)
     .then(() => {
       this.thumbSelected = false;
       this.thumbInput.nativeElement.value = '';
@@ -77,29 +75,17 @@ export class CoursePageComponent implements OnInit {
       this.alert = 'Could not upload thumbnail';
     });
   }
-
+*/
   deleteCourse(cid: string) {
-    this.db.deleteCourse(cid);
-    this.router.navigate(['/dashboard']);
+    if(this.confirmDelete.nativeElement.value === 'Delete'){
+      this.db.deleteCourse(cid);
+      this.router.navigate(['/dashboard']);
+    }else{
+      this.alert="Type 'Delete' to confirm"
+    }
   }
 
-  thumbnailSelected(event: any) {
-    this.newThumb = event.target.files[0];
-    this.thumbSelected = true;
-  }
 
-  toggleDialog(){
-    this.showDialog = !this.showDialog;
-    this.alert = '';
-  }
-
-  videoSelected(event: any) {
-    this.videoFile = event.target.files[0];
-  }
-
-  imageSelected(event: any) {
-    this.thumbnailFile = event.target.files[0];
-  }
 
   navigation(linkTo:string){
     if(linkTo === 'Dashboard') return this.router.navigate(['/dashboard/']);
@@ -141,7 +127,7 @@ export class CoursePageComponent implements OnInit {
         await this.db.createLecture(lecture, this.cid, this.thumbnailFile, this.videoFile)
         .then((t) => {
           this.alert = '';
-          this.toggleDialog();
+          this.toggleUploadLecture();
           const task = t as AngularFireUploadTask;
           console.log(t)
         })
@@ -150,5 +136,55 @@ export class CoursePageComponent implements OnInit {
         });
       }
     });
+  }
+
+  async submitSettingsChange(){
+    let toggleOffDialogBox = false;
+    if(this.titleInput.nativeElement.value){
+      await this.db.editCourse(this.cid, this.titleInput.nativeElement.value)
+      .then(()=> toggleOffDialogBox = true)
+      .catch(() => {
+        this.alert = 'Could not change title';
+      })      
+    }
+
+    if(this.thumbInput){
+       await this.db.editCourse(this.cid, '', this.thumbInput.nativeElement)
+      .then(() => {
+        this.thumbSelected = false;
+        this.thumbInput.nativeElement.value = '';
+      })
+      .catch(() => {
+        this.alert = 'Could not upload thumbnail';
+      });
+    }
+    //dialog toggle is buggy
+    if(toggleOffDialogBox) return this.toggleSettings()
+    this.alert ='No changes made'
+    
+    
+  }
+
+  thumbnailSelected(event: any) {
+    this.newThumb = event.target.files[0];
+    this.thumbSelected = true;
+  }
+
+  toggleUploadLecture(){
+    this.showUploadLecture = !this.showUploadLecture;
+    this.alert = '';
+  }
+
+  toggleSettings() {
+    this.courseDialog = !this.courseDialog;
+    this.alert = '';
+    this.thumbSelected = false;
+  }
+  videoSelected(event: any) {
+    this.videoFile = event.target.files[0];
+  }
+
+  imageSelected(event: any) {
+    this.thumbnailFile = event.target.files[0];
   }
 }

@@ -1,6 +1,7 @@
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Thread } from './../../shared/models/thread';
 import { DatabaseService } from 'src/app/shared/database/database.service';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from 'src/app/shared/models/user';
@@ -27,8 +28,19 @@ export class ChatComponent implements OnInit {
   
   message:string;
   newThread:Thread;
-  constructor(private db: DatabaseService) { }
+  constructor(private db: DatabaseService, private storage: AngularFireStorage) { }
 
+
+  setImage(user:User){
+
+    if(user.imgSrc === 'default') return 'assets/User.png';
+    let imgSrc;
+    this.storage.ref('users/' + user?.id+'_thumb').getDownloadURL().subscribe(url => {
+      imgSrc=url;
+    });  
+    return imgSrc;
+  }
+  
   ngOnInit(): void {
     let map = new Map<string,User>();
     this.threads = this.db.getLectureThreads(this?.lid);
@@ -45,7 +57,16 @@ export class ChatComponent implements OnInit {
               email: user.email,
               fname: user.fname,
               lname: user.lname,
-              role: user.role
+              role: user.role,
+              imgSrc:''
+            }
+
+            if(user.imgSrc != ''){
+              this.storage.ref('users/' + thread.threadOwnerID+'_thumb').getDownloadURL().subscribe(url => {
+                threadOwner.imgSrc=url
+              });    
+            }else{
+              threadOwner.imgSrc='/assets/User.png'
             }
             map.set(thread.id, threadOwner)
           }
@@ -85,5 +106,9 @@ export class ChatComponent implements OnInit {
 
   getDate(date:Timestamp){
     return new Date(date.seconds * 1000).toLocaleDateString('en-us');
+  }
+
+  getThreadOwnerImg(threadOwner:string | undefined){
+    return this.storage.ref('users/' + threadOwner + '_thumb').getDownloadURL().subscribe(url=> console.log(url));
   }
 }

@@ -4,4 +4,5 @@ export interface User {
   fname: string,
   lname: string,
   role: string
+  imgSrc:string;
 }

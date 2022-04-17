@@ -1,3 +1,5 @@
+import { user } from 'rxfire/auth';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AuthService } from './../../shared/auth/auth.service';
 import { Component, EventEmitter, Input, NgModule, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -14,10 +16,21 @@ export class HeaderComponent implements OnInit {
   //user:User;
   @Input() navigation:string[];
   @Output() clickEvent = new EventEmitter<string>();
+  imgSrc:string;
 
-  constructor(public auth: AuthService, private router: Router) { }
+  constructor(public auth: AuthService, private router: Router, private storage: AngularFireStorage) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.auth.user$.subscribe(user => {
+      if(user?.imgSrc != 'default'){
+        this.storage.ref('users/' + user?.id+'_thumb').getDownloadURL().subscribe(url => {
+          this.imgSrc=url;
+        });   
+      }else{
+        this.imgSrc='/assets/User.png'
+      }
+    });
+   }
 
   toggleProfileCard():void{
     this.onProfile = !this.onProfile;
