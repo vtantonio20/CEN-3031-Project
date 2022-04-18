@@ -1,0 +1,21 @@
+  course-generic[m
+  courseInclusion[m
+  courses-dashboard[m
+  courses-frontend[m
+  dialog-box[m
+  firestore-guard[m
+  fixTest[m
+* [32mmain[m
+  [31mremotes/origin/HEAD[m -> origin/main
+  [31mremotes/origin/chat-frontend[m
+  [31mremotes/origin/chatBackend[m
+  [31mremotes/origin/course-generic[m
+  [31mremotes/origin/delete-frontend[m
+  [31mremotes/origin/encoding-server[m
+  [31mremotes/origin/file-crud[m
+  [31mremotes/origin/lecture-page[m
+  [31mremotes/origin/lecture-page-stuff[m
+  [31mremotes/origin/lectureVidPage[m
+  [31mremotes/origin/main[m
+  [31mremotes/origin/profile[m
+  [31mremotes/origin/upload-lecture-form[m
