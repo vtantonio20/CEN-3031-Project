@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
 
   courseID:string;
   showDialog:boolean=false;
+  showDialog1:boolean=false;
   alert:string;
   
   courses:Observable<Course[]>;
@@ -41,6 +42,11 @@ export class DashboardComponent implements OnInit {
     this.courseName = ""; 
   }
 
+  toggleDialog1(){
+    this.showDialog1 = !this.showDialog1;
+    this.courseID = "";
+  }
+
   navigation(linkTo:string){
     console.log(linkTo)
     if(linkTo === 'Dashboard') return location.reload();
@@ -53,7 +59,7 @@ export class DashboardComponent implements OnInit {
         this.db.addStudent(this.courseID, user?.id).then(() => {
           this.courseID="";
           this.alert="";
-          this.toggleDialog()
+          this.toggleDialog1();
         }).catch(() => {
           this.alert="Invalid Course ID"
         })
@@ -73,7 +79,8 @@ export class DashboardComponent implements OnInit {
           lectures: []
         }
         this.db.createCourse(course).then(() => {
-          this.router.navigate(['/dashboard']);
+          // this.router.navigate(['/dashboard']);
+          this.toggleDialog();
         }).catch(()=> {
           this.alert = 'Invalid form entry'
         
