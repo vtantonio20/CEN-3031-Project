@@ -1,4 +1,4 @@
-# CEN-3031-Project
+# InterVids
 
 Intervids is an interactive web application aimed at increasing student interaction in remote classrooms due to the Covid-19 virus. This dynamic web application promotes active student interaction by giving students the ability to both leave comments and reply to other students' comments while watching their courses lectures. Intervids’ purpose serves to bridge the learning gap that in-person classrooms provide over remote classrooms. 
 
