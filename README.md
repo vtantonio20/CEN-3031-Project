@@ -16,8 +16,8 @@ Intervids is an interactive web application aimed at increasing student interact
 3.  Follow the link to the repository to clone the repository on a preferred machine.
 4.  Navigate to the directory that withholds the cloned repository. 
 5.  Change the current directory to /Intervids. 
-6.  Install all of the InterVids project dependencies by running npm install.
-7.  Navigate to the /Frontend directory 
+6.  Navigate to the /Frontend directory 
+7.  Install all of the InterVids project dependencies by running npm install.
 8.  Build the application using this command: ng build 
 9.  Run the server by using this command: ng serve 
 10. Navigate to the browser that populates within the terminal after the server successfully builds.
