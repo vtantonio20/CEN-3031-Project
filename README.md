@@ -21,8 +21,9 @@ Intervids is an interactive web application aimed at increasing student interact
 8.  Build the application using this command: ng build 
 9.  Run the server by using this command: ng serve 
 10. Navigate to the browser that populates within the terminal after the server successfully builds.
+
 **InterVids Developers:**
-Quinlan Daily: QDaily117
-Victor Torres: vtantonio20
-Fiana Vickers: fianaVickers
-Mark Polkhovskiy: MarkoPolo53
+- Quinlan Daily: QDaily117
+- Victor Torres: vtantonio20
+- Fiana Vickers: fianaVickers
+- Mark Polkhovskiy: MarkoPolo53
