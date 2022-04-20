@@ -4,13 +4,13 @@ Intervids is an interactive web application aimed at increasing student interact
 
 **Tools Used:** Intervids uses Karma - Jasmine,  HTML, Tailwind CSS, Typescript, for its frontend functionality. It also utilizes Node.js, Javascript, Firebase Authentication, Firebase Storage, and Firestore Database for its backend configuration. 
 
-**Contribution Guidelines**
+*Contribution Guidelines*
   *Always create a new branch when working on the project. Never work directly off of main.
   *Don’t push directly to main. First create a pull request to be reviewed by another developer.
   *After your branch has been merged to main, delete your old branch to keep the repository clean.
   *Make sure that your changes still pass all tests before creating a pull request.
 
-**Building Intervids**
+*Building Intervids*
   *Download and install the newest stable even numbered version of Node.js 
   *Open a terminal and run the command which installs the angular CLI: npm install -g @angular/cli. This should install the newest stable version of the Angular CLI.
   *Follow the link to the repository to clone the repository on a preferred machine.
