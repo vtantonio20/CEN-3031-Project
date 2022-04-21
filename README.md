@@ -2,7 +2,7 @@
 
 Intervids is an interactive web application aimed at increasing student interaction in remote classrooms due to the Covid-19 virus. This dynamic web application promotes active student interaction by giving students the ability to both leave comments and reply to other students' comments while watching their courses lectures. Intervids’ purpose serves to bridge the learning gap that in-person classrooms provide over remote classrooms. 
 
-**Tools Used:** Intervids uses Karma - Jasmine,  HTML, Tailwind CSS, Typescript, for its frontend functionality. It also utilizes Node.js, Javascript, Firebase Authentication, Firebase Storage, and Firestore Database for its backend configuration. 
+**Tools Used:** Intervids uses Angular, Karma, Jasmine,  HTML, Tailwind CSS, Typescript, for its frontend functionality. It also utilizes Node.js, Javascript, Firebase Authentication, Firebase Storage, and Firestore Database for its backend configuration. 
 
 **Contribution Guidelines**
 1. Always create a new branch when working on the project. Never work directly off of main.
